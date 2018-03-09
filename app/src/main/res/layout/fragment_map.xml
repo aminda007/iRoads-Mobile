@@ -1,0 +1,72 @@
+<!--&lt;!&ndash;<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"&ndash;&gt;-->
+    <!--&lt;!&ndash;xmlns:app="http://schemas.android.com/apk/res-auto"&ndash;&gt;-->
+    <!--&lt;!&ndash;xmlns:tools="http://schemas.android.com/tools"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:id="@+id/frameLayout"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
+    <!--&lt;!&ndash;tools:contecodemo.iroads_mobile.Fragments.GMapFragmenttment">&ndash;&gt;-->
+
+    <!--&lt;!&ndash;&lt;!&ndash; TODO: Update blank fragment layout &ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;</android.support.constraint.ConstraintLayout>&ndash;&gt;-->
+
+<!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--xmlns:tools="http://schemas.android.com/tools"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="match_parent"-->
+<!--tools:context="codemo.iroads_mobile.Fragments.GMapFragment">-->
+
+<!--&lt;!&ndash; TODO: Update blank fragment layout &ndash;&gt;-->
+
+    <!--<fragment-->
+        <!--android:id="@+id/mapFragment"-->
+        <!--class="com.google.android.gms.maps.SupportMapFragment"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
+
+    <!--<SearchView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/searchBar"-->
+        <!--android:background="@android:drawable/screen_background_dark_transparent"-->
+        <!--android:foreground="@color/colorPrimary"-->
+        <!--android:layout_margin="5dp" />-->
+
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+
+        <!--<Button-->
+            <!--android:id="@+id/locateBtn"-->
+            <!--android:drawableLeft="@drawable/ic_home_black_24dp"-->
+            <!--android:textAppearance="@android:style/TextAppearance.DeviceDefault.Widget.PopupMenu"-->
+            <!--android:layout_marginBottom="143dp"-->
+
+            <!--android:background="#00ffffff"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:paddingLeft="50dp" />-->
+        <!--<Button-->
+            <!--android:id="@+id/refreshLocationsBtn"-->
+            <!--android:drawableLeft="@drawable/ic_launcher_background"-->
+            <!--android:textAppearance="@android:style/TextAppearance.DeviceDefault.Widget.PopupMenu"-->
+            <!--android:layout_marginBottom="200dp"-->
+            <!--android:background="#00ffffff"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:paddingLeft="50dp" />-->
+    <!--</RelativeLayout>-->
+
+<!--</FrameLayout>-->
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mapFragment"
+    android:name="com.google.android.gms.maps.MapFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="codemo.iroads_mobile.Fragments.GMapFragment" />
