@@ -6,15 +6,15 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Location;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import codemo.iroads_mobile.Home;
 import codemo.iroads_mobile.R;
 
 /**
@@ -29,7 +29,7 @@ public class HomeFragment extends Fragment implements SensorEventListener {
     Sensor magnetometer;
     TextView xValue, yValue, zValue;
     TextView xMagValue, yMagValue, zMagValue;
-
+    static TextView  lat, lng;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -66,6 +66,9 @@ public class HomeFragment extends Fragment implements SensorEventListener {
             Log.d(TAG, "Magnetometer not available");
         }
 
+        lat = (TextView) view.findViewById(R.id.lat);
+        lng = (TextView) view.findViewById(R.id.lng);
+
         return view;
 
     }
@@ -94,5 +97,10 @@ public class HomeFragment extends Fragment implements SensorEventListener {
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
 
+    }
+
+    public static  void updateLocation(Location loc){
+        lat.setText("Latitude: "+ loc.getLatitude());
+        lng.setText("Longitude: "+ loc.getLongitude());
     }
 }
