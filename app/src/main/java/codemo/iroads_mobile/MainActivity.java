@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
@@ -31,7 +30,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.common.ConnectionResult;
 
@@ -147,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
     private void showAlert() {
         final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setTitle("Enable Location")
-                .setMessage("Your Locations Settings is set to 'Off'.\nPlease Enable Location to " +
+                .setMessage("Please Enable Location to " +
                         "use this app")
                 .setPositiveButton("Location Settings", new DialogInterface.OnClickListener() {
                     @Override

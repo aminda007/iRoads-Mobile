@@ -20,7 +20,7 @@ public class SplashScreen extends AppCompatActivity {
         setContentView(R.layout.splash);
 
         welcome =(ImageView) findViewById(R.id.welcome);
-        welcome.setImageResource(R.mipmap.ic_launcher);
+        welcome.setImageResource(R.mipmap.ic_phone);
 
         level1 = AnimationUtils.loadAnimation(getBaseContext(),R.anim.level1);
         level2 = AnimationUtils.loadAnimation(getBaseContext(),R.anim.level2);
@@ -39,7 +39,7 @@ public class SplashScreen extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                welcome.setImageResource(R.mipmap.ic_launcher);
+                welcome.setImageResource(R.mipmap.ic_car);
                 welcome.startAnimation(level2);
 
             }
@@ -56,7 +56,7 @@ public class SplashScreen extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                welcome.setImageResource(R.mipmap.ic_launcher_round);
+                welcome.setImageResource(R.mipmap.ic_iroads);
                 welcome.startAnimation(level3);
 
             }
