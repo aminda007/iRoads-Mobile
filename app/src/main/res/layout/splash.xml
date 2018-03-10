@@ -48,6 +48,6 @@
         android:layout_alignTop="@+id/textView2"
         android:layout_marginTop="37dp"
         android:text="presents"
-        android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+        android:textAppearance="@style/TextAppearance.Design.Tab" />
 
 </RelativeLayout>
