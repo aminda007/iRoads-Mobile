@@ -3,13 +3,16 @@ package codemo.iroads_mobile;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class SplashScreen extends AppCompatActivity {
 
     ImageView welcome;
+    TextView name;
 
     Animation level1;
     Animation level2;
@@ -18,7 +21,7 @@ public class SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
-
+        name = (TextView) findViewById(R.id.nameSplash);
         welcome =(ImageView) findViewById(R.id.welcome);
         welcome.setImageResource(R.mipmap.ic_phone);
 
@@ -57,8 +60,9 @@ public class SplashScreen extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 welcome.setImageResource(R.mipmap.ic_iroads);
+                name.setVisibility(View.VISIBLE);
                 welcome.startAnimation(level3);
-
+//                name.startAnimation(level3);
             }
 
             @Override
