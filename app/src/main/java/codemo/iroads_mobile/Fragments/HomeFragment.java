@@ -31,7 +31,8 @@ public class HomeFragment extends Fragment implements SensorEventListener {
 
     Sensor accelerometer;
     Sensor magnetometer;
-    TextView xValue, xValueFiltered, yValue, yValueFiltered, zValue, zValueFiltered;
+    TextView xValue, xValueFiltered, yValue, yValueFiltered, zValue, zValueAverageFiltered,
+            zValueHighPassFiltered ;
     TextView xMagValue, yMagValue, zMagValue;
     static TextView  lat, lng;
     public HomeFragment() {
@@ -56,12 +57,13 @@ public class HomeFragment extends Fragment implements SensorEventListener {
         if(accelerometer != null){
             sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
             xValue = (TextView) view.findViewById(R.id.xValue);
-            xValueFiltered = (TextView) view.findViewById(R.id.xValueFiltered); // performs
+            xValueFiltered = (TextView) view.findViewById(R.id.xValueFiltered);
             // filtering process for sensor values
             yValue = (TextView) view.findViewById(R.id.yValue);
             yValueFiltered = (TextView) view.findViewById(R.id.yValueFiltered);
             zValue = (TextView) view.findViewById(R.id.zValue);
-            zValueFiltered = (TextView) view.findViewById(R.id.zValueFiltered);
+            zValueAverageFiltered = (TextView) view.findViewById(R.id.zValueAverageFiltered);
+            zValueHighPassFiltered = (TextView) view.findViewById(R.id.zValueHighPassFiltered);
         }else{
             Log.d(TAG, "Accelorometer not available");
         }
@@ -96,11 +98,16 @@ public class HomeFragment extends Fragment implements SensorEventListener {
 
         if(sensorType == Sensor.TYPE_ACCELEROMETER){
             xValue.setText("X Value: "+sensorEvent.values[0]);
-            xValueFiltered.setText("X ValueFiltered: "+ this.xValueSignalProcessor.averageFilter(sensorEvent.values[0]));
+            xValueFiltered.setText("X ValueFiltered: "+ this.xValueSignalProcessor.
+                    averageFilter(sensorEvent.values[0]));
             yValue.setText("Y Value: "+sensorEvent.values[1]);
-            yValueFiltered.setText("Y ValueFiltered: "+ this.yValueSignalProcessor.averageFilter(sensorEvent.values[1]));
+            yValueFiltered.setText("Y ValueFiltered: "+ this.yValueSignalProcessor.
+                    averageFilter(sensorEvent.values[1]));
             zValue.setText("Z Value: "+sensorEvent.values[2]);
-            zValueFiltered.setText("Z ValueFiltered: "+ this.zValueSignalProcessor.averageFilter(sensorEvent.values[2]));
+            zValueAverageFiltered.setText("Z ValueAverageFiltered: "+ this.zValueSignalProcessor.
+                    averageFilter(sensorEvent.values[2]));
+            zValueHighPassFiltered.setText("Z ValueHighPassFiltered: "+ this.zValueSignalProcessor.
+                    highPassFilter(sensorEvent.values[2]));
         }else if(sensorType == Sensor.TYPE_MAGNETIC_FIELD){
             xMagValue.setText("X Value: "+sensorEvent.values[0]);
             yMagValue.setText("Y Value: "+sensorEvent.values[1]);
