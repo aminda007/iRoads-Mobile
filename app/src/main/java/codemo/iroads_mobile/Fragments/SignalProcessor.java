@@ -12,8 +12,16 @@ public class SignalProcessor {
     private ArrayList<Double> constantFactorQueue = new ArrayList<Double>();
     private double noiseRemovedValue;
     private double dataSum;
+    private double currentSensorValue = 0;
+    private double previousSensorValue = 0;
+    private double previousHighPassFilterValue = 0;
+    private double highPassFilterDecayFactor = 1.0;
     private int sensivityLevel = 5;
     private int constantFactorSensivityLevel = 5;
+
+    public void setHighPassFilterDecayFactor(double highPassFilterDecayFactor) {
+        this.highPassFilterDecayFactor = highPassFilterDecayFactor;
+    }
 
     public void setConstantFactorSensivityLevel(int constantFactorSensivityLevel) {
         this.constantFactorSensivityLevel = constantFactorSensivityLevel;
@@ -49,7 +57,16 @@ public class SignalProcessor {
         }
 
         this.noiseRemovedValue = (this.dataSum)/(this.dataQueue.size());
-        this.noiseRemovedValue -= this.constantFactor;
+        this.noiseRemovedValue -= this.constantFactor; // Removes constant noise
         return this.noiseRemovedValue;
+    }
+
+    public double highPassFilter (double sensorValue) {
+        this.currentSensorValue = sensorValue;
+        double highPassFilterValue = this.highPassFilterDecayFactor*(this.
+                previousHighPassFilterValue + this.currentSensorValue - this.previousSensorValue);
+        this.previousHighPassFilterValue = highPassFilterValue;
+        this.previousSensorValue = this.currentSensorValue;
+        return highPassFilterValue;
     }
 }
