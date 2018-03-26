@@ -2,6 +2,7 @@ package codemo.iroads_mobile.Fragments;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -16,6 +17,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -49,6 +58,9 @@ public class HomeFragment extends Fragment implements SensorEventListener {
     private StringBuilder dataReport;
 
     Sensor accelerometer;
+    private LineChart mChart;
+    private Thread thread;
+    boolean plotData = true;
     Sensor magnetometer;
     TextView xValue, xValueFiltered, yValue, yValueFiltered, zValue, zValueAverageFiltered,
             zValueHighPassFiltered ;
@@ -80,7 +92,7 @@ public class HomeFragment extends Fragment implements SensorEventListener {
         previousDirection = true; // if positive
         dataReport = new StringBuilder();
         if(accelerometer != null){
-            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
             xValue = (TextView) view.findViewById(R.id.xValue);
             xValueFiltered = (TextView) view.findViewById(R.id.xValueFiltered);
             // filtering process for sensor values
@@ -96,7 +108,7 @@ public class HomeFragment extends Fragment implements SensorEventListener {
 
         magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         if(magnetometer != null){
-            sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
+            sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_GAME);
             xMagValue = (TextView) view.findViewById(R.id.xMagValue);
             yMagValue = (TextView) view.findViewById(R.id.yMagValue);
             zMagValue = (TextView) view.findViewById(R.id.zMagValue);
@@ -139,8 +151,55 @@ public class HomeFragment extends Fragment implements SensorEventListener {
 //            }
 //        }, 10000);
 
+        mChart = (LineChart) view.findViewById(R.id.chartAccelerationZ);
+        mChart.getDescription().setEnabled(true);
+        mChart.getDescription().setText("Accelerometer Z axis");
+
+        mChart.setTouchEnabled(true);
+        mChart.setDragEnabled(true);
+        mChart.setScaleEnabled(true);
+        mChart.setDrawGridBackground(false);
+        mChart.setPinchZoom(false);
+        mChart.setBackgroundColor(Color.WHITE);
+
+        YAxis lAxis = mChart.getAxisLeft();
+
+        YAxis rAxis = mChart.getAxisRight();
+        rAxis.setEnabled(false);
+
+        LineData data = new LineData();
+        data.setValueTextColor(Color.WHITE);
+        mChart.setData(data);
+
+        Legend l = mChart.getLegend();
+        l.setForm(Legend.LegendForm.LINE);
+        l.setTextColor(Color.WHITE);
+
+
+//        startPlot();
+        
         return view;
 
+    }
+
+    private void startPlot() {
+        if(thread != null){
+            thread.interrupt();
+        }
+        thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while(true){
+                    plotData=true;
+                    try {
+                        Thread.sleep(10);
+
+                    }catch (InterruptedException e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -155,30 +214,61 @@ public class HomeFragment extends Fragment implements SensorEventListener {
 
         if(sensorType == Sensor.TYPE_ACCELEROMETER){
             xValue.setText("X Value: "+sensorEvent.values[0]);
-            xValueFiltered.setText("X ValueFiltered: "+ this.xValueSignalProcessor.
+            xValueFiltered.setText("X ValueFiltered: \n"+ this.xValueSignalProcessor.
                     averageFilter(sensorEvent.values[0]));
             yValue.setText("Y Value: "+sensorEvent.values[1]);
-            yValueFiltered.setText("Y ValueFiltered: "+ this.yValueSignalProcessor.
+            yValueFiltered.setText("Y ValueFiltered: \n"+ this.yValueSignalProcessor.
                     averageFilter(sensorEvent.values[1]));
             zValue.setText("Z Value: "+sensorEvent.values[2]);
-            zValueAverageFiltered.setText("Z ValueAverageFiltered: "+ this.zValueSignalProcessor.
+            zValueAverageFiltered.setText("Z ValueAverageFiltered: \n"+ this.zValueSignalProcessor.
                     averageFilter(sensorEvent.values[2]));
-            zValueHighPassFiltered.setText("Z ValueHighPassFiltered: "+ this.zValueSignalProcessor.
+            zValueHighPassFiltered.setText("Z ValueHighPassFiltered: \n"+ this.zValueSignalProcessor.
                     highPassFilter(sensorEvent.values[2]));
             setEnableFilter(false);
             if(cuurentLoc != null){
                 if(isEnableFilter()){
                     processIRI(this.zValueSignalProcessor.averageFilter(sensorEvent.values[2]));
                 }else{
-                    processIRI(sensorEvent.values[2]);
+//                    processIRI(sensorEvent.values[2]);  // start calculating IRI
 //                Log.d(TAG,"--------------- data --------- /// "+sensorEvent.values[2]);
                 }
+            }
+            if(true){
+                addEntry(sensorEvent.values[2]);
+//                plotData = false;
             }
         }else if(sensorType == Sensor.TYPE_MAGNETIC_FIELD){
             xMagValue.setText("X Value: "+sensorEvent.values[0]);
             yMagValue.setText("Y Value: "+sensorEvent.values[1]);
             zMagValue.setText("Z Value: "+sensorEvent.values[2]);
         }
+    }
+
+    private void addEntry(float value) {
+        LineData data = mChart.getData();
+        if(data != null){
+            ILineDataSet set = data.getDataSetByIndex(0);
+            if(set == null){
+                set = createSet();
+                data.addDataSet(set);
+            }
+            data.addEntry(new Entry(set.getEntryCount(), value),0);
+            Log.d(TAG,"--------------- z data --------- /// "+value+"...."+set.getEntryCount());
+            data.notifyDataChanged();
+            mChart.setMaxVisibleValueCount(150);
+//            mChart.setVisibleXRange(10f,100f);
+            mChart.moveViewToX(data.getEntryCount()-100);
+        }
+    }
+
+    private ILineDataSet createSet() {
+        LineDataSet set = new LineDataSet(null, "Dynamic data");
+        set.setAxisDependency(YAxis.AxisDependency.LEFT);
+        set.setLineWidth(1f);
+        set.setColor(Color.MAGENTA);
+        set.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        set.setCubicIntensity(0.2f);
+        return  set;
     }
 
     @Override
