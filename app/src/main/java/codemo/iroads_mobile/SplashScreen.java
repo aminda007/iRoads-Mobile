@@ -12,7 +12,7 @@ import android.widget.TextView;
 public class SplashScreen extends AppCompatActivity {
 
     ImageView welcome;
-    TextView name;
+    TextView name, codemo, presents;
 
     Animation level1;
     Animation level2;
@@ -22,6 +22,8 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
         name = (TextView) findViewById(R.id.nameSplash);
+        codemo = (TextView) findViewById(R.id.codemoSplash);
+        presents = (TextView) findViewById(R.id.presentsSplash);
         welcome =(ImageView) findViewById(R.id.welcome);
         welcome.setImageResource(R.mipmap.ic_phone);
 
@@ -61,6 +63,8 @@ public class SplashScreen extends AppCompatActivity {
             public void onAnimationEnd(Animation animation) {
                 welcome.setImageResource(R.mipmap.ic_iroads);
                 name.setVisibility(View.VISIBLE);
+                codemo.setVisibility(View.INVISIBLE);
+                presents.setVisibility(View.INVISIBLE);
                 welcome.startAnimation(level3);
 //                name.startAnimation(level3);
             }
