@@ -65,6 +65,15 @@
                         android:text="......................"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
+                    <TextView
+                        android:id="@+id/xValueReoriented"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginTop="10dp"
+                        android:text="......................"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
                     <CheckBox
                         android:id="@+id/xValueFiltered"
                         android:layout_width="match_parent"
@@ -83,6 +92,15 @@
                         android:text="......................"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
+                    <TextView
+                        android:id="@+id/yValueReoriented"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginTop="10dp"
+                        android:text="......................"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
                     <CheckBox
                         android:id="@+id/yValueFiltered"
                         android:layout_width="match_parent"
@@ -96,6 +114,15 @@
                         android:id="@+id/zValue"
                         android:layout_width="match_parent"
                         android:layout_height="25dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginTop="10dp"
+                        android:text="......................"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                    <TextView
+                        android:id="@+id/zValueReoriented"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
                         android:layout_marginLeft="30dp"
                         android:layout_marginTop="10dp"
                         android:text="......................"
