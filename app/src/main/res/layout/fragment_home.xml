@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,201 +7,253 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <TextView
-        android:id="@+id/lat"
-        android:layout_width="218dp"
-        android:layout_height="45dp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginTop="570dp"
-        android:text="......................"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!--<android.support.v7.widget.CardView-->
+        <!--android:id="@+id/fefaultCard"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="134dp"-->
+        <!--android:layout_margin="10dp"-->
+        <!---->
+        <!--android:elevation="1dp"-->
+        <!--&gt;-->
 
-    <TextView
-        android:id="@+id/lng"
-        android:layout_width="218dp"
-        android:layout_height="45dp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginTop="620dp"
-        android:text="......................"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <!---->
 
-    <TextView
-        android:id="@+id/message2"
-        android:layout_width="218dp"
-        android:layout_height="45dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="Accelorometer"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!--</android.support.v7.widget.CardView>-->
 
-    <TextView
-        android:id="@+id/yValue"
-        android:layout_width="218dp"
-        android:layout_height="45dp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginTop="200dp"
-        android:text="Accelorometer"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/zValue"
-        android:layout_width="218dp"
-        android:layout_height="45dp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginTop="400dp"
-        android:text="Accelorometer"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/saveBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SAVE" />
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:elevation="2dp"
+                app:cardBackgroundColor="@color/cardview_light_background">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/message2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Accelorometer"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                    <CheckBox
+                        android:id="@+id/xValue"
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginTop="10dp"
+                        android:text="......................"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                    <TextView
+                        android:id="@+id/xValueReoriented"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginTop="10dp"
+                        android:text="......................"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                    <CheckBox
+                        android:id="@+id/xValueFiltered"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginTop="10dp"
+                        android:text="......................"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                    <CheckBox
+                        android:id="@+id/yValue"
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginTop="10dp"
+                        android:text="......................"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                    <TextView
+                        android:id="@+id/yValueReoriented"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginTop="10dp"
+                        android:text="......................"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                    <CheckBox
+                        android:id="@+id/yValueFiltered"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginTop="10dp"
+                        android:text="......................"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                    <CheckBox
+                        android:id="@+id/zValue"
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginTop="10dp"
+                        android:text="......................"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                    <TextView
+                        android:id="@+id/zValueReoriented"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginTop="10dp"
+                        android:text="......................"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                    <CheckBox
+                        android:id="@+id/zValueAverageFiltered"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginTop="10dp"
+                        android:text="......................"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                    <CheckBox
+                        android:id="@+id/zValueHighPassFiltered"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginTop="10dp"
+                        android:text="......................"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/chartAccelerationZ"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_marginBottom="30dp">
+
+                    </com.github.mikephil.charting.charts.LineChart>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:elevation="2dp"
+                app:cardBackgroundColor="@color/cardview_light_background">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/message3"
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Magnetometer"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                    <TextView
+                        android:id="@+id/xMagValue"
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginTop="10dp"
+                        android:text="......................"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                    <TextView
+                        android:id="@+id/yMagValue"
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginTop="10dp"
+                        android:text="......................"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                    <TextView
+                        android:id="@+id/zMagValue"
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:layout_marginBottom="30dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginTop="10dp"
+                        android:text="......................"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:elevation="2dp"
+                app:cardBackgroundColor="@color/cardview_light_background">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/message4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Location"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                    <TextView
+                        android:id="@+id/lng"
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginTop="10dp"
+                        android:text="......................"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                    <TextView
+                        android:id="@+id/lat"
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:layout_marginBottom="30dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginTop="10dp"
+                        android:text="......................"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
 
 
-    <TextView
-        android:id="@+id/yMagValue"
-        android:layout_width="218dp"
-        android:layout_height="45dp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginTop="568dp"
-        android:text="......................"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/zMagValue"
-        android:layout_width="218dp"
-        android:layout_height="45dp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginTop="548dp"
-        android:text="......................"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/xMagValue"
-        android:layout_width="218dp"
-        android:layout_height="45dp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginTop="550dp"
-        android:text="......................"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/xValue"
-        android:layout_width="218dp"
-        android:layout_height="45dp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginTop="60dp"
-        android:text="Accelorometer"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/message4"
-        android:layout_width="218dp"
-        android:layout_height="45dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="570dp"
-        android:text="Location"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/zValueReoriented"
-        android:layout_width="218dp"
-        android:layout_height="45dp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginTop="500dp"
-        android:text="Accelorometer"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/xValueFiltered"
-        android:layout_width="218dp"
-        android:layout_height="45dp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginTop="100dp"
-        android:text="Accelorometer"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    <TextView
-        android:id="@+id/xValueReoriented"
-        android:layout_width="218dp"
-        android:layout_height="45dp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginTop="150dp"
-        android:text="Accelorometer"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/zValueHighPassFiltered"
-        android:layout_width="218dp"
-        android:layout_height="45dp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginTop="450dp"
-        android:text="Accelorometer"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/zValueAverageFiltered"
-        android:layout_width="218dp"
-        android:layout_height="45dp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginTop="350dp"
-        android:text="Accelorometer"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/yValueReoriented"
-        android:layout_width="218dp"
-        android:layout_height="45dp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginTop="300dp"
-        android:text="Accelorometer"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/message3"
-        android:layout_width="218dp"
-        android:layout_height="45dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="550dp"
-        android:text="Magnetometer"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/yValueFiltered"
-        android:layout_width="218dp"
-        android:layout_height="45dp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginTop="250dp"
-        android:text="Accelorometer"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</FrameLayout>
+</LinearLayout>
