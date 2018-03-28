@@ -50,13 +50,13 @@
                     <TextView
                         android:id="@+id/message2"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="10dp"
                         android:text="Accelorometer"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-                    <TextView
+                    <CheckBox
                         android:id="@+id/xValue"
                         android:layout_width="match_parent"
                         android:layout_height="25dp"
@@ -65,7 +65,7 @@
                         android:text="......................"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-                    <TextView
+                    <CheckBox
                         android:id="@+id/xValueFiltered"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
@@ -74,7 +74,7 @@
                         android:text="......................"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-                    <TextView
+                    <CheckBox
                         android:id="@+id/yValue"
                         android:layout_width="match_parent"
                         android:layout_height="25dp"
@@ -83,7 +83,7 @@
                         android:text="......................"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-                    <TextView
+                    <CheckBox
                         android:id="@+id/yValueFiltered"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
@@ -92,7 +92,7 @@
                         android:text="......................"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-                    <TextView
+                    <CheckBox
                         android:id="@+id/zValue"
                         android:layout_width="match_parent"
                         android:layout_height="25dp"
@@ -101,7 +101,7 @@
                         android:text="......................"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-                    <TextView
+                    <CheckBox
                         android:id="@+id/zValueAverageFiltered"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
@@ -110,13 +110,13 @@
                         android:text="......................"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-                    <TextView
+                    <CheckBox
                         android:id="@+id/zValueHighPassFiltered"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
+                        android:layout_marginBottom="10dp"
                         android:layout_marginLeft="30dp"
                         android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
                         android:text="......................"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
@@ -124,7 +124,7 @@
                         android:id="@+id/chartAccelerationZ"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:layout_marginBottom="10dp">
+                        android:layout_marginBottom="30dp">
 
                     </com.github.mikephil.charting.charts.LineChart>
                 </LinearLayout>
@@ -173,9 +173,9 @@
                         android:id="@+id/zMagValue"
                         android:layout_width="match_parent"
                         android:layout_height="25dp"
+                        android:layout_marginBottom="30dp"
                         android:layout_marginLeft="30dp"
                         android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
                         android:text="......................"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
@@ -216,9 +216,9 @@
                         android:id="@+id/lat"
                         android:layout_width="match_parent"
                         android:layout_height="25dp"
+                        android:layout_marginBottom="30dp"
                         android:layout_marginLeft="30dp"
                         android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
                         android:text="......................"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
                 </LinearLayout>

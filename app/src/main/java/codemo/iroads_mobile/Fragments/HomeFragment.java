@@ -16,10 +16,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -59,16 +61,22 @@ public class HomeFragment extends Fragment implements SensorEventListener {
     private StringBuilder dataReport;
     private NericellMechanism nericellMechanism;
 
-    Sensor accelerometer;
     private LineChart mChart;
     private Thread thread;
-    boolean plotData = true;
-    Sensor magnetometer;
-    TextView xValue, xValueFiltered, yValue, yValueFiltered, zValue, zValueAverageFiltered,
-            zValueHighPassFiltered, zValueReoriented, yValueReoriented, xValueReoriented;
-    TextView xMagValue, yMagValue, zMagValue;
-    Button saveBtn;
-    static TextView  lat, lng;
+    private boolean plotData = false;
+    private int maxEntries = 200;
+
+    private Sensor accelerometer;
+    private Sensor magnetometer;
+    TextView zValueReoriented, yValueReoriented, xValueReoriented;
+    private CheckBox xValue, xValueFiltered, yValue, yValueFiltered, zValue, zValueAverageFiltered,
+            zValueHighPassFiltered ;
+    private boolean xValueChecked, xValueFilteredChecked, yValueChecked, yValueFilteredChecked, zValueChecked, zValueAverageFilteredChecked,
+            zValueHighPassFilteredChecked ;
+    private TextView xMagValue, yMagValue, zMagValue;
+    private Button saveBtn;
+    private static TextView  lat, lng;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -96,16 +104,16 @@ public class HomeFragment extends Fragment implements SensorEventListener {
         dataReport = new StringBuilder();
         if(accelerometer != null){
             sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
-            xValue = (TextView) view.findViewById(R.id.xValue);
-            xValueFiltered = (TextView) view.findViewById(R.id.xValueFiltered);
+            xValue = (CheckBox) view.findViewById(R.id.xValue);
+            xValueFiltered = (CheckBox) view.findViewById(R.id.xValueFiltered);
             xValueReoriented = (TextView) view.findViewById(R.id.xValueReoriented);
             // filtering process for sensor values
-            yValue = (TextView) view.findViewById(R.id.yValue);
-            yValueFiltered = (TextView) view.findViewById(R.id.yValueFiltered);
+            yValue = (CheckBox) view.findViewById(R.id.yValue);
+            yValueFiltered = (CheckBox) view.findViewById(R.id.yValueFiltered);
             yValueReoriented = (TextView) view.findViewById(R.id.yValueReoriented);
-            zValue = (TextView) view.findViewById(R.id.zValue);
-            zValueAverageFiltered = (TextView) view.findViewById(R.id.zValueAverageFiltered);
-            zValueHighPassFiltered = (TextView) view.findViewById(R.id.zValueHighPassFiltered);
+            zValue = (CheckBox) view.findViewById(R.id.zValue);
+            zValueAverageFiltered = (CheckBox) view.findViewById(R.id.zValueAverageFiltered);
+            zValueHighPassFiltered = (CheckBox) view.findViewById(R.id.zValueHighPassFiltered);
             zValueReoriented = (TextView) view.findViewById(R.id.zValueReoriented);
         }else{
             Log.d(TAG, "Accelorometer not available");
@@ -134,6 +142,85 @@ public class HomeFragment extends Fragment implements SensorEventListener {
                 dataReport = new StringBuilder();
             }
         });
+//      initializing listners for each acceleration output
+        xValue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(xValue.isChecked()){
+                    xValueChecked = true;
+                }else{
+                    xValueChecked = false;
+                    deleteSet("x");
+                }
+            }
+        });
+        yValue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(yValue.isChecked()){
+                    yValueChecked = true;
+                }else{
+                    yValueChecked = false;
+                    deleteSet("y");
+                }
+            }
+        });
+        zValue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(zValue.isChecked()){
+                    zValueChecked = true;
+                }else{
+                    zValueChecked = false;
+                    deleteSet("z");
+                }
+            }
+        });
+        xValueFiltered.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(xValueFiltered.isChecked()){
+                    xValueFilteredChecked = true;
+                }else{
+                    xValueFilteredChecked = false;
+                    deleteSet("x avg");
+                }
+            }
+        });
+        yValueFiltered.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(yValueFiltered.isChecked()){
+                    yValueFilteredChecked = true;
+                }else{
+                    yValueFilteredChecked = false;
+                    deleteSet("y avg");
+                }
+            }
+        });
+        zValueAverageFiltered.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(zValueAverageFiltered.isChecked()){
+                    zValueAverageFilteredChecked = true;
+                }else{
+                    zValueAverageFilteredChecked = false;
+                    deleteSet("z avg");
+                }
+            }
+        });
+        zValueHighPassFiltered.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(zValueHighPassFiltered.isChecked()){
+                    zValueHighPassFilteredChecked = true;
+                }else{
+                    zValueHighPassFilteredChecked = false;
+                    deleteSet("z high pass");
+                }
+            }
+        });
+
 
 //        final Handler handler = new Handler();
 //        handler.postDelayed(new Runnable() {
@@ -158,32 +245,35 @@ public class HomeFragment extends Fragment implements SensorEventListener {
 //        }, 10000);
 
         mChart = (LineChart) view.findViewById(R.id.chartAccelerationZ);
-        mChart.getDescription().setEnabled(true);
-        mChart.getDescription().setText("Accelerometer Z axis");
+        mChart.getDescription().setEnabled(false);
+//        mChart.getDescription().setText("Accelerometer Z axis");
 
         mChart.setTouchEnabled(true);
         mChart.setDragEnabled(true);
-        mChart.setScaleEnabled(true);
+        mChart.setScaleEnabled(false);
         mChart.setDrawGridBackground(false);
         mChart.setPinchZoom(false);
-        mChart.setBackgroundColor(Color.WHITE);
+        mChart.setBackgroundColor(Color.TRANSPARENT);
 
         YAxis lAxis = mChart.getAxisLeft();
 
         YAxis rAxis = mChart.getAxisRight();
         rAxis.setEnabled(false);
 
+        XAxis xAxis  = mChart.getXAxis();
+        xAxis.setEnabled(true);
+
         LineData data = new LineData();
-        data.setValueTextColor(Color.WHITE);
+//        data.setValueTextColor(Color.WHITE);
         mChart.setData(data);
 
         Legend l = mChart.getLegend();
         l.setForm(Legend.LegendForm.LINE);
-        l.setTextColor(Color.WHITE);
+        l.setTextColor(Color.LTGRAY);
 
 
-//        startPlot();
-
+        startPlot();
+        
         return view;
 
     }
@@ -193,12 +283,15 @@ public class HomeFragment extends Fragment implements SensorEventListener {
             thread.interrupt();
         }
         thread = new Thread(new Runnable() {
+
             @Override
             public void run() {
+                Log.d(TAG,"--------------- thrad started --------- /// ");
                 while(true){
                     plotData=true;
+//                    Log.d(TAG,"--------------- inside while loop--------- /// ");
                     try {
-                        Thread.sleep(10);
+                        Thread.sleep(100);
 
                     }catch (InterruptedException e){
                         e.printStackTrace();
@@ -206,6 +299,7 @@ public class HomeFragment extends Fragment implements SensorEventListener {
                 }
             }
         });
+        thread.start();
     }
 
     @Override
@@ -241,10 +335,36 @@ public class HomeFragment extends Fragment implements SensorEventListener {
 //                Log.d(TAG,"--------------- data --------- /// "+sensorEvent.values[2]);
                 }
             }
-            if(true){
-                addEntry(sensorEvent.values[2]);
-//                plotData = false;
+//            Log.d(TAG,"--------------- plot data is --------- /// "+plotData);
+            if(plotData){
+                if(xValueChecked){
+                    addEntry(sensorEvent.values[0], "x", Color.LTGRAY);
+                }
+                if(xValueFilteredChecked){
+                    addEntry((float) this.xValueSignalProcessor.averageFilter(sensorEvent.values[0]),
+                            "x avg", Color.BLACK);
+                }
+                if(yValueChecked){
+                    addEntry(sensorEvent.values[1], "y", Color.CYAN);
+                }
+                if(yValueFilteredChecked){
+                    addEntry((float)this.yValueSignalProcessor.averageFilter(sensorEvent.values[1]),
+                            "y avg", Color.BLUE);
+                }
+                if(zValueChecked){
+                    addEntry(sensorEvent.values[2], "z", Color.GREEN);
+                }
+                if(zValueAverageFilteredChecked){
+                    addEntry((float)this.zValueSignalProcessor.averageFilter(sensorEvent.values[2]),
+                            "z avg", Color.MAGENTA);
+                }
+                if(zValueHighPassFilteredChecked){
+                    addEntry((float)this.zValueSignalProcessor.highPassFilter(sensorEvent.values[2]),
+                            "z high pass", Color.RED);
+                }
+                plotData = false;
             }
+
             zValueReoriented.setText("Z ValueReoriented: " + this.nericellMechanism.reorientZ(sensorEvent.values[0],sensorEvent.values[1],sensorEvent.values[2]));
         }else if(sensorType == Sensor.TYPE_MAGNETIC_FIELD){
             xMagValue.setText("X Value: "+sensorEvent.values[0]);
@@ -253,31 +373,59 @@ public class HomeFragment extends Fragment implements SensorEventListener {
         }
     }
 
-    private void addEntry(float value) {
-        LineData data = mChart.getData();
+    private void addEntry(float value, String type, int color) {
+        LineData data = mChart.getLineData();
         if(data != null){
-            ILineDataSet set = data.getDataSetByIndex(0);
+            ILineDataSet set = data.getDataSetByLabel(type, true);
             if(set == null){
-                set = createSet();
+                set = createSet(type, color);
                 data.addDataSet(set);
             }
-            data.addEntry(new Entry(set.getEntryCount(), value),0);
-            Log.d(TAG,"--------------- z data --------- /// "+value+"...."+set.getEntryCount());
-            data.notifyDataChanged();
-            mChart.setMaxVisibleValueCount(150);
-//            mChart.setVisibleXRange(10f,100f);
-            mChart.moveViewToX(data.getEntryCount()-100);
+//            Log.d(TAG,"--------------- data set is  --------- /// "+set.getLabel());
+//            (float) Math.random()*75+75f
+            data.addEntry(new Entry(set.getEntryCount(), value),data.getIndexOfDataSet(set));
+//            Log.d(TAG,"--------------- z data --------- /// "+value+"...."+set.getEntryCount());
+            if(set.getEntryCount() > maxEntries){
+                set.removeFirst();
+                for (int i=0; i<set.getEntryCount(); i++) {
+                    Entry entryToChange = set.getEntryForIndex(i);
+                    entryToChange.setX(entryToChange.getX() - 1);
+                }
+            }
+//            Log.d(TAG,"--------------- entry count is --------- /// "+set.getEntryCount());
+            mChart.notifyDataSetChanged();
+//            mChart.setMaxVisibleValueCount(150);
+//            mChart.setFocusable(true);
+//            mChart.setVisibleXRangeMaximum(100);
+            mChart.setVisibleXRange(200f,200f);
+            mChart.moveViewToX(data.getEntryCount());
+//            mChart.invalidate();
         }
     }
 
-    private ILineDataSet createSet() {
-        LineDataSet set = new LineDataSet(null, "Dynamic data");
+    private LineDataSet createSet(String type, int color) {
+        LineDataSet set = new LineDataSet(null, type);
         set.setAxisDependency(YAxis.AxisDependency.LEFT);
+        set.setDrawCircles(false);
+        set.setDrawValues(false);
         set.setLineWidth(1f);
-        set.setColor(Color.MAGENTA);
+        set.setColor(color);
         set.setMode(LineDataSet.Mode.CUBIC_BEZIER);
         set.setCubicIntensity(0.2f);
+        for(int i=0; i<maxEntries; i++){
+            set.addEntry(new Entry(i,0));
+        }
+        Log.d(TAG,"---------------  data set created --------- /// ");
         return  set;
+    }
+
+    public void deleteSet(String type){
+        Log.d(TAG,"---------------  data set deleted --------- /// ");
+        LineData data = mChart.getLineData();
+//        ILineDataSet set = data.getDataSetByLabel(type, true);
+        data.removeDataSet(data.getDataSetByLabel(type, true));
+//        set.clear();
+        mChart.invalidate();
     }
 
     @Override
