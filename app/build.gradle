@@ -44,4 +44,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2'
     compile 'com.google.android.gms:play-services:+'
     implementation 'com.android.support:cardview-v7:26.1.0'
+    compile project(':obd2core')
 }
