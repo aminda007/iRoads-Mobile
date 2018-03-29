@@ -13,4 +13,13 @@ public class HomeController {
     public static void updateLocation(Location loc){
         HomeFragment.updateLocation(loc);
     }
+
+    public static void updateOBD2Data(String speed,String rpm){
+        HomeFragment.updateOBD2Data(speed, rpm);
+    }
+
+    public static void setMainActivity(MainActivity activity){
+        HomeFragment.setMainActivity(activity);
+    }
+
 }

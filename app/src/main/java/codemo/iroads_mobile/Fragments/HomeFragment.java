@@ -9,7 +9,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,9 +34,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
 
+import codemo.iroads_mobile.MainActivity;
 import codemo.iroads_mobile.R;
 import codemo.iroads_mobile.Reorientation.NericellMechanism;
 
@@ -47,6 +45,8 @@ import codemo.iroads_mobile.Reorientation.NericellMechanism;
 public class HomeFragment extends Fragment implements SensorEventListener {
 
     private static final String TAG = "HomeFragment";
+
+    private static MainActivity mainActivity;
 
     private SensorManager sensorManager;
     private SignalProcessor zValueSignalProcessor;
@@ -75,7 +75,10 @@ public class HomeFragment extends Fragment implements SensorEventListener {
             zValueHighPassFilteredChecked ;
     private TextView xMagValue, yMagValue, zMagValue;
     private Button saveBtn;
+    private Button bConnectBtn;
     private static TextView  lat, lng;
+
+    private static TextView  obd2speed, obd2rpm;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -133,6 +136,9 @@ public class HomeFragment extends Fragment implements SensorEventListener {
         lat = (TextView) view.findViewById(R.id.lat);
         lng = (TextView) view.findViewById(R.id.lng);
 
+        obd2rpm = (TextView) view.findViewById(R.id.obd2rpm);
+        obd2speed = (TextView) view.findViewById(R.id.obd2speed);
+
         saveBtn = (Button) view.findViewById(R.id.saveBtn);
         saveBtn.setOnClickListener(new Button.OnClickListener(){
             @Override
@@ -142,6 +148,17 @@ public class HomeFragment extends Fragment implements SensorEventListener {
                 dataReport = new StringBuilder();
             }
         });
+
+        bConnectBtn = (Button) view.findViewById(R.id.blueTConnect);
+        bConnectBtn.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+
+                mainActivity.onConnectBtn();
+
+            }
+        });
+
 //      initializing listners for each acceleration output
         xValue.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -278,6 +295,10 @@ public class HomeFragment extends Fragment implements SensorEventListener {
 
     }
 
+    public static void setMainActivity(MainActivity activity){
+        mainActivity=activity;
+    }
+
     private void startPlot() {
         if(thread != null){
             thread.interrupt();
@@ -316,11 +337,11 @@ public class HomeFragment extends Fragment implements SensorEventListener {
             xValue.setText("X Value: "+sensorEvent.values[0]);
             xValueFiltered.setText("X ValueFiltered: \n"+ this.xValueSignalProcessor.
                     averageFilter(sensorEvent.values[0]));
-            xValueReoriented.setText("X ValueReoriented: "+ this.nericellMechanism.reOrientX(sensorEvent.values[0],sensorEvent.values[1],sensorEvent.values[2]));
+            xValueReoriented.setText("X ValueReoriented: \n"+ this.nericellMechanism.reOrientX(sensorEvent.values[0],sensorEvent.values[1],sensorEvent.values[2]));
             yValue.setText("Y Value: "+sensorEvent.values[1]);
             yValueFiltered.setText("Y ValueFiltered: \n"+ this.yValueSignalProcessor.
                     averageFilter(sensorEvent.values[1]));
-            yValueReoriented.setText("Y ValueReoriented: "+ this.nericellMechanism.reOrientY(sensorEvent.values[0],sensorEvent.values[1],sensorEvent.values[2]));
+            yValueReoriented.setText("Y ValueReoriented: \n"+ this.nericellMechanism.reOrientY(sensorEvent.values[0],sensorEvent.values[1],sensorEvent.values[2]));
             zValue.setText("Z Value: "+sensorEvent.values[2]);
             zValueAverageFiltered.setText("Z ValueAverageFiltered: \n"+ this.zValueSignalProcessor.
                     averageFilter(sensorEvent.values[2]));
@@ -365,7 +386,7 @@ public class HomeFragment extends Fragment implements SensorEventListener {
                 plotData = false;
             }
 
-            zValueReoriented.setText("Z ValueReoriented: " + this.nericellMechanism.reorientZ(sensorEvent.values[0],sensorEvent.values[1],sensorEvent.values[2]));
+            zValueReoriented.setText("Z ValueReoriented: \n" + this.nericellMechanism.reorientZ(sensorEvent.values[0],sensorEvent.values[1],sensorEvent.values[2]));
         }else if(sensorType == Sensor.TYPE_MAGNETIC_FIELD){
             xMagValue.setText("X Value: "+sensorEvent.values[0]);
             yMagValue.setText("Y Value: "+sensorEvent.values[1]);
@@ -437,6 +458,12 @@ public class HomeFragment extends Fragment implements SensorEventListener {
         cuurentLoc = loc;
         lat.setText("Latitude: "+ loc.getLatitude());
         lng.setText("Longitude: "+ loc.getLongitude());
+    }
+
+    public static  void updateOBD2Data(String speed,String rpm){
+
+        obd2speed.setText("Speed: "+ speed);
+        obd2rpm.setText("RPM: "+ rpm);
     }
 
 
