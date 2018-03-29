@@ -24,7 +24,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -195,6 +194,8 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
                 btconnectAttemptScheduler.schedule(attemptTask,7000);
             }
         }
+
+        HomeController.setMainActivity(this);
 
     }
 
@@ -424,10 +425,14 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
         try {
             JSONObject realTimedata=e.getEventData().getJSONObject("obd2_real_time_data");
             JSONObject speedObject=(JSONObject)realTimedata.get("obd2_speed");
+            JSONObject rpmObject=(JSONObject)realTimedata.get("obd2_rpm");
             String speed=speedObject.getString("value");
+            String rpm=rpmObject.getString("value");
             Log.d("OBD2DATA","SPEED===="+speed);
+            HomeController.updateOBD2Data(speed,rpm);
         } catch (JSONException e1) {
-            Log.d("OBD2DATA","Error in JSON Format");
+            Log.d("OBD2DATA",e1.getMessage());
+
         }
 
     }
@@ -464,7 +469,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
 //        }
 //    }
 
-    public void onConnectBtn(View view){
+    public void onConnectBtn(){
         if (!mBluetoothAdapter.isEnabled()) {
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT_PLUS_CONNECT_DEVICE);
