@@ -71,7 +71,7 @@
                         android:text="......................"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-                    <TextView
+                    <CheckBox
                         android:id="@+id/xValueReoriented"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
@@ -98,7 +98,7 @@
                         android:text="......................"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-                    <TextView
+                    <CheckBox
                         android:id="@+id/yValueReoriented"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
@@ -125,7 +125,7 @@
                         android:text="......................"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-                    <TextView
+                    <CheckBox
                         android:id="@+id/zValueReoriented"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
@@ -147,7 +147,7 @@
                         android:id="@+id/zValueHighPassFiltered"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:layout_marginBottom="10dp"
+                        android:layout_marginBottom="40dp"
                         android:layout_marginLeft="30dp"
                         android:layout_marginTop="10dp"
                         android:text="......................"
