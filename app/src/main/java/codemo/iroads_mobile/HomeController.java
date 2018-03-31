@@ -14,7 +14,7 @@ public class HomeController {
         HomeFragment.updateLocation(loc);
     }
 
-    public static void updateOBD2Data(String speed,String rpm){
+    public static void updateOBD2Data(int speed,int rpm){
         HomeFragment.updateOBD2Data(speed, rpm);
     }
 

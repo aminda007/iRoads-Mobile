@@ -48,6 +48,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Map;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
     private ImageButton homeBtn;
     private boolean inHome = true;
     private Icon homeIcon;
-
+    private Thread fakethread;
 
 
 //    BottomNavigationView.BaseSavedState(R.id.navigation_home);
@@ -236,6 +237,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
         super.onPostCreate(savedInstanceState);
         navigation.setSelectedItemId(R.id.navigation_home);
         new MobileSensors(this);
+
     }
 
     public MapFragment  initMap() {
@@ -458,6 +460,8 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
 
 
 
+
+
     @Override
     public void receiveOBD2Event(OBD2Event e) {
 
@@ -468,7 +472,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
             String speed=speedObject.getString("value");
             String rpm=rpmObject.getString("value");
             Log.d("OBD2DATA","SPEED===="+speed);
-            HomeController.updateOBD2Data(speed,rpm);
+//            HomeController.updateOBD2Data(Integer.parseInt(speed),Integer.parseInt(rpm));
         } catch (JSONException e1) {
             Log.d("OBD2DATA",e1.getMessage());
 
