@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Icon;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -24,6 +25,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -49,6 +52,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import codemo.iroads_mobile.Fragments.GMapFragment;
+import codemo.iroads_mobile.Fragments.GraphFragment;
 import codemo.iroads_mobile.Fragments.HomeFragment;
 import codemo.iroads_mobile.Fragments.SettingsFragment;
 
@@ -94,8 +98,10 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
     private static final int REQUEST_ENABLE_BT_PLUS_CONNECT_DEVICE = 5;
     private Menu mainMenu;
     private Context context;
-
-
+    private BottomNavigationView navigation;
+    private ImageButton homeBtn;
+    private boolean inHome = true;
+    private Icon homeIcon;
 
 
 
@@ -114,15 +120,28 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
                 case R.id.navigation_home:
 //                    transaction.replace(R.id.contentLayout, homeFragment).commit();
                     NavigationHandler.navigateTo("homeFragment");
-
+                    homeBtn.setImageResource(R.mipmap.ic_iroads);
+                    homeBtn.setScaleX(1.1f);
+                    homeBtn.setScaleY(1.1f);
                     return true;
-                case R.id.navigation_dashboard:
-//                    transaction.replace(R.id.contentLayout, gMapFragment).commit();
-                    NavigationHandler.navigateTo("mapFragment");
+//                    -------- remove comments for public app *****
+//                case R.id.navigation_dashboard:
+//                    NavigationHandler.navigateTo("mapFragment");
+//                    homeBtn.setImageResource(R.mipmap.ic_iroads_black);
+//                    homeBtn.setScaleX(1);
+//                    homeBtn.setScaleY(1);
+//                    return true;
+                case R.id.navigation_graph:
+                    NavigationHandler.navigateTo("graphFragment");
+                    homeBtn.setImageResource(R.mipmap.ic_iroads_black);
+                    homeBtn.setScaleX(1);
+                    homeBtn.setScaleY(1);
                     return true;
-                case R.id.navigation_notifications:
-//                    transaction.replace(R.id.contentLayout, settingsFragment).commit();
+                case R.id.navigation_settings:
                     NavigationHandler.navigateTo("settingsFragment");
+                    homeBtn.setImageResource(R.mipmap.ic_iroads_black);
+                    homeBtn.setScaleX(1);
+                    homeBtn.setScaleY(1);
                     return true;
             }
             return false;
@@ -137,7 +156,19 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        homeBtn = (ImageButton) findViewById(R.id.homeBtn);
+        homeBtn.setOnClickListener(new ImageButton.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavigationHandler.navigateTo("homeFragment");
+                homeBtn.setImageResource(R.mipmap.ic_iroads);
+                homeBtn.setScaleX(1.1f);
+                homeBtn.setScaleY(1.1f);
+//                homeBtn.setPadding(0,0,0,3);
+                navigation.setSelectedItemId(R.id.navigation_home);
+            }
+        });
+        navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 //        navigation.setSelectedItemId(R.id.navigation_home);
         //        init fragment manager
@@ -148,12 +179,14 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
 //        initiate fragment objects
 
 //        open home fragment
-        transaction.add(R.id.contentLayout, new GMapFragment(), "mapFragment");
+//        transaction.add(R.id.contentLayout, new GMapFragment(), "mapFragment");
+        transaction.add(R.id.contentLayout, new GraphFragment(), "graphFragment");
         transaction.add(R.id.contentLayout, new HomeFragment(), "homeFragment");
         transaction.add(R.id.contentLayout, new SettingsFragment(), "settingsFragment");
         transaction.commit();
 //
         GMapFragment.setActivity(this);
+        GraphFragment.setActivity(this);
         NavigationHandler.setManager(manager);
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -196,7 +229,13 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
         }
 
         HomeController.setMainActivity(this);
+    }
 
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        navigation.setSelectedItemId(R.id.navigation_home);
+        new MobileSensors(this);
     }
 
     public MapFragment  initMap() {

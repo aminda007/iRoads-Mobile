@@ -16,7 +16,7 @@ public class SignalProcessor {
     private double previousSensorValue = 0;
     private double previousHighPassFilterValue = 0;
     private double highPassFilterDecayFactor = 1.0;
-    private int sensivityLevel = 25;
+    private int sensivityLevel = 5;
     private int constantFactorSensivityLevel = 5;
 
     public void setHighPassFilterDecayFactor(double highPassFilterDecayFactor) {

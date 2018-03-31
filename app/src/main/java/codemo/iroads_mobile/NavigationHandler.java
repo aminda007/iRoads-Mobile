@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
 import codemo.iroads_mobile.Fragments.GMapFragment;
+import codemo.iroads_mobile.Fragments.GraphFragment;
 import codemo.iroads_mobile.Fragments.HomeFragment;
 import codemo.iroads_mobile.Fragments.SettingsFragment;
 
@@ -27,20 +28,41 @@ public class NavigationHandler {
                 transaction.show(manager.findFragmentByTag("homeFragment"));
                 Log.d("rht","aaaaaaaaaaaaaaaaaaaa.....resume home ....aaaaaaaaaaaaaaaaaaaaaa***");
             }
-            if(manager.findFragmentByTag("mapFragment") != null){
-                transaction.hide(manager.findFragmentByTag("mapFragment"));
-                Log.d("rht","aaaaaaaaaaaaaaaaaaaa.....hide map ....aaaaaaaaaaaaaaaaaaaaaa***");
-            }
+//            if(manager.findFragmentByTag("mapFragment") != null){
+//                transaction.hide(manager.findFragmentByTag("mapFragment"));
+//                Log.d("rht","aaaaaaaaaaaaaaaaaaaa.....hide map ....aaaaaaaaaaaaaaaaaaaaaa***");
+//            }
             if(manager.findFragmentByTag("settingsFragment") != null){
                 transaction.hide(manager.findFragmentByTag("settingsFragment"));
                 Log.d("rht","aaaaaaaaaaaaaaaaaaaa.....hide setting ....aaaaaaaaaaaaaaaaaaaaaa***");
             }
-        }else if(fragment == "mapFragment"){
-            if(manager.findFragmentByTag("mapFragment") == null){
-                transaction.add(R.id.contentLayout, new GMapFragment(), "homeFragment");
+            if(manager.findFragmentByTag("graphFragment") != null){
+                transaction.hide(manager.findFragmentByTag("graphFragment"));
+                Log.d("rht","aaaaaaaaaaaaaaaaaaaa.....hide graph ....aaaaaaaaaaaaaaaaaaaaaa***");
+            }
+//        }else if(fragment == "mapFragment"){
+//            if(manager.findFragmentByTag("mapFragment") == null){
+//                transaction.add(R.id.contentLayout, new GMapFragment(), "homeFragment");
+//            }else{
+//                transaction.show(manager.findFragmentByTag("mapFragment"));
+//                Log.d("rht","aaaaaaaaaaaaaaaaaaaa.....resume map ....aaaaaaaaaaaaaaaaaaaaaa***");
+//            }
+//            if(manager.findFragmentByTag("homeFragment") != null){
+//                transaction.hide(manager.findFragmentByTag("homeFragment"));
+//                Log.d("rht","aaaaaaaaaaaaaaaaaaaa.....hide home ....aaaaaaaaaaaaaaaaaaaaaa***");
+//            }
+//            if(manager.findFragmentByTag("settingsFragment") != null){
+//                transaction.hide(manager.findFragmentByTag("settingsFragment"));
+//                Log.d("rht","aaaaaaaaaaaaaaaaaaaa.....hide setting ....aaaaaaaaaaaaaaaaaaaaaa***");
+//
+//            }
+        }
+        else if(fragment == "graphFragment"){
+            if(manager.findFragmentByTag("graphFragment") == null){
+                transaction.add(R.id.contentLayout, new GraphFragment(), "graphFragment");
             }else{
-                transaction.show(manager.findFragmentByTag("mapFragment"));
-                Log.d("rht","aaaaaaaaaaaaaaaaaaaa.....resume map ....aaaaaaaaaaaaaaaaaaaaaa***");
+                transaction.show(manager.findFragmentByTag("graphFragment"));
+                Log.d("rht","aaaaaaaaaaaaaaaaaaaa.....resume graph ....aaaaaaaaaaaaaaaaaaaaaa***");
             }
             if(manager.findFragmentByTag("homeFragment") != null){
                 transaction.hide(manager.findFragmentByTag("homeFragment"));
@@ -62,9 +84,13 @@ public class NavigationHandler {
                 transaction.hide(manager.findFragmentByTag("homeFragment"));
                 Log.d("rht","aaaaaaaaaaaaaaaaaaaa.....hide home ....aaaaaaaaaaaaaaaaaaaaaa***");
             }
-            if(manager.findFragmentByTag("mapFragment") != null){
-                transaction.hide(manager.findFragmentByTag("mapFragment"));
-                Log.d("rht","aaaaaaaaaaaaaaaaaaaa.....hide map ....aaaaaaaaaaaaaaaaaaaaaa***");
+//            if(manager.findFragmentByTag("mapFragment") != null){
+//                transaction.hide(manager.findFragmentByTag("mapFragment"));
+//                Log.d("rht","aaaaaaaaaaaaaaaaaaaa.....hide map ....aaaaaaaaaaaaaaaaaaaaaa***");
+//            }
+            if(manager.findFragmentByTag("graphFragment") != null){
+                transaction.hide(manager.findFragmentByTag("graphFragment"));
+                Log.d("rht","aaaaaaaaaaaaaaaaaaaa.....hide graph ....aaaaaaaaaaaaaaaaaaaaaa***");
             }
         }
 
