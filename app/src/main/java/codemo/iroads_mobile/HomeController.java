@@ -21,5 +21,4 @@ public class HomeController {
     public static void setMainActivity(MainActivity activity){
         HomeFragment.setMainActivity(activity);
     }
-
 }

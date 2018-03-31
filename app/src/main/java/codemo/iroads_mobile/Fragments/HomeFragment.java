@@ -36,6 +36,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import codemo.iroads_mobile.GraphController;
 import codemo.iroads_mobile.MainActivity;
 import codemo.iroads_mobile.R;
 import codemo.iroads_mobile.Reorientation.NericellMechanism;
@@ -105,36 +106,18 @@ public class HomeFragment extends Fragment implements SensorEventListener {
         locationArray = new ArrayList<Location>(); // create array for storing locations
         previousDirection = true; // if positive
         dataReport = new StringBuilder();
-        if(accelerometer != null){
-            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
-            xValue = (CheckBox) view.findViewById(R.id.xValue);
-            xValueFiltered = (CheckBox) view.findViewById(R.id.xValueFiltered);
-            xValueReoriented = (CheckBox) view.findViewById(R.id.xValueReoriented);
-            // filtering process for sensor values
-            yValue = (CheckBox) view.findViewById(R.id.yValue);
-            yValueFiltered = (CheckBox) view.findViewById(R.id.yValueFiltered);
-            yValueReoriented = (CheckBox) view.findViewById(R.id.yValueReoriented);
-            zValue = (CheckBox) view.findViewById(R.id.zValue);
-            zValueAverageFiltered = (CheckBox) view.findViewById(R.id.zValueAverageFiltered);
-            zValueHighPassFiltered = (CheckBox) view.findViewById(R.id.zValueHighPassFiltered);
-            zValueReoriented = (CheckBox) view.findViewById(R.id.zValueReoriented);
-        }else{
-            Log.d(TAG, "Accelorometer not available");
-        }
 
-
-        magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         if(magnetometer != null){
             sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_GAME);
-            xMagValue = (TextView) view.findViewById(R.id.xMagValue);
-            yMagValue = (TextView) view.findViewById(R.id.yMagValue);
-            zMagValue = (TextView) view.findViewById(R.id.zMagValue);
+//            xMagValue = (TextView) view.findViewById(R.id.xMagValue);
+//            yMagValue = (TextView) view.findViewById(R.id.yMagValue);
+//            zMagValue = (TextView) view.findViewById(R.id.zMagValue);
         }else{
             Log.d(TAG, "Magnetometer not available");
         }
 
-        lat = (TextView) view.findViewById(R.id.lat);
-        lng = (TextView) view.findViewById(R.id.lng);
+//        lat = (TextView) view.findViewById(R.id.lat);
+//        lng = (TextView) view.findViewById(R.id.lng);
 
         obd2rpm = (TextView) view.findViewById(R.id.obd2rpm);
         obd2speed = (TextView) view.findViewById(R.id.obd2speed);
@@ -160,116 +143,116 @@ public class HomeFragment extends Fragment implements SensorEventListener {
         });
 
 //      initializing listners for each acceleration output
-        xValue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(xValue.isChecked()){
-                    xValueChecked = true;
-                }else{
-                    xValueChecked = false;
-                    deleteSet("x");
-                }
-            }
-        });
-        yValue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(yValue.isChecked()){
-                    yValueChecked = true;
-                }else{
-                    yValueChecked = false;
-                    deleteSet("y");
-                }
-            }
-        });
-        zValue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(zValue.isChecked()){
-                    zValueChecked = true;
-                }else{
-                    zValueChecked = false;
-                    deleteSet("z");
-                }
-            }
-        });
-        xValueFiltered.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(xValueFiltered.isChecked()){
-                    xValueFilteredChecked = true;
-                }else{
-                    xValueFilteredChecked = false;
-                    deleteSet("x avg");
-                }
-            }
-        });
-        yValueFiltered.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(yValueFiltered.isChecked()){
-                    yValueFilteredChecked = true;
-                }else{
-                    yValueFilteredChecked = false;
-                    deleteSet("y avg");
-                }
-            }
-        });
-        zValueAverageFiltered.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(zValueAverageFiltered.isChecked()){
-                    zValueAverageFilteredChecked = true;
-                }else{
-                    zValueAverageFilteredChecked = false;
-                    deleteSet("z avg");
-                }
-            }
-        });
-        xValueReoriented.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(xValueReoriented.isChecked()){
-                    xValueReorientedChecked = true;
-                }else{
-                    xValueReorientedChecked = false;
-                    deleteSet("x reori");
-                }
-            }
-        });
-        yValueReoriented.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(yValueReoriented.isChecked()){
-                    yValueReorientedChecked = true;
-                }else{
-                    yValueReorientedChecked = false;
-                    deleteSet("y reori");
-                }
-            }
-        });
-        zValueReoriented.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(zValueReoriented.isChecked()){
-                    zValueReorientedChecked = true;
-                }else{
-                    zValueReorientedChecked = false;
-                    deleteSet("z reori");
-                }
-            }
-        });
-        zValueHighPassFiltered.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(zValueHighPassFiltered.isChecked()){
-                    zValueHighPassFilteredChecked = true;
-                }else{
-                    zValueHighPassFilteredChecked = false;
-                    deleteSet("z high pass");
-                }
-            }
-        });
+//        xValue.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(xValue.isChecked()){
+//                    xValueChecked = true;
+//                }else{
+//                    xValueChecked = false;
+//                    deleteSet("x");
+//                }
+//            }
+//        });
+//        yValue.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(yValue.isChecked()){
+//                    yValueChecked = true;
+//                }else{
+//                    yValueChecked = false;
+//                    deleteSet("y");
+//                }
+//            }
+//        });
+//        zValue.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(zValue.isChecked()){
+//                    zValueChecked = true;
+//                }else{
+//                    zValueChecked = false;
+//                    deleteSet("z");
+//                }
+//            }
+//        });
+//        xValueFiltered.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(xValueFiltered.isChecked()){
+//                    xValueFilteredChecked = true;
+//                }else{
+//                    xValueFilteredChecked = false;
+//                    deleteSet("x avg");
+//                }
+//            }
+//        });
+//        yValueFiltered.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(yValueFiltered.isChecked()){
+//                    yValueFilteredChecked = true;
+//                }else{
+//                    yValueFilteredChecked = false;
+//                    deleteSet("y avg");
+//                }
+//            }
+//        });
+//        zValueAverageFiltered.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(zValueAverageFiltered.isChecked()){
+//                    zValueAverageFilteredChecked = true;
+//                }else{
+//                    zValueAverageFilteredChecked = false;
+//                    deleteSet("z avg");
+//                }
+//            }
+//        });
+//        xValueReoriented.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(xValueReoriented.isChecked()){
+//                    xValueReorientedChecked = true;
+//                }else{
+//                    xValueReorientedChecked = false;
+//                    deleteSet("x reori");
+//                }
+//            }
+//        });
+//        yValueReoriented.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(yValueReoriented.isChecked()){
+//                    yValueReorientedChecked = true;
+//                }else{
+//                    yValueReorientedChecked = false;
+//                    deleteSet("y reori");
+//                }
+//            }
+//        });
+//        zValueReoriented.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(zValueReoriented.isChecked()){
+//                    zValueReorientedChecked = true;
+//                }else{
+//                    zValueReorientedChecked = false;
+//                    deleteSet("z reori");
+//                }
+//            }
+//        });
+//        zValueHighPassFiltered.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(zValueHighPassFiltered.isChecked()){
+//                    zValueHighPassFilteredChecked = true;
+//                }else{
+//                    zValueHighPassFilteredChecked = false;
+//                    deleteSet("z high pass");
+//                }
+//            }
+//        });
 
 
 //        final Handler handler = new Handler();
@@ -321,8 +304,8 @@ public class HomeFragment extends Fragment implements SensorEventListener {
         l.setForm(Legend.LegendForm.LINE);
         l.setTextColor(Color.LTGRAY);
 
-
-        startPlot();
+        GraphController.setRmsChart(mChart);
+//        startPlot();
         
         return view;
 
@@ -332,29 +315,29 @@ public class HomeFragment extends Fragment implements SensorEventListener {
         mainActivity=activity;
     }
 
-    private void startPlot() {
-        if(thread != null){
-            thread.interrupt();
-        }
-        thread = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                Log.d(TAG,"--------------- thrad started --------- /// ");
-                while(true){
-                    plotData=true;
-//                    Log.d(TAG,"--------------- inside while loop--------- /// ");
-                    try {
-                        Thread.sleep(100);
-
-                    }catch (InterruptedException e){
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-        thread.start();
-    }
+//    private void startPlot() {
+//        if(thread != null){
+//            thread.interrupt();
+//        }
+//        thread = new Thread(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                Log.d(TAG,"--------------- thrad started --------- /// ");
+//                while(true){
+//                    plotData=true;
+////                    Log.d(TAG,"--------------- inside while loop--------- /// ");
+//                    try {
+//                        Thread.sleep(100);
+//
+//                    }catch (InterruptedException e){
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        });
+//        thread.start();
+//    }
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
@@ -367,19 +350,19 @@ public class HomeFragment extends Fragment implements SensorEventListener {
 //                "Sensor changed Z: "+sensorEvent.values[2]);
 
         if(sensorType == Sensor.TYPE_ACCELEROMETER){
-            xValue.setText("X Value: "+sensorEvent.values[0]);
-            xValueFiltered.setText("X ValueFiltered: \n"+ this.xValueSignalProcessor.
-                    averageFilter(sensorEvent.values[0]));
-            xValueReoriented.setText("X ValueReoriented: \n"+ this.nericellMechanism.reOrientX(sensorEvent.values[0],sensorEvent.values[1],sensorEvent.values[2]));
-            yValue.setText("Y Value: "+sensorEvent.values[1]);
-            yValueFiltered.setText("Y ValueFiltered: \n"+ this.yValueSignalProcessor.
-                    averageFilter(sensorEvent.values[1]));
-            yValueReoriented.setText("Y ValueReoriented: \n"+ this.nericellMechanism.reOrientY(sensorEvent.values[0],sensorEvent.values[1],sensorEvent.values[2]));
-            zValue.setText("Z Value: "+sensorEvent.values[2]);
-            zValueAverageFiltered.setText("Z ValueAverageFiltered: \n"+ this.zValueSignalProcessor.
-                    averageFilter(sensorEvent.values[2]));
-            zValueHighPassFiltered.setText("Z ValueHighPassFiltered: \n"+ this.zValueSignalProcessor.
-                    highPassFilter(sensorEvent.values[2]));
+//            xValue.setText("X Value: "+sensorEvent.values[0]);
+//            xValueFiltered.setText("X ValueFiltered: \n"+ this.xValueSignalProcessor.
+//                    averageFilter(sensorEvent.values[0]));
+//            xValueReoriented.setText("X ValueReoriented: \n"+ this.nericellMechanism.reOrientX(sensorEvent.values[0],sensorEvent.values[1],sensorEvent.values[2]));
+//            yValue.setText("Y Value: "+sensorEvent.values[1]);
+//            yValueFiltered.setText("Y ValueFiltered: \n"+ this.yValueSignalProcessor.
+//                    averageFilter(sensorEvent.values[1]));
+//            yValueReoriented.setText("Y ValueReoriented: \n"+ this.nericellMechanism.reOrientY(sensorEvent.values[0],sensorEvent.values[1],sensorEvent.values[2]));
+//            zValue.setText("Z Value: "+sensorEvent.values[2]);
+//            zValueAverageFiltered.setText("Z ValueAverageFiltered: \n"+ this.zValueSignalProcessor.
+//                    averageFilter(sensorEvent.values[2]));
+//            zValueHighPassFiltered.setText("Z ValueHighPassFiltered: \n"+ this.zValueSignalProcessor.
+//                    highPassFilter(sensorEvent.values[2]));
             setEnableFilter(false);
             if(cuurentLoc != null){
                 if(isEnableFilter()){
@@ -390,60 +373,60 @@ public class HomeFragment extends Fragment implements SensorEventListener {
                 }
             }
 //            Log.d(TAG,"--------------- plot data is --------- /// "+plotData);
-            if(plotData){
-                if(xValueChecked){
-                    addEntry(sensorEvent.values[0], "x", ContextCompat.getColor(getContext(), R.color.colorX));
-                }
-                if(xValueFilteredChecked){
-                    addEntry((float) this.xValueSignalProcessor.averageFilter(sensorEvent.values[0]),
-                            "x avg", ContextCompat.getColor(getContext(), R.color.colorXAvg));
-                }
-                if(yValueChecked){
-                    addEntry(sensorEvent.values[1], "y", ContextCompat.getColor(getContext(), R.color.colorY));
-                }
-                if(yValueFilteredChecked){
-                    addEntry((float)this.yValueSignalProcessor.averageFilter(sensorEvent.values[1]),
-                            "y avg", ContextCompat.getColor(getContext(), R.color.colorYAvg));
-                }
-                if(zValueChecked){
-                    addEntry(sensorEvent.values[2], "z", ContextCompat.getColor(getContext(), R.color.colorZ));
-                }
-                if(zValueAverageFilteredChecked){
-                    addEntry((float)this.zValueSignalProcessor.averageFilter(sensorEvent.values[2]),
-                            "z avg", ContextCompat.getColor(getContext(), R.color.colorZAvg));
-                }
-                if(zValueHighPassFilteredChecked){
-                    addEntry((float)this.zValueSignalProcessor.highPassFilter(sensorEvent.values[2]),
-                            "z high pass", ContextCompat.getColor(getContext(), R.color.colorZHighPass));
-                }
-                if(xValueReorientedChecked){
-                    addEntry((float)this.nericellMechanism.reOrientX(sensorEvent.values[0],
-                            sensorEvent.values[1],sensorEvent.values[2]), "x reori",
-                            ContextCompat.getColor(getContext(), R.color.colorXReori));
-                }
-                if(yValueReorientedChecked){
-                    addEntry((float)this.nericellMechanism.reOrientY(sensorEvent.values[0],
-                            sensorEvent.values[1],sensorEvent.values[2]), "y reori",
-                            ContextCompat.getColor(getContext(), R.color.colorYReori));
-                }
-                if(zValueReorientedChecked){
-                    addEntry((float)this.nericellMechanism.reorientZ(sensorEvent.values[0],
-                            sensorEvent.values[1],sensorEvent.values[2]), "z reori",
-                            ContextCompat.getColor(getContext(), R.color.colorZReori));
-                }
-                plotData = false;
-            }
+//            if(plotData){
+//                if(xValueChecked){
+//                    addEntry(sensorEvent.values[0], "x", ContextCompat.getColor(getContext(), R.color.colorX), mChart);
+//                }
+//                if(xValueFilteredChecked){
+//                    addEntry((float) this.xValueSignalProcessor.averageFilter(sensorEvent.values[0]),
+//                            "x avg", ContextCompat.getColor(getContext(), R.color.colorXAvg), mChart);
+//                }
+//                if(yValueChecked){
+//                    addEntry(sensorEvent.values[1], "y", ContextCompat.getColor(getContext(), R.color.colorY), mChart);
+//                }
+//                if(yValueFilteredChecked){
+//                    addEntry((float)this.yValueSignalProcessor.averageFilter(sensorEvent.values[1]),
+//                            "y avg", ContextCompat.getColor(getContext(), R.color.colorYAvg), mChart);
+//                }
+//                if(zValueChecked){
+//                    addEntry(sensorEvent.values[2], "z", ContextCompat.getColor(getContext(), R.color.colorZ), mChart);
+//                }
+//                if(zValueAverageFilteredChecked){
+//                    addEntry((float)this.zValueSignalProcessor.averageFilter(sensorEvent.values[2]),
+//                            "z avg", ContextCompat.getColor(getContext(), R.color.colorZAvg), mChart);
+//                }
+//                if(zValueHighPassFilteredChecked){
+//                    addEntry((float)this.zValueSignalProcessor.highPassFilter(sensorEvent.values[2]),
+//                            "z high pass", ContextCompat.getColor(getContext(), R.color.colorZHighPass), mChart);
+//                }
+//                if(xValueReorientedChecked){
+//                    addEntry((float)this.nericellMechanism.reOrientX(sensorEvent.values[0],
+//                            sensorEvent.values[1],sensorEvent.values[2]), "x reori",
+//                            ContextCompat.getColor(getContext(), R.color.colorXReori), mChart);
+//                }
+//                if(yValueReorientedChecked){
+//                    addEntry((float)this.nericellMechanism.reOrientY(sensorEvent.values[0],
+//                            sensorEvent.values[1],sensorEvent.values[2]), "y reori",
+//                            ContextCompat.getColor(getContext(), R.color.colorYReori), mChart);
+//                }
+//                if(zValueReorientedChecked){
+//                    addEntry((float)this.nericellMechanism.reorientZ(sensorEvent.values[0],
+//                            sensorEvent.values[1],sensorEvent.values[2]), "z reori",
+//                            ContextCompat.getColor(getContext(), R.color.colorZReori), mChart);
+//                }
+//                plotData = false;
+//            }
 
-            zValueReoriented.setText("Z ValueReoriented: \n" + this.nericellMechanism.reorientZ(sensorEvent.values[0],sensorEvent.values[1],sensorEvent.values[2]));
+//            zValueReoriented.setText("Z ValueReoriented: \n" + this.nericellMechanism.reorientZ(sensorEvent.values[0],sensorEvent.values[1],sensorEvent.values[2]));
         }else if(sensorType == Sensor.TYPE_MAGNETIC_FIELD){
-            xMagValue.setText("X Value: "+sensorEvent.values[0]);
-            yMagValue.setText("Y Value: "+sensorEvent.values[1]);
-            zMagValue.setText("Z Value: "+sensorEvent.values[2]);
+//            xMagValue.setText("X Value: "+sensorEvent.values[0]);
+//            yMagValue.setText("Y Value: "+sensorEvent.values[1]);
+//            zMagValue.setText("Z Value: "+sensorEvent.values[2]);
         }
     }
 
-    private void addEntry(float value, String type, int color) {
-        LineData data = mChart.getLineData();
+    private void addEntry(float value, String type, int color, LineChart chart) {
+        LineData data = chart.getLineData();
         if(data != null){
             ILineDataSet set = data.getDataSetByLabel(type, true);
             if(set == null){
@@ -462,12 +445,12 @@ public class HomeFragment extends Fragment implements SensorEventListener {
                 }
             }
 //            Log.d(TAG,"--------------- entry count is --------- /// "+set.getEntryCount());
-            mChart.notifyDataSetChanged();
+            chart.notifyDataSetChanged();
 //            mChart.setMaxVisibleValueCount(150);
 //            mChart.setFocusable(true);
 //            mChart.setVisibleXRangeMaximum(100);
-            mChart.setVisibleXRange(200f,200f);
-            mChart.moveViewToX(data.getEntryCount());
+            chart.setVisibleXRange(200f,200f);
+            chart.moveViewToX(data.getEntryCount());
 //            mChart.invalidate();
         }
     }
@@ -488,13 +471,13 @@ public class HomeFragment extends Fragment implements SensorEventListener {
         return  set;
     }
 
-    public void deleteSet(String type){
+    public void deleteSet(String type, LineChart chart){
         Log.d(TAG,"---------------  data set deleted --------- /// ");
-        LineData data = mChart.getLineData();
+        LineData data = chart.getLineData();
 //        ILineDataSet set = data.getDataSetByLabel(type, true);
         data.removeDataSet(data.getDataSetByLabel(type, true));
 //        set.clear();
-        mChart.invalidate();
+        chart.invalidate();
     }
 
     @Override
