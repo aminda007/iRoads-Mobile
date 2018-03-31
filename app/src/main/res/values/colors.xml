@@ -15,4 +15,7 @@
     <color name="colorZHighPass">#f106f1</color>
     <color name="colorTransparent">#00f10656</color>
     <color name="colorNavigation">#fafafa</color>
+    <color name="colorProgress1">#ffae00</color>
+    <color name="colorProgress2">#ff6600</color>
+    <color name="colorProgress3">#ff0000</color>
     </resources>

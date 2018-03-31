@@ -25,6 +25,10 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
+import java.util.Random;
+
+import codemo.iroads_mobile.HomeController;
+import codemo.iroads_mobile.IRICalculator;
 import codemo.iroads_mobile.MainActivity;
 import codemo.iroads_mobile.R;
 import codemo.iroads_mobile.Reorientation.NericellMechanism;
@@ -49,10 +53,13 @@ public class GraphFragment extends Fragment {
             zValueHighPassFilteredChecked, xValueReorientedChecked, yValueReorientedChecked, zValueReorientedChecked;
     private static LineChart mChart;
     private static LineChart rmsChart;
+    private static LineChart iriChart;
     private Thread thread;
+    private Thread fakethread;
     private static boolean plotData = false;
     private static int maxEntries = 200;
     private static MainActivity activity;
+    private static IRICalculator calc;
 
     public GraphFragment() {
         // Required empty public constructor
@@ -60,6 +67,9 @@ public class GraphFragment extends Fragment {
 
     public static void setRmsChart(LineChart rmsChart) {
         GraphFragment.rmsChart = rmsChart;
+    }
+    public static void setIRIChart(LineChart iriChart) {
+        GraphFragment.iriChart = iriChart;
     }
 
     public static void setActivity(MainActivity Activity) {
@@ -82,6 +92,7 @@ public class GraphFragment extends Fragment {
         this.yValueSignalProcessor = new SignalProcessor();
         this.xValueSignalProcessor = new SignalProcessor();
         this.nericellMechanism = new NericellMechanism();
+        this.calc = new IRICalculator();
 
         if(accelerometer != null){
 //            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
@@ -321,6 +332,11 @@ public class GraphFragment extends Fragment {
                 }
                 addEntry((float)Math.sqrt(Math.pow(sensorEvent.values[0],2)+Math.pow(sensorEvent.values[1],2)+
                         Math.pow(sensorEvent.values[2],2)), "rms", Color.RED, rmsChart);
+                addEntry((float)calc.processIRI(zValueSignalProcessor.averageFilter(sensorEvent.values[2])),
+                        "iri", Color.RED, iriChart);
+//                Log.d(TAG,"--------------- IRI is  --------- /// "+
+//                calc.processIRI(zValueSignalProcessor.averageFilter(sensorEvent.values[2]));
+//                addEntry((float)5.0,"iri", Color.RED, iriChart);
                 plotData = false;
 //            }
         }

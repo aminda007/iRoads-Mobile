@@ -19,6 +19,10 @@ public class GraphController {
         GraphFragment.setRmsChart(rmsChart);
     }
 
+    public static void setIRIChart(LineChart iriChart) {
+        GraphFragment.setIRIChart(iriChart);
+    }
+
     public static void drawGraph(SensorEvent sensorEvent) {
         GraphFragment.drawGraph(sensorEvent);
     }
