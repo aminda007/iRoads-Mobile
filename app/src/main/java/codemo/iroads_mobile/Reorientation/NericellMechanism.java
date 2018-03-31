@@ -62,12 +62,7 @@ public class NericellMechanism implements Reorientation{
         }
         double xPie = x*Math.cos(pie) - z*Math.sin(pie);
         double yPie = y;
-        double zPie = x*Math.sin(pie) + z*Math.cos(pie);
-        double xTeta = xPie*Math.cos(teta) + yPie*Math.sin(teta);
         double yTeta = -xPie*Math.sin(teta) + yPie*Math.cos(teta);
-        double zTeta = zPie;
-        double alpha = Math.atan(xPie/zPie);
-        double yAlpha = yTeta;
         return yTeta;
 
     }
@@ -84,7 +79,6 @@ public class NericellMechanism implements Reorientation{
         double yPie = y;
         double zPie = x*Math.sin(pie) + z*Math.cos(pie);
         double xTeta = xPie*Math.cos(teta) + yPie*Math.sin(teta);
-        double yTeta = -xPie*Math.sin(teta) + yPie*Math.cos(teta);
         double zTeta = zPie;
         double alpha = Math.atan(xPie/zPie);
         double zAlpha = xTeta*Math.sin(alpha) + zTeta*Math.cos(alpha);
