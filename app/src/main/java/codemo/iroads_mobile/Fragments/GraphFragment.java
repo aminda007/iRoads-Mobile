@@ -8,6 +8,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -54,12 +55,14 @@ public class GraphFragment extends Fragment {
     private static LineChart mChart;
     private static LineChart rmsChart;
     private static LineChart iriChart;
+    private static LineChart fuelChart;
     private Thread thread;
     private Thread fakethread;
     private static boolean plotData = false;
     private static int maxEntries = 200;
     private static MainActivity activity;
     private static IRICalculator calc;
+    private static Runnable handlerTask;
 
     public GraphFragment() {
         // Required empty public constructor
@@ -72,6 +75,26 @@ public class GraphFragment extends Fragment {
         GraphFragment.iriChart = iriChart;
     }
 
+    public static void setFuelChart(LineChart fuelChart) {
+        GraphFragment.fuelChart = fuelChart;
+        startTimer();
+    }
+    public static void startTimer(){
+        Handler handler = new Handler();
+        handlerTask = new Runnable()
+        {
+            @Override
+            public void run() {
+                int min = 20;
+                int max = 30;
+                Random r1 = new Random();
+                int i1 = r1.nextInt(max - min + 1) + min;
+                addEntry((float)i1,"fuel", Color.BLUE, fuelChart);
+                handler.postDelayed(handlerTask, 1000);
+            }
+        };
+        handlerTask.run();
+    }
     public static void setActivity(MainActivity Activity) {
         activity = Activity;
     }
@@ -333,7 +356,7 @@ public class GraphFragment extends Fragment {
                 addEntry((float)Math.sqrt(Math.pow(sensorEvent.values[0],2)+Math.pow(sensorEvent.values[1],2)+
                         Math.pow(sensorEvent.values[2],2)), "rms", Color.RED, rmsChart);
                 addEntry((float)calc.processIRI(zValueSignalProcessor.averageFilter(sensorEvent.values[2])),
-                        "iri", Color.RED, iriChart);
+                        "iri", Color.BLACK, iriChart);
 //                Log.d(TAG,"--------------- IRI is  --------- /// "+
 //                calc.processIRI(zValueSignalProcessor.averageFilter(sensorEvent.values[2]));
 //                addEntry((float)5.0,"iri", Color.RED, iriChart);
