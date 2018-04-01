@@ -23,6 +23,10 @@ public class GraphController {
         GraphFragment.setIRIChart(iriChart);
     }
 
+    public static void setFuelChart(LineChart fuelChart) {
+        GraphFragment.setFuelChart(fuelChart);
+    }
+
     public static void drawGraph(SensorEvent sensorEvent) {
         GraphFragment.drawGraph(sensorEvent);
     }

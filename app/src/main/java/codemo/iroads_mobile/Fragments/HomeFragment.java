@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -66,8 +67,10 @@ public class HomeFragment extends Fragment{
 
     private LineChart mChart;
     private LineChart iriChart;
-    private Button saveBtn;
-    private Button bConnectBtn;
+    private LineChart fuelChart;
+    private ImageButton saveBtn;
+    private ImageButton bConnectBtn;
+    private ImageButton reOriBtn;
     private static TextView  lat, lng;
 
     private static TextView  obd2speed, obd2rpm;
@@ -76,6 +79,9 @@ public class HomeFragment extends Fragment{
     private Thread fakethread;
     private Handler handler;
     private Runnable handlerTask;
+    private ProgressBar spinnerObd;
+    private ProgressBar spinnerReori;
+    private ProgressBar spinnerSave;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -96,8 +102,8 @@ public class HomeFragment extends Fragment{
 //        obd2rpm = (TextView) view.findViewById(R.id.obd2rpm);
         obd2speed = (TextView) view.findViewById(R.id.obd2speed);
 
-        saveBtn = (Button) view.findViewById(R.id.saveBtn);
-        saveBtn.setOnClickListener(new Button.OnClickListener(){
+        saveBtn = (ImageButton) view.findViewById(R.id.saveBtn);
+        saveBtn.setOnClickListener(new ImageButton.OnClickListener(){
             @Override
             public void onClick(View view) {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
@@ -106,13 +112,32 @@ public class HomeFragment extends Fragment{
             }
         });
 
-        bConnectBtn = (Button) view.findViewById(R.id.blueTConnect);
-        bConnectBtn.setOnClickListener(new Button.OnClickListener(){
+        spinnerObd=(ProgressBar)view.findViewById(R.id.progressBarLoadingObd);
+        spinnerObd.getIndeterminateDrawable().setColorFilter(	ContextCompat.getColor(mainActivity.getApplicationContext(), R.color.colorPrimary), android.graphics.PorterDuff.Mode.MULTIPLY);
+        spinnerObd.setVisibility(View.GONE);
+        spinnerReori=(ProgressBar)view.findViewById(R.id.progressBarLoadingReori);
+        spinnerReori.getIndeterminateDrawable().setColorFilter(	ContextCompat.getColor(mainActivity.getApplicationContext(), R.color.colorPrimary), android.graphics.PorterDuff.Mode.MULTIPLY);
+        spinnerReori.setVisibility(View.GONE);
+        spinnerSave=(ProgressBar)view.findViewById(R.id.progressBarLoadingSave);
+        spinnerSave.getIndeterminateDrawable().setColorFilter(	ContextCompat.getColor(mainActivity.getApplicationContext(), R.color.colorPrimary), android.graphics.PorterDuff.Mode.MULTIPLY);
+        spinnerSave.setVisibility(View.GONE);
+
+        bConnectBtn = (ImageButton) view.findViewById(R.id.obdBtn);
+        bConnectBtn.setOnClickListener(new ImageButton.OnClickListener(){
             @Override
             public void onClick(View view) {
-
+                spinnerObd.setVisibility(View.VISIBLE);
                 mainActivity.onConnectBtn();
 
+            }
+        });
+
+        reOriBtn = (ImageButton) view.findViewById(R.id.reOriBtn);
+        reOriBtn.setOnClickListener(new ImageButton.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+//                spinnerReori.setVisibility(View.VISIBLE);
+                reOriBtn.setColorFilter(ContextCompat.getColor(mainActivity.getApplicationContext(), R.color.colorPrimary));
             }
         });
 
@@ -177,6 +202,38 @@ public class HomeFragment extends Fragment{
         lIRI.setEnabled(false);
 
         GraphController.setIRIChart(iriChart);
+
+        fuelChart = (LineChart) view.findViewById(R.id.chartFuel);
+        fuelChart.getDescription().setEnabled(false);
+
+        fuelChart.setTouchEnabled(true);
+        fuelChart.setDragEnabled(true);
+        fuelChart.setScaleEnabled(false);
+        fuelChart.setDrawGridBackground(false);
+        fuelChart.setPinchZoom(false);
+        fuelChart.setBackgroundColor(Color.TRANSPARENT);
+
+        YAxis lAxisFuel = fuelChart.getAxisLeft();
+
+        YAxis rAxisFuel = fuelChart.getAxisRight();
+        rAxisFuel.setEnabled(false);
+
+        XAxis xAxisFuel  = fuelChart.getXAxis();
+        xAxisFuel.setEnabled(true);
+        xAxisFuel.setDrawLabels(false);
+        xAxisFuel.setDrawAxisLine(false);
+        xAxisFuel.setDrawGridLines(false);
+
+        LineData dataFuel = new LineData();
+//        data.setValueTextColor(Color.WHITE);
+        fuelChart.setData(dataFuel);
+
+        Legend lFuel = fuelChart.getLegend();
+        lFuel.setEnabled(false);
+//        l.setForm(Legend.LegendForm.LINE);
+//        l.setTextColor(Color.LTGRAY);
+
+        GraphController.setFuelChart(fuelChart);
 
         speedProgressBar = (ProgressBar) view.findViewById(R.id.speed_progress_bar);
 //        rpmProgressBar = (ProgressBar) view.findViewById(R.id.rpm_progress_bar);
