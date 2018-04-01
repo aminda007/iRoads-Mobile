@@ -31,8 +31,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:text="Graph Options"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textSize="24sp" />
+                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
 
             </LinearLayout>
 
@@ -91,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="8"
                     android:text="Raw"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
 
                 <CheckBox
                     android:id="@+id/xValue"
@@ -136,7 +135,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="8"
                     android:text="Reoriented"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
 
                 <CheckBox
                     android:id="@+id/xValueReorientedBox"
@@ -181,7 +180,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="8"
                     android:text="Average Filtered"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
 
                 <CheckBox
                     android:id="@+id/xValueFiltered"
@@ -227,7 +226,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="9.25"
                     android:text="High Pass Filtered"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
 
 
                 <!--<CheckBox-->

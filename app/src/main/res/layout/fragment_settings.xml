@@ -41,10 +41,7 @@
                     android:layout_marginRight="15dp"
                     android:layout_marginTop="20dp"
                     android:layout_weight="2"
-                    android:checked="true"
-                    android:text=""
-                    android:thumbTint="@color/colorPrimary"
-                    android:trackTint="@color/colorPrimary" />
+                    android:text="" />
 
             </LinearLayout>
             <View
@@ -80,18 +77,33 @@
                     android:trackTint="@color/colorPrimary" />
 
             </LinearLayout>
-
-            <SeekBar
-                android:id="@+id/filterSeekbar"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:progress="10"
-                android:thumbTint="@color/colorPrimary"
-                android:progressTint="@color/colorPrimary"
-                android:visibility="visible" />
+                android:orientation="horizontal"
+                android:weightSum="10">
+
+                <TextView
+                    android:layout_width="214dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_weight="5"
+                    android:text="Sensitivity"
+                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small" />
+                <SeekBar
+                    android:id="@+id/filterSeekbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="5"
+                    android:progress="10"
+                    android:thumbTint="@color/colorPrimary"
+                    android:progressTint="@color/colorPrimary"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"

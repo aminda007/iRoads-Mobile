@@ -124,7 +124,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="10dp"
                         android:text="Accelorometer RMS"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
 
                     <!--<CheckBox-->
                     <!--android:id="@+id/xValue"-->
@@ -342,7 +342,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="10dp"
                         android:text="OBD2 Data"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -385,7 +385,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
                         android:text="Fuel Consumption"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
 
                     <com.github.mikephil.charting.charts.LineChart
                         android:id="@+id/chartFuel"
@@ -416,7 +416,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="10dp"
                         android:text="IRI"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
 
                     <com.github.mikephil.charting.charts.LineChart
                         android:id="@+id/chartIRI"
