@@ -22,10 +22,10 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
         name = (TextView) findViewById(R.id.nameSplash);
-        codemo = (TextView) findViewById(R.id.codemoSplash);
-        presents = (TextView) findViewById(R.id.presentsSplash);
+//        codemo = (TextView) findViewById(R.id.codemoSplash);
+//        presents = (TextView) findViewById(R.id.presentsSplash);
         welcome =(ImageView) findViewById(R.id.welcome);
-        welcome.setImageResource(R.mipmap.ic_phone);
+        welcome.setImageResource(R.mipmap.ic_iroads);
 
         level1 = AnimationUtils.loadAnimation(getBaseContext(),R.anim.level1);
         level2 = AnimationUtils.loadAnimation(getBaseContext(),R.anim.level2);
@@ -33,7 +33,8 @@ public class SplashScreen extends AppCompatActivity {
 //        final Animation fade = AnimationUtils.loadAnimation(getBaseContext(),R.anim.abc_fade_out);
 
 //        welcome.setVisibility(View.VISIBLE);
-        welcome.startAnimation(level1);
+        name.setVisibility(View.VISIBLE);
+        welcome.startAnimation(level3);
 //        welcome.startAnimation(level2);
         level1.setAnimationListener(new Animation.AnimationListener() {
             @Override

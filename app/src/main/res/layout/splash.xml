@@ -6,16 +6,16 @@
     android:layout_height="match_parent"
     tools:context="codemo.iroads_mobile.SplashScreen">
 
-    <TextView
-        android:id="@+id/codemoSplash"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/welcome"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/welcome"
-        android:layout_marginTop="72dp"
-        android:text="Codemo.Inc"
-        android:textAppearance="@android:style/TextAppearance.Holo.Large" />
+    <!--<TextView-->
+        <!--android:id="@+id/codemoSplash"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignEnd="@+id/welcome"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_alignRight="@+id/welcome"-->
+        <!--android:layout_marginTop="72dp"-->
+        <!--android:text="Codemo.Inc"-->
+        <!--android:textAppearance="@android:style/TextAppearance.Holo.Large" />-->
 
     <ImageView
 
@@ -36,15 +36,15 @@
         android:textAppearance="@android:style/TextAppearance.Holo.Large"
         android:visibility="invisible" />
 
-    <TextView
-        android:id="@+id/presentsSplash"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/codemoSplash"
-        android:layout_alignRight="@+id/codemoSplash"
-        android:layout_below="@+id/codemoSplash"
-        android:layout_marginTop="11dp"
-        android:text="presents"
-        android:textAppearance="@style/TextAppearance.Design.Tab" />
+    <!--<TextView-->
+        <!--android:id="@+id/presentsSplash"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignEnd="@+id/codemoSplash"-->
+        <!--android:layout_alignRight="@+id/codemoSplash"-->
+        <!--android:layout_below="@+id/codemoSplash"-->
+        <!--android:layout_marginTop="11dp"-->
+        <!--android:text="presents"-->
+        <!--android:textAppearance="@style/TextAppearance.Design.Tab" />-->
 
 </RelativeLayout>
