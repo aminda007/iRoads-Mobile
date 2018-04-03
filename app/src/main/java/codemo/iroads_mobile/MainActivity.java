@@ -48,10 +48,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Map;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import codemo.iroads_mobile.Database.DatabaseHandler;
+import codemo.iroads_mobile.Database.SensorData;
 import codemo.iroads_mobile.Fragments.GMapFragment;
 import codemo.iroads_mobile.Fragments.GraphFragment;
 import codemo.iroads_mobile.Fragments.HomeFragment;
@@ -105,6 +106,8 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
     private Icon homeIcon;
     private Thread fakethread;
 
+    private DatabaseHandler dbHandler;
+    private SensorData dataObject;
 
 //    BottomNavigationView.BaseSavedState(R.id.navigation_home);
 
@@ -156,6 +159,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
 
         homeBtn = (ImageButton) findViewById(R.id.homeBtn);
         homeBtn.setOnClickListener(new ImageButton.OnClickListener() {
@@ -464,6 +468,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
 
     @Override
     public void receiveOBD2Event(OBD2Event e) {
+        Log.d("DATA=============",e.toString());
 
         try {
             JSONObject realTimedata=e.getEventData().getJSONObject("obd2_real_time_data");
