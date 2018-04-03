@@ -56,6 +56,7 @@ public class HomeFragment extends Fragment{
     private static final String TAG = "HomeFragment";
 
     private static MainActivity mainActivity;
+    private static boolean obdDataAvailable = false;
 
     private boolean enableFilter;
     private ArrayList<Double> dataArray;
@@ -251,8 +252,22 @@ public class HomeFragment extends Fragment{
 
     public static  void updateLocation(Location loc){
         cuurentLoc = loc;
-        lat.setText("Latitude: "+ loc.getLatitude());
-        lng.setText("Longitude: "+ loc.getLongitude());
+        Log.d(TAG,"--------------- Location changed --------- /// "+ loc.getLatitude()+ " "+loc.getLongitude());
+//        lat.setText("Latitude: "+ loc.getLatitude());
+//        lng.setText("Longitude: "+ loc.getLongitude());
+        if(!obdDataAvailable){
+            Double speed = SpeedCalculator.getSpeed(loc.getLatitude(), loc.getLongitude());
+            updateSpeed(speed.intValue());
+        }
+    }
+
+    public static void updateSpeed(int speed){
+        obd2speed.setText(speed+" km/h");
+//        obd2rpm.setText("RPM: "+ rpm);
+        ObjectAnimator animSpeed = ObjectAnimator.ofInt(speedProgressBar, "progress", speedProgressBar.getProgress(), speed*10000);
+        animSpeed.setDuration(900);
+        animSpeed.setInterpolator(new DecelerateInterpolator());
+        animSpeed.start();
     }
 
     public void startTimer(){
@@ -267,7 +282,7 @@ public class HomeFragment extends Fragment{
                 int i1 = r1.nextInt(max - min + 1) + min;
                 Random r2 = new Random();
                 int i2 = r2.nextInt(max - min + 1) + min;
-                updateOBD2Data(i1,i2);
+//                updateOBD2Data(i1,i2);
                 handler.postDelayed(handlerTask, 1000);
             }
         };
@@ -275,14 +290,8 @@ public class HomeFragment extends Fragment{
     }
 
     public static  void updateOBD2Data(int speed,int rpm){
-        int lastSpeed =speed;
-        int lastRpm =rpm;
-        obd2speed.setText(speed+" km/h");
-//        obd2rpm.setText("RPM: "+ rpm);
-        ObjectAnimator animSpeed = ObjectAnimator.ofInt(speedProgressBar, "progress", speedProgressBar.getProgress(), speed*10000);
-        animSpeed.setDuration(900);
-        animSpeed.setInterpolator(new DecelerateInterpolator());
-        animSpeed.start();
+        obdDataAvailable = true;
+        updateSpeed(speed);
 //        ObjectAnimator animRpm = ObjectAnimator.ofInt(rpmProgressBar, "progress", rpmProgressBar.getProgress(), rpm*10000);
 //        animRpm.setDuration(900);
 //        animRpm.setInterpolator(new DecelerateInterpolator());

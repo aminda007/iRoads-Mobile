@@ -38,18 +38,18 @@ public class IRICalculator {
         if(accelerationDiff > thresholdPos || accelerationDiff < thresholdNeg ){
             Double time = Double.valueOf(System.currentTimeMillis());
 
-            Log.d(TAG,"--------------- time ---------"+time);
+//            Log.d(TAG,"--------------- time ---------"+time);
 
             if(accelerationDiff > 0.0){
-                Log.d(TAG,"--------------- Accelleration POSITIVE Diff ---------  "+accelerationDiff);
+//                Log.d(TAG,"--------------- Accelleration POSITIVE Diff ---------  "+accelerationDiff);
             }else{
-                Log.d(TAG,"++++++++++++++++ Accelleration NEGATIVE Diff ++++++++++  "+accelerationDiff);
+//                Log.d(TAG,"++++++++++++++++ Accelleration NEGATIVE Diff ++++++++++  "+accelerationDiff);
                 currentDirection = false;
             }
             if(previousDirection != currentDirection){
                 if(dataArray.size() > 1){
                     area = calculateArea();
-                    Log.d(TAG,"++++++++++++++++ Calculated Area ++++++++++  "+area);
+//                    Log.d(TAG,"++++++++++++++++ Calculated Area ++++++++++  "+area);
                 }
                 dataArray.clear();
                 timeArray.clear();
@@ -81,17 +81,17 @@ public class IRICalculator {
         double displacement=0.0;
         for (int i= 0; i<dataArray.size()-1; i++){
             double deltaT = timeArray.get(i+1)-timeArray.get(i);
-            Log.d(TAG,"********************** Delta time *************" + deltaT);
+//            Log.d(TAG,"********************** Delta time *************" + deltaT);
             if(deltaT < 145.0){
                 sum += (dataArray.get(i) + dataArray.get(i+1)) * deltaT;
                 totTime += deltaT;
             }else{
                 if(sum != 0.0){
                     double velocityDiff = sum / 2000;
-                    Log.d(TAG,"********************** Velocity Diff *************" + velocityDiff);
+//                    Log.d(TAG,"********************** Velocity Diff *************" + velocityDiff);
                     displacement += velocityDiff * totTime / 2000;
 //                    dataReport.append("\nDisplacement: " + displacement);
-                    Log.d(TAG,"********************** Displacement ********************************************************" + displacement);
+//                    Log.d(TAG,"********************** Displacement ********************************************************" + displacement);
                     sum = 0.0;
                     totTime = 0.0;
                 }
@@ -99,10 +99,10 @@ public class IRICalculator {
         }
         if(sum != 0.0){
             double velocityDiff = sum / 2000;
-            Log.d(TAG,"********************** Velocity Diff *************" + velocityDiff);
+//            Log.d(TAG,"********************** Velocity Diff *************" + velocityDiff);
             displacement += velocityDiff * totTime / 2000;
 //            dataReport.append("\nDisplacement: " + displacement);
-            Log.d(TAG,"********************** Displacement ********************************************************" + displacement);
+//            Log.d(TAG,"********************** Displacement ********************************************************" + displacement);
         }
         return displacement;
 //        totTime = dataArray.get(dataArray.size()-1) - dataArray.get(0)
