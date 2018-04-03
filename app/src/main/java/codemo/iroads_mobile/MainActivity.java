@@ -223,15 +223,15 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
         obd2EventManager.registerOBD2EventListener(OBD2SiddhiAgentManager.getInstance());
         obd2EventManager.registerOBD2EventListener(this);
 
-        boolean autoconnect = Boolean.valueOf(gconfigs.getSetting( "bt_autoconnect", Constants.BT_AUTOCONNECT_DEFAULT+""));
-        if(autoconnect){
-            btconnectAttemptScheduler = new Timer();
-            String lastSuccessfulConnectBTAddr = OBD2CoreConfiguration.getInstance().getSetting(OBD2CoreConstants.LAST_CONNECTED_BT_ADDR);
-            if(lastSuccessfulConnectBTAddr != null){
-                TimerTask attemptTask = new BTConnectAttemptTask(lastSuccessfulConnectBTAddr,btconnectAttemptScheduler);
-                btconnectAttemptScheduler.schedule(attemptTask,7000);
-            }
-        }
+//        boolean autoconnect = Boolean.valueOf(gconfigs.getSetting( "bt_autoconnect", Constants.BT_AUTOCONNECT_DEFAULT+""));
+//        if(autoconnect){
+//            btconnectAttemptScheduler = new Timer();
+//            String lastSuccessfulConnectBTAddr = OBD2CoreConfiguration.getInstance().getSetting(OBD2CoreConstants.LAST_CONNECTED_BT_ADDR);
+//            if(lastSuccessfulConnectBTAddr != null){
+//                TimerTask attemptTask = new BTConnectAttemptTask(lastSuccessfulConnectBTAddr,btconnectAttemptScheduler);
+//                btconnectAttemptScheduler.schedule(attemptTask,7000);
+//            }
+//        }
 
         HomeController.setMainActivity(this);
     }
