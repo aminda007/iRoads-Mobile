@@ -7,20 +7,25 @@ import android.util.Log;
  */
 
 public class SpeedCalculator {
-    private boolean start;
-    private double lon1;
-    private double lat1;
-    private double time1;
-    public double getRadiant(double degree){
+
+    private static final String TAG = "SpeedCalculator";
+
+    private static boolean start;
+    private static double lon1;
+    private static double lat1;
+    private static double time1;
+
+
+    public static double getRadiant(double degree){
         double radiant = degree*(2*Math.PI/360);
         return radiant;
     }
 
-    public void setStart(boolean start) {
-        this.start = start;
+    public void setStart(boolean starts) {
+        this.start = starts;
     }
 
-    public double getDistance(double lon1, double lat1, double lon2, double lat2){
+    public static double getDistance(double lon1, double lat1, double lon2, double lat2){
         double r = 6371000;
         double phi1 = getRadiant(lat1);
         double phi2 = getRadiant(lat2);
@@ -35,26 +40,26 @@ public class SpeedCalculator {
         return km;
     }
 
-    public double getSpeed (double lon, double lat){
+    public static double getSpeed (double lon, double lat){
         double lon2 = lon;
         double lat2 = lat;
         double time2 = System.currentTimeMillis();
         double speed;
         if(!start){
-            this.lon1 = lon;
-            this.lat1 = lat;
-            this.time1 = time2;
+            lon1 = lon;
+            lat1 = lat;
+            time1 = time2;
             speed = 0;
             start = true;
         } else {
-            double distance = this.getDistance(this.lon1, this.lat1, lon2, lat2);
-            double timeDiff = (time2 - this.time1)/3600000;
+            double distance = getDistance(lon1, lat1, lon2, lat2);
+            double timeDiff = (time2 - time1)/3600000;
             speed = distance/timeDiff;
-            this.lon1 = lon2;
-            this.lat1 = lat2;
-            this.time1 = time2;
+            lon1 = lon2;
+            lat1 = lat2;
+            time1 = time2;
         }
-
+        Log.d(TAG,"--------------- speed ---------"+speed);
         return speed;
     }
 }

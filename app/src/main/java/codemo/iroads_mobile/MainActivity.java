@@ -477,7 +477,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
             String speed=speedObject.getString("value");
             String rpm=rpmObject.getString("value");
             Log.d("OBD2DATA","SPEED===="+speed);
-//            HomeController.updateOBD2Data(Integer.parseInt(speed),Integer.parseInt(rpm));
+            HomeController.updateOBD2Data(Integer.parseInt(speed),Integer.parseInt(rpm));
         } catch (JSONException e1) {
             Log.d("OBD2DATA",e1.getMessage());
 
