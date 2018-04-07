@@ -21,7 +21,7 @@ public class NericellMechanism implements Reorientation{
     }
 
     public double teta(double y){
-        double teta = Math.acos(y/9.800);
+        double teta = Math.acos(y/9.800); // gravity is taken as 9.8 m/s2
         return teta;
     }
 
@@ -55,7 +55,7 @@ public class NericellMechanism implements Reorientation{
     public double reOrientY (double x, double y, double z) {
         double teta = 0;
         double pie = 0;
-        if (this.stable) {
+        if (this.stable) { // calculate teta and pie if vehicle is stopped.
             teta = this.teta(y);
             pie = this.pie(x, z);
             //this.setStable(false);
