@@ -16,7 +16,7 @@ public class SpeedCalculator {
     private static double time1;
 
 
-    public static double getRadiant(double degree){
+    public static double getRadiant(double degree){ // calculates radiant values.
         double radiant = degree*(2*Math.PI/360);
         return radiant;
     }
@@ -45,7 +45,7 @@ public class SpeedCalculator {
         double lat2 = lat;
         double time2 = System.currentTimeMillis();
         double speed;
-        if(!start){
+        if(!start){ //set initial values.
             lon1 = lon;
             lat1 = lat;
             time1 = time2;
@@ -53,7 +53,7 @@ public class SpeedCalculator {
             start = true;
         } else {
             double distance = getDistance(lon1, lat1, lon2, lat2);
-            double timeDiff = (time2 - time1)/3600000;
+            double timeDiff = (time2 - time1)/3600000; // converts time in to hours
             speed = distance/timeDiff;
             lon1 = lon2;
             lat1 = lat2;
