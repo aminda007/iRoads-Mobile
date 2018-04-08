@@ -6,68 +6,68 @@ package codemo.iroads_mobile.Database;
 
 public class SensorData {
 
-    private String obdSpeed=null;
-    private String obdRpm=null;
-    private String lat=null;
-    private String lon=null;
-    private String acceX=null;
-    private String acceY=null;
-    private String acceZ=null;
+    private static String mobdSpeed=null;
+    private static String mobdRpm=null;
+    private static String mlat=null;
+    private static String mlon=null;
+    private static String macceX=null;
+    private static String macceY=null;
+    private static String macceZ=null;
 
 
-    public String getObdSpeed() {
-        return obdSpeed;
+    public static String getMobdSpeed() {
+        return mobdSpeed;
     }
 
-    public void setObdSpeed(String obdSpeed) {
-        this.obdSpeed = obdSpeed;
+    public static void setMobdSpeed(String mobdSpeed) {
+        SensorData.mobdSpeed = mobdSpeed;
     }
 
-    public String getObdRpm() {
-        return obdRpm;
+    public static String getMobdRpm() {
+        return mobdRpm;
     }
 
-    public void setObdRpm(String obdRpm) {
-        this.obdRpm = obdRpm;
+    public static void setMobdRpm(String mobdRpm) {
+        SensorData.mobdRpm = mobdRpm;
     }
 
-    public String getLat() {
-        return lat;
+    public static String getMlat() {
+        return mlat;
     }
 
-    public void setLat(String lat) {
-        this.lat = lat;
+    public static void setMlat(String mlat) {
+        SensorData.mlat = mlat;
     }
 
-    public String getLon() {
-        return lon;
+    public static String getMlon() {
+        return mlon;
     }
 
-    public void setLon(String lon) {
-        this.lon = lon;
+    public static void setMlon(String mlon) {
+        SensorData.mlon = mlon;
     }
 
-    public String getAcceX() {
-        return acceX;
+    public static String getMacceX() {
+        return macceX;
     }
 
-    public void setAcceX(String acceX) {
-        this.acceX = acceX;
+    public static void setMacceX(String macceX) {
+        SensorData.macceX = macceX;
     }
 
-    public String getAcceY() {
-        return acceY;
+    public static String getMacceY() {
+        return macceY;
     }
 
-    public void setAcceY(String acceY) {
-        this.acceY = acceY;
+    public static void setMacceY(String macceY) {
+        SensorData.macceY = macceY;
     }
 
-    public String getAcceZ() {
-        return acceZ;
+    public static String getMacceZ() {
+        return macceZ;
     }
 
-    public void setAcceZ(String acceZ) {
-        this.acceZ = acceZ;
+    public static void setMacceZ(String macceZ) {
+        SensorData.macceZ = macceZ;
     }
 }
