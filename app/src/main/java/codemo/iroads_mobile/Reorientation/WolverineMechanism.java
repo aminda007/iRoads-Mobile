@@ -1,11 +1,8 @@
 package codemo.iroads_mobile.Reorientation;
 
-import android.widget.TextView;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import codemo.iroads_mobile.Vector3D;
+import codemo.iroads_mobile.Entity.Vector3D;
 
 /**
  * Created by dushan on 3/18/18.

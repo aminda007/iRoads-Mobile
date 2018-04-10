@@ -1,4 +1,4 @@
-package codemo.iroads_mobile;
+package codemo.iroads_mobile.Entity;
 
 /**
  * Created by dushan on 4/10/18.

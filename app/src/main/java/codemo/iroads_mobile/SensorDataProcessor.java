@@ -2,8 +2,7 @@ package codemo.iroads_mobile;
 
 import android.util.Log;
 
-import java.util.HashMap;
-
+import codemo.iroads_mobile.Entity.Vector3D;
 import codemo.iroads_mobile.Fragments.SignalProcessor;
 import codemo.iroads_mobile.Reorientation.NericellMechanism;
 import codemo.iroads_mobile.Reorientation.Reorientation;
@@ -26,6 +25,17 @@ public class SensorDataProcessor {
     private static double reorientedAx;
     private static double reorientedAy;
     private static double reorientedAz;
+
+    private static double avgFilteredAx;
+    private static double avgFilteredAy;
+    private static double avgFilteredAz;
+
+    private static double highPassFilteredAz;
+
+    private static double rms;
+
+    private static double iri;
+
 
     public static ReorientationType getReorientationType() {
         return reorientationType;
@@ -76,9 +86,94 @@ public class SensorDataProcessor {
         return reorientedAz;
     }
 
+    public static double getAvgFilteredAx() {
+        return avgFilteredAx;
+    }
+
+    public static double getAvgFilteredAy() {
+        return avgFilteredAy;
+    }
+
+    public static double getAvgFilteredAz() {
+        return avgFilteredAz;
+    }
+
+    public static double getHighPassFilteredAz() {
+        return highPassFilteredAz;
+    }
+
+    public static double getRms() {
+        return rms;
+    }
+
+    public static double getIri() {
+        return iri;
+    }
+
     /**
      * filtering
      */
-    static SignalProcessor signalProcessor=new SignalProcessor();
+    private static SignalProcessor signalProcessorX=new SignalProcessor();
+    private static SignalProcessor signalProcessorY=new SignalProcessor();
+    private static SignalProcessor signalProcessorZ=new SignalProcessor();
+
+    private static SignalProcessor highPassSignalProcessorZ =new SignalProcessor();
+
+   public static void updateAvgFilteredX(){
+       avgFilteredAx =signalProcessorX.averageFilter(MobileSensors.getCurrentAccelerationX());
+   }
+
+    public static void updateAvgFilteredY(){
+        avgFilteredAy =signalProcessorY.averageFilter(MobileSensors.getCurrentAccelerationY());
+    }
+
+    public static void updateAvgFilteredZ(){
+        avgFilteredAz =signalProcessorZ.averageFilter(MobileSensors.getCurrentAccelerationZ());
+    }
+
+    public static void updateHighPassFilteredZ(){
+        highPassFilteredAz = highPassSignalProcessorZ.averageFilter(MobileSensors.getCurrentAccelerationZ());
+    }
+
+    public static void updateRms(){
+        rms= Math.sqrt(Math.pow(MobileSensors.getCurrentAccelerationX(),2)
+                +Math.pow(MobileSensors.getCurrentAccelerationY(),2)+
+                Math.pow(MobileSensors.getCurrentAccelerationZ(),2));
+    }
+
+
+    private static IRICalculator iriCalculator=new IRICalculator();
+
+
+
+    public static void updateIRI(){
+
+        //get avgFilteredZ for this method input.
+        //if avgFilteredZ not updated in updateSensorDataProcessingValues() below line should be uncommented
+//        updateAvgFilteredZ();
+
+        //only if avg filtering is updating,
+        iri=iriCalculator.processIRI(getAvgFilteredAz());
+
+    }
+
+
+
+    public static void updateSensorDataProcessingValues(){
+
+        updateCurrentReorientedAccelerations();
+
+        updateAvgFilteredX();
+
+        updateAvgFilteredY();
+
+        updateAvgFilteredZ();
+
+        updateHighPassFilteredZ();
+
+        updateRms();
+
+        updateIRI();
+    }
 
 }
