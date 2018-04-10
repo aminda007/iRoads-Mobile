@@ -137,34 +137,37 @@
                     android:trackTint="@color/colorPrimary" />
 
             </LinearLayout>
-            <LinearLayout
+
+
+            <RadioGroup
+                android:id="@+id/reorientationType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginLeft="20dp"
+                android:layout_marginHorizontal="10dp"
                 android:weightSum="2">
-
                 <RadioButton
-                    android:id="@+id/Mech1Radio"
-                    android:layout_width="0dp"
+                    android:id="@+id/nericel"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:buttonTint="@color/colorPrimary"
                     android:checked="true"
-                    android:text="Mechanism 1"
+                    android:text="Nericel"
                     android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
                     android:textColorLink="@color/colorPrimary" />
 
                 <RadioButton
-                    android:id="@+id/Mech2Radio"
-                    android:layout_width="0dp"
+                    android:id="@+id/wolverine"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:buttonTint="@color/colorPrimary"
                     android:checked="false"
-                    android:text="Mechanism 2"
+                    android:text="Wolverine"
                     android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small" />
-            </LinearLayout>
+            </RadioGroup>
+
 
 
         </LinearLayout>

@@ -37,13 +37,13 @@ public class DatabaseHandler {
     public void saveToDatabase(SensorData data){
         // The properties that will be saved on the document
         Map<String, Object> properties = new HashMap<String, Object>();
-        properties.put("lat", data.getLat());
-        properties.put("lon", data.getLon());
-        properties.put("obdSpeed", data.getObdSpeed());
-        properties.put("obdRpm", data.getObdRpm());
-        properties.put("acceX", data.getAcceX());
-        properties.put("acceY", data.getAcceY());
-        properties.put("acceZ", data.getAcceZ());
+        properties.put("lat", data.getMlat());
+        properties.put("lon", data.getMlon());
+        properties.put("obdSpeed", data.getMobdSpeed());
+        properties.put("obdRpm", data.getMobdRpm());
+        properties.put("acceX", data.getMacceX());
+        properties.put("acceY", data.getMacceY());
+        properties.put("acceZ", data.getMacceZ());
         // Create a new document
         Document document = database.createDocument();
         // Save the document to the database

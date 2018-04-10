@@ -2,6 +2,10 @@ package codemo.iroads_mobile.Reorientation;
 
 import android.widget.TextView;
 
+import java.util.HashMap;
+
+import codemo.iroads_mobile.Vector3D;
+
 /**
  * Created by Pivithuru 26/03/2018.
  */
@@ -12,12 +16,14 @@ public class NericellMechanism implements Reorientation{
     //private double pie;
     private boolean stable = true;
 
+
     @Override
-    public void reorient() {
-
-        //accelerometer xyx
-        TextView xValueA, yValueA, zValueA;
-
+    public Vector3D reorient(float xValueA, float yValueA, float zValueA, float xValueM, float yValueM, float zValueM) {
+        Vector3D values=new Vector3D();
+        values.setX(reOrientX(xValueA,yValueA,zValueA));
+        values.setY(reOrientY(xValueA,yValueA,zValueA));
+        values.setZ(reorientZ(xValueA,yValueA,zValueA));
+        return values;
     }
 
     public double teta(double y){
@@ -85,4 +91,6 @@ public class NericellMechanism implements Reorientation{
         return zAlpha;
 
     }
+
+
 }

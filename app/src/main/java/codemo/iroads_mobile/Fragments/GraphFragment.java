@@ -33,6 +33,7 @@ import codemo.iroads_mobile.IRICalculator;
 import codemo.iroads_mobile.MainActivity;
 import codemo.iroads_mobile.R;
 import codemo.iroads_mobile.Reorientation.NericellMechanism;
+import codemo.iroads_mobile.Reorientation.WolverineMechanism;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -47,6 +48,7 @@ public class GraphFragment extends Fragment {
     private static SignalProcessor yValueSignalProcessor;
     private static SignalProcessor xValueSignalProcessor;
     private static NericellMechanism nericellMechanism;
+    private static WolverineMechanism wolverineMechanism;
     private boolean enableFilter;
     private CheckBox xValue, xValueFiltered, yValue, yValueFiltered, zValue, zValueAverageFiltered,
             zValueHighPassFiltered, zValueReoriented, yValueReoriented, xValueReoriented;
@@ -115,6 +117,7 @@ public class GraphFragment extends Fragment {
         this.yValueSignalProcessor = new SignalProcessor();
         this.xValueSignalProcessor = new SignalProcessor();
         this.nericellMechanism = new NericellMechanism();
+        this.wolverineMechanism=new WolverineMechanism();
         this.calc = new IRICalculator();
 
         if(accelerometer != null){
@@ -338,6 +341,10 @@ public class GraphFragment extends Fragment {
                     addEntry((float)zValueSignalProcessor.highPassFilter(sensorEvent.values[2]),
                             "z high pass", ContextCompat.getColor(activity.getApplicationContext(), R.color.colorZHighPass), mChart);
                 }
+
+
+
+
                 if(xValueReorientedChecked){
                     addEntry((float)nericellMechanism.reOrientX(sensorEvent.values[0],
                             sensorEvent.values[1],sensorEvent.values[2]), "x reori",
