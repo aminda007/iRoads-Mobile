@@ -57,6 +57,7 @@ import codemo.iroads_mobile.Fragments.GMapFragment;
 import codemo.iroads_mobile.Fragments.GraphFragment;
 import codemo.iroads_mobile.Fragments.HomeFragment;
 import codemo.iroads_mobile.Fragments.SettingsFragment;
+import codemo.iroads_mobile.Reorientation.ReorientationType;
 
 public class MainActivity extends AppCompatActivity implements  GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
@@ -240,6 +241,12 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         navigation.setSelectedItemId(R.id.navigation_home);
+
+        /**
+         * setting reorientation mechanism
+         */
+        SensorDataProcessor.setReorientation(ReorientationType.Nericel);
+
         new MobileSensors(this);
 
     }

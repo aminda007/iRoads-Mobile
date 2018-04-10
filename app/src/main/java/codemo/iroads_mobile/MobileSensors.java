@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import codemo.iroads_mobile.Fragments.SignalProcessor;
 import codemo.iroads_mobile.Reorientation.NericellMechanism;
@@ -48,6 +49,52 @@ public class MobileSensors implements SensorEventListener {
     private SensorManager sensorManager;
     private Sensor accelerometer;
     private Sensor magnetometer;
+
+
+
+    private static float currentMagneticX;
+    private static float currentMagneticY;
+    private static float currentMagneticZ;
+
+    public static float getCurrentMagneticX() {
+        return currentMagneticX;
+    }
+    public static float getCurrentMagneticY() {
+        return currentMagneticY;
+    }
+    public static float getCurrentMagneticZ() {
+        return currentMagneticZ;
+    }
+
+    private void setCurrentMagneticValues(float currentMagneticX,float currentMagneticY,float currentMagneticZ) {
+        this.currentMagneticX = currentMagneticX;
+        this.currentMagneticY = currentMagneticY;
+        this.currentMagneticZ = currentMagneticZ;
+    }
+
+
+    private static float currentAccelerationX;
+    private static float currentAccelerationY;
+    private static float currentAccelerationZ;
+
+    public static float getCurrentAccelerationX() {
+        return currentAccelerationX;
+    }
+
+    public static float getCurrentAccelerationY() {
+        return currentAccelerationY;
+    }
+
+    public static float getCurrentAccelerationZ() {
+        return currentAccelerationZ;
+    }
+
+    private void setCurrentAccelerationValues(float currentAccelerationX,float currentAccelerationY,float currentAccelerationZ) {
+        this.currentAccelerationX = currentAccelerationX;
+        this.currentAccelerationY = currentAccelerationY;
+        this.currentAccelerationZ = currentAccelerationZ;
+    }
+
 
 
     public MobileSensors(MainActivity mainActivity) {
@@ -75,9 +122,14 @@ public class MobileSensors implements SensorEventListener {
         int sensorType = sensor.getType();
 
         if(sensorType == Sensor.TYPE_ACCELEROMETER){
+            setCurrentAccelerationValues(sensorEvent.values[0],sensorEvent.values[1],sensorEvent.values[2]);
+
             GraphController.drawGraph(sensorEvent);
+
         }else if(sensorType == Sensor.TYPE_MAGNETIC_FIELD){
+            setCurrentMagneticValues(sensorEvent.values[0],sensorEvent.values[1],sensorEvent.values[2]);
         }
+        SensorDataProcessor.updateCurrentReorientedAccelerations();
     }
 
 

@@ -8,28 +8,7 @@
     android:layout_height="match_parent"
     tools:context="codemo.iroads_mobile.MainActivity">
 
-    <ImageButton
-        android:id="@+id/homeBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="25dp"
-        android:background="@color/colorTransparent"
-        android:elevation="10dp"
-        android:gravity="center_horizontal"
-        android:scaleX="1.1"
-        android:scaleY="1.1"
-        app:srcCompat="@mipmap/ic_iroads" />
 
-    <FrameLayout
-        android:id="@+id/contentLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="50dp"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp">
-
-    </FrameLayout>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
@@ -45,5 +24,28 @@
         app:menu="@menu/navigation">
 
     </android.support.design.widget.BottomNavigationView>
+
+    <FrameLayout
+        android:id="@+id/contentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
+
+    </FrameLayout>
+
+    <ImageButton
+        android:id="@+id/homeBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:background="@color/colorTransparent"
+        android:elevation="10dp"
+        android:gravity="center_horizontal"
+        android:scaleX="1.1"
+        android:scaleY="1.1"
+        app:srcCompat="@mipmap/ic_iroads" />
 
 </FrameLayout>
