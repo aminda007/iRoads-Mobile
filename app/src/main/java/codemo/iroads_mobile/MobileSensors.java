@@ -124,12 +124,19 @@ public class MobileSensors implements SensorEventListener {
         if(sensorType == Sensor.TYPE_ACCELEROMETER){
             setCurrentAccelerationValues(sensorEvent.values[0],sensorEvent.values[1],sensorEvent.values[2]);
 
-            GraphController.drawGraph(sensorEvent);
-
         }else if(sensorType == Sensor.TYPE_MAGNETIC_FIELD){
             setCurrentMagneticValues(sensorEvent.values[0],sensorEvent.values[1],sensorEvent.values[2]);
         }
-        SensorDataProcessor.updateCurrentReorientedAccelerations();
+
+        /**
+         *  all the data processing on sensor values are done in here
+         */
+        SensorDataProcessor.updateSensorDataProcessingValues();
+
+        /**
+         * drawing
+         */
+        GraphController.drawGraph(sensorEvent);
     }
 
 
