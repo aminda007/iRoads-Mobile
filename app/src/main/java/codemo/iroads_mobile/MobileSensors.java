@@ -95,7 +95,31 @@ public class MobileSensors implements SensorEventListener {
         this.currentAccelerationZ = currentAccelerationZ;
     }
 
+    private static double lon;
+    private static double lat;
 
+    public static double getLon() {
+        return lon;
+    }
+
+    public static double getLat() {
+        return lat;
+    }
+
+   public static void updateLocation(Location location){
+        lon = location.getLongitude();
+        lat = location.getLatitude();
+   }
+
+    public static double gpsSpeed;
+
+    public static void setGpsSpeed(double gpsSpeed) {
+        MobileSensors.gpsSpeed = gpsSpeed;
+    }
+
+    public static double getGpsSpeed() {
+        return gpsSpeed;
+    }
 
     public MobileSensors(MainActivity mainActivity) {
         // Required empty public constructor

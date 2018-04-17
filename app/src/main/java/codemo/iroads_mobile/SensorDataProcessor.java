@@ -2,8 +2,12 @@ package codemo.iroads_mobile;
 
 import android.util.Log;
 
+import com.vatichub.obd2.bean.OBD2Event;
+
+import codemo.iroads_mobile.Database.SensorData;
 import codemo.iroads_mobile.Entity.Vector3D;
 import codemo.iroads_mobile.Fragments.SignalProcessor;
+import codemo.iroads_mobile.Fragments.SpeedCalculator;
 import codemo.iroads_mobile.Reorientation.NericellMechanism;
 import codemo.iroads_mobile.Reorientation.Reorientation;
 import codemo.iroads_mobile.Reorientation.ReorientationType;
@@ -42,11 +46,14 @@ public class SensorDataProcessor {
 
     private static double iri;
 
+    private static boolean nericellReorientation = false; // indicates the reorientation mechanism.
+
 
     /**
      * this method is triggering when sensor data changing from MobileSensor.java
      */
     public static void updateSensorDataProcessingValues(){
+        stableOperation();
 
         updateCurrentReorientedAccelerations();
 
@@ -119,6 +126,7 @@ public class SensorDataProcessor {
     public static void setReorientation(ReorientationType type){
         reorientationType=type;
         if (type==ReorientationType.Nericel){
+            nericellReorientation = true;
             reorientation=new NericellMechanism();
             Log.d(TAG,"Reorientation set to Nericel");
         }else if (type==ReorientationType.Wolverine){
@@ -199,5 +207,38 @@ public class SensorDataProcessor {
 
     }
 
+    /**
+     * gives vehicle speed using obd if obd available in the vehicle else using GPS.
+     * @return
+     */
+    public static double vehicleSpeed(){
+        String check = SensorData.getMobdSpeed();
+        if(check == null) {
+            double speed =  MobileSensors.getGpsSpeed();
+            return speed;
+        } else {
+            double speed = Double.parseDouble(SensorData.getMobdSpeed());
+            return speed;
+        }
+    }
+
+    /**
+     * conduct precalculations when vehicle is stopped.
+     */
+    public static void stableOperation(){
+        double speed = SensorDataProcessor.vehicleSpeed();
+        if(speed == 0){
+            signalProcessorX.setConstantFactor(MobileSensors.getCurrentAccelerationX());
+            signalProcessorY.setConstantFactor(MobileSensors.getCurrentAccelerationY() - 9.8);
+            signalProcessorZ.setConstantFactor(MobileSensors.getCurrentAccelerationZ());
+            if (nericellReorientation){
+                ((NericellMechanism)reorientation).setStable(true);
+            }
+        } else {
+            if (nericellReorientation){
+                ((NericellMechanism)reorientation).setStable(false);
+            }
+        }
+    }
 
 }
