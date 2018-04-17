@@ -227,7 +227,7 @@ public class SensorDataProcessor {
      */
     public static void stableOperation(){
         double speed = SensorDataProcessor.vehicleSpeed();
-        if(speed == 0){
+        if(speed < 2.0){
             signalProcessorX.setConstantFactor(MobileSensors.getCurrentAccelerationX());
             signalProcessorY.setConstantFactor(MobileSensors.getCurrentAccelerationY() - 9.8);
             signalProcessorZ.setConstantFactor(MobileSensors.getCurrentAccelerationZ());
