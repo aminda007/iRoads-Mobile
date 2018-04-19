@@ -53,7 +53,7 @@ public class SensorDataProcessor {
      * this method is triggering when sensor data changing from MobileSensor.java
      */
     public static void updateSensorDataProcessingValues(){
-        stableOperation();
+        stableOperation(); // do stable operations if vehicle is not moving
 
         updateCurrentReorientedAccelerations();
 
@@ -126,7 +126,7 @@ public class SensorDataProcessor {
     public static void setReorientation(ReorientationType type){
         reorientationType=type;
         if (type==ReorientationType.Nericel){
-            nericellReorientation = true;
+            nericellReorientation = true; // indicates the reorientation mechanism
             reorientation=new NericellMechanism();
             Log.d(TAG,"Reorientation set to Nericel");
         }else if (type==ReorientationType.Wolverine){
@@ -212,12 +212,12 @@ public class SensorDataProcessor {
      * @return
      */
     public static double vehicleSpeed(){
-        String check = SensorData.getMobdSpeed();
+        String check = SensorData.getMobdSpeed(); // checks wether obd exists
         if(check == null) {
-            double speed =  MobileSensors.getGpsSpeed();
+            double speed =  MobileSensors.getGpsSpeed();// gets GPS speed
             return speed;
         } else {
-            double speed = Double.parseDouble(SensorData.getMobdSpeed());
+            double speed = Double.parseDouble(SensorData.getMobdSpeed());// gets OBD speed
             return speed;
         }
     }
@@ -228,11 +228,12 @@ public class SensorDataProcessor {
     public static void stableOperation(){
         double speed = SensorDataProcessor.vehicleSpeed();
         if(speed < 2.0){
-            signalProcessorX.setConstantFactor(MobileSensors.getCurrentAccelerationX());
+            signalProcessorX.setConstantFactor(MobileSensors.getCurrentAccelerationX());// collects
+            // constant noise
             signalProcessorY.setConstantFactor(MobileSensors.getCurrentAccelerationY() - 9.8);
             signalProcessorZ.setConstantFactor(MobileSensors.getCurrentAccelerationZ());
             if (nericellReorientation){
-                ((NericellMechanism)reorientation).setStable(true);
+                ((NericellMechanism)reorientation).setStable(true); // calculates euler angles
             }
         } else {
             if (nericellReorientation){

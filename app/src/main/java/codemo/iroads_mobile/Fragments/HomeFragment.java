@@ -258,7 +258,7 @@ public class HomeFragment extends Fragment{
 //        lng.setText("Longitude: "+ loc.getLongitude());
         if(!obdDataAvailable){
             Double speed = SpeedCalculator.getSpeed(loc.getLatitude(), loc.getLongitude());
-            MobileSensors.setGpsSpeed(speed);
+            MobileSensors.setGpsSpeed(speed);// updates vehicle speed using GPS
             updateSpeed(speed.intValue());
         }
     }

@@ -95,8 +95,8 @@ public class MobileSensors implements SensorEventListener {
         this.currentAccelerationZ = currentAccelerationZ;
     }
 
-    private static double lon;
-    private static double lat;
+    private static double lon; // keeps longitude of the vehicle
+    private static double lat; // keeps latitude of the vehicle
 
     public static double getLon() {
         return lon;
@@ -111,7 +111,7 @@ public class MobileSensors implements SensorEventListener {
         lat = location.getLatitude();
    }
 
-    public static double gpsSpeed;
+    public static double gpsSpeed; // keeps GPS speed of the vehicle
 
     public static void setGpsSpeed(double gpsSpeed) {
         MobileSensors.gpsSpeed = gpsSpeed;
