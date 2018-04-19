@@ -8,5 +8,6 @@ import codemo.iroads_mobile.Entity.Vector3D;
 
 public interface Reorientation {
 
-    public Vector3D reorient(float xValueA, float yValueA, float zValueA, float xValueM, float yValueM, float zValueM);
+    public Vector3D reorient(double xValueA, double yValueA, double zValueA, float xValueM,
+                             float yValueM, float zValueM);
 }

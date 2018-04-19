@@ -61,6 +61,23 @@ public class SignalProcessor {
         return this.noiseRemovedValue;
     }
 
+    public double averageFilterWithConstantNoise(double sensorValue){ // Filters using the average
+        // of a data set. Does not filter out constant noise.
+        this.dataSum = 0;
+        this.dataQueue.add(sensorValue);
+
+        if (this.dataQueue.size() > this.sensivityLevel) {
+            this.dataQueue.remove(0);
+        }
+
+        for (Double d : this.dataQueue){
+            this.dataSum += d;
+        }
+
+        this.noiseRemovedValue = (this.dataSum)/(this.dataQueue.size());
+        return this.noiseRemovedValue;
+    }
+
     public double highPassFilter (double sensorValue) {
         this.currentSensorValue = sensorValue;
         double highPassFilterValue = this.highPassFilterDecayFactor*(this.

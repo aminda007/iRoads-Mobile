@@ -25,7 +25,7 @@ public class WolverineMechanism implements Reorientation{
 
 
     @Override
-    public Vector3D reorient( float xValueA, float yValueA, float zValueA, float xValueM, float yValueM, float zValueM) {
+    public Vector3D reorient( double xValueA, double yValueA, double zValueA, float xValueM, float yValueM, float zValueM) {
 
 
         //accelerometer xyx

@@ -10,7 +10,7 @@ public class SpeedCalculator {
 
     private static final String TAG = "SpeedCalculator";
 
-    private static boolean start;
+    private static boolean start; // to identify new journeys
     private static double lon1;
     private static double lat1;
     private static double time1;
@@ -26,7 +26,7 @@ public class SpeedCalculator {
     }
 
     public static double getDistance(double lon1, double lat1, double lon2, double lat2){
-        double r = 6371000;
+        double r = 6371000; // radius of the earth.
         double phi1 = getRadiant(lat1);
         double phi2 = getRadiant(lat2);
         double deltaPhi = getRadiant(lat2-lat1);

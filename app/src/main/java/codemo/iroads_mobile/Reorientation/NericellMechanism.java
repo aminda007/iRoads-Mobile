@@ -8,13 +8,13 @@ import codemo.iroads_mobile.Entity.Vector3D;
 
 public class NericellMechanism implements Reorientation{
 
-    //private double teta;
-    //private double pie;
+    private double teta;
+    private double pie;
     private boolean stable = true;
 
 
     @Override
-    public Vector3D reorient(float xValueA, float yValueA, float zValueA, float xValueM, float yValueM, float zValueM) {
+    public Vector3D reorient(double xValueA, double yValueA, double zValueA, float xValueM, float yValueM, float zValueM) {
         Vector3D values=new Vector3D();
         values.setX(reOrientX(xValueA,yValueA,zValueA));
         values.setY(reOrientY(xValueA,yValueA,zValueA));
@@ -37,8 +37,8 @@ public class NericellMechanism implements Reorientation{
     }
 
     public double reOrientX (double x, double y, double z) {
-        double teta = 0;
-        double pie = 0;
+        /*double teta = 0;
+        double pie = 0;*/
         if (this.stable) {
             teta = this.teta(y);
             pie = this.pie(x, z);
@@ -55,8 +55,8 @@ public class NericellMechanism implements Reorientation{
     }
 
     public double reOrientY (double x, double y, double z) {
-        double teta = 0;
-        double pie = 0;
+        /*double teta = 0;
+        double pie = 0;*/
         if (this.stable) { // calculate teta and pie if vehicle is stopped.
             teta = this.teta(y);
             pie = this.pie(x, z);
@@ -66,12 +66,11 @@ public class NericellMechanism implements Reorientation{
         double yPie = y;
         double yTeta = -xPie*Math.sin(teta) + yPie*Math.cos(teta);
         return yTeta;
-
     }
 
     public double reorientZ (double x, double y, double z) {
-        double teta = 0;
-        double pie = 0;
+        /*double teta = 0;
+        double pie = 0;*/
         if (this.stable) {
             teta = this.teta(y);
             pie = this.pie(x, z);
@@ -87,6 +86,4 @@ public class NericellMechanism implements Reorientation{
         return zAlpha;
 
     }
-
-
 }
