@@ -47,6 +47,7 @@ import com.vatichub.obd2.realtime.OBD2SiddhiAgentManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -108,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
     private Thread fakethread;
 
     private DatabaseHandler dbHandler;
-    private SensorData dataObject;
+    private Runnable handlerTask;
 
 //    BottomNavigationView.BaseSavedState(R.id.navigation_home);
 
@@ -234,7 +235,31 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
 //            }
 //        }
 
+        ArrayList<String> pids = gconfigs.getPidsSetting();
+        for(int i=0;i<pids.size();i++){
+            gconfigs.getDashboardPIDsSet().add(pids.get(i));
+        }
+
         HomeController.setMainActivity(this);
+        gconfigs.updateQueryPIDsList();
+
+
+
+        dbHandler=new DatabaseHandler(getApplicationContext());
+//        startTimer();
+    }
+
+    public void startTimer(){
+        Handler handler = new Handler();
+        handlerTask = new Runnable()
+        {
+            @Override
+            public void run() {
+                handler.postDelayed(handlerTask, 30000);
+                dbHandler.startReplication();
+            }
+        };
+        handlerTask.run();
     }
 
     @Override
@@ -273,6 +298,8 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
             showAlert();
         return isLocationEnabled();
     }
+
+
 
     private void showAlert() {
         final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
@@ -354,16 +381,16 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
         // If BT is not on, request that it be enabled.
         // setupCommand() will then be called during onActivityResult
         if (!mBluetoothAdapter.isEnabled()) {
-            boolean autoenable = Boolean.valueOf(gconfigs.getSetting("bt_auto_enable", Constants
-                    .BT_AUTO_ENABLE_DEFAULT + ""));
-            if (autoenable) {
-                mBluetoothAdapter.enable();
-                if (mCommandService == null)
-                    setupCommand();
-            } else {
-                Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
-            }
+//            boolean autoenable = Boolean.valueOf(gconfigs.getSetting("bt_auto_enable", Constants
+//                    .BT_AUTO_ENABLE_DEFAULT + ""));
+//            if (autoenable) {
+//                mBluetoothAdapter.enable();
+//                if (mCommandService == null)
+//                    setupCommand();
+//            } else {
+//                Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+//                startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+//            }
         }
         // otherwise set up the command service
         else {
@@ -476,16 +503,17 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
 
     @Override
     public void receiveOBD2Event(OBD2Event e) {
-        Log.d("DATA=============",e.toString());
+//        Log.d("DATA=============",e.toString());
 
         try {
             JSONObject realTimedata=e.getEventData().getJSONObject("obd2_real_time_data");
-            JSONObject speedObject=(JSONObject)realTimedata.get("obd2_speed");
-            JSONObject rpmObject=(JSONObject)realTimedata.get("obd2_rpm");
-            String speed=speedObject.getString("value");
-            String rpm=rpmObject.getString("value");
-            Log.d("OBD2DATA","SPEED===="+speed);
-            HomeController.updateOBD2Data(Integer.parseInt(speed),Integer.parseInt(rpm));
+            JSONObject speedObject=realTimedata.getJSONObject("obd2_speed");
+            JSONObject rpmObject=realTimedata.getJSONObject("obd2_engine_rpm");
+            Double speed=speedObject.getDouble("value");
+            Double rpm=rpmObject.getDouble("value");
+            SensorData.setMobdRpm(Double.toString(rpm));
+            SensorData.setMobdSpeed(Double.toString(speed));
+
         } catch (JSONException e1) {
             Log.d("OBD2DATA",e1.getMessage());
 

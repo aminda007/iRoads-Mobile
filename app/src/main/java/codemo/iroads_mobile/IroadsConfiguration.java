@@ -8,7 +8,9 @@ import android.os.Message;
 
 import com.vatichub.obd2.OBD2CoreConfiguration;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * Created by uwin5 on 03/24/18.
@@ -18,6 +20,8 @@ public class IroadsConfiguration {
 
     public static final String PREFS_NAME = "Kampana-pref-file";
     public static final String PREFS_DEFAULT_VALUE = "Kampana-pref-file-default-value";
+    public static final String PIDS_DEFAULT  = "obd2_speed,obd2_engine_rpm";
+    private ArrayList<String> defaultPidsSet, pidsSet;
     private HashMap<String, String> settingsMap;
     private SharedPreferences settings;
     private boolean exitting;
@@ -30,8 +34,14 @@ public class IroadsConfiguration {
 
     private static IroadsConfiguration instance;
 
+    private HashSet<String> dashboardPIDsSet;
+    private HashSet<String> loggingPIDsSet;
+    private HashSet<String> featurePIDsSet;
+
 
     private IroadsConfiguration(){
+        dashboardPIDsSet=new HashSet<>();
+
         settingsMap = new HashMap<String, String>();
     }
 
@@ -44,6 +54,10 @@ public class IroadsConfiguration {
 
     public static void init() {
         instance = new IroadsConfiguration();
+    }
+
+    public int getOBD2updatespeed() {
+        return OBD2updatespeed;
     }
 
 
@@ -115,8 +129,8 @@ public class IroadsConfiguration {
 //        display.getSize(size);
 //        this.displaySize = size;
 //
-//        //init displays
-//        addDefaultDisplaysSettings();
+        //init pids
+        addDefaultPIDSettings();
 
         //add default features
 //        initFeatures();
@@ -129,6 +143,44 @@ public class IroadsConfiguration {
         bundle.putString(MainActivity.TOAST, message);
         msg.setData(bundle);
         mHandler.sendMessage(msg);
+    }
+
+    public void updateQueryPIDsList(){
+        HashSet<String> newSet = new HashSet<String>();
+        if(dashboardPIDsSet!=null){
+            newSet.addAll(dashboardPIDsSet);
+        }
+//        List<String> supportedPIDsList = OBD2CoreConfiguration.getInstance().getSupportedPIDsList();
+//        if(supportedPIDsList!=null) {
+//            newSet.retainAll(supportedPIDsList);
+//        }
+        ArrayList<String> requestedPIDsList = new ArrayList<String>(newSet);
+        OBD2CoreConfiguration.getInstance().setRequestedPIDsList(requestedPIDsList);
+    }
+
+    public HashSet<String> getLoggingPIDsSet() {
+        return loggingPIDsSet;
+    }
+
+    public HashSet<String> getDashboardPIDsSet() {
+        return dashboardPIDsSet;
+    }
+
+    public HashSet<String> getFeaturePIDsSet() {
+        return featurePIDsSet;
+    }
+
+    public void addDefaultPIDSettings(){
+        pidsSet = new ArrayList<String>();
+        defaultPidsSet = new ArrayList<String>();
+        String[] defaultPids = PIDS_DEFAULT.split(",");
+        for (int i=0;i<defaultPids.length;i++){
+            pidsSet.add(defaultPids[i]);
+        }
+    }
+
+    public ArrayList<String> getPidsSetting(){
+        return this.pidsSet;
     }
 
 

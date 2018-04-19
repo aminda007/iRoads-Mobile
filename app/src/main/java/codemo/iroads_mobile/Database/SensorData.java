@@ -6,13 +6,13 @@ package codemo.iroads_mobile.Database;
 
 public class SensorData {
 
-    private static String mobdSpeed=null;
-    private static String mobdRpm=null;
-    private static String mlat=null;
-    private static String mlon=null;
-    private static String macceX=null;
-    private static String macceY=null;
-    private static String macceZ=null;
+    private static String mobdSpeed="";
+    private static String mobdRpm="";
+    private static String mlat="";
+    private static String mlon="";
+    private static String macceX="";
+    private static String macceY="";
+    private static String macceZ="";
 
 
     public static String getMobdSpeed() {

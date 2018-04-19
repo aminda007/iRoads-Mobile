@@ -2,15 +2,16 @@ package codemo.iroads_mobile;
 
 
 import android.content.Context;
-import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.location.Location;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+
+
+import codemo.iroads_mobile.Database.SensorData;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,7 @@ import java.util.HashMap;
 
 import codemo.iroads_mobile.Fragments.SignalProcessor;
 import codemo.iroads_mobile.Reorientation.NericellMechanism;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -146,11 +148,20 @@ public class MobileSensors implements SensorEventListener {
         int sensorType = sensor.getType();
 
         if(sensorType == Sensor.TYPE_ACCELEROMETER){
+
+            GraphController.drawGraph(sensorEvent);
+//            Log.d("DATA=======",SensorData.getMacceX());
+            SensorData.setMacceX(Float.toString(sensorEvent.values[0]));
+            SensorData.setMacceY(Float.toString(sensorEvent.values[1]));
+            SensorData.setMacceZ(Float.toString(sensorEvent.values[2]));
+
             setCurrentAccelerationValues(sensorEvent.values[0],sensorEvent.values[1],sensorEvent.values[2]);
+
 
         }else if(sensorType == Sensor.TYPE_MAGNETIC_FIELD){
             setCurrentMagneticValues(sensorEvent.values[0],sensorEvent.values[1],sensorEvent.values[2]);
         }
+
 
         /**
          *  all the data processing on sensor values are done in here
@@ -161,6 +172,7 @@ public class MobileSensors implements SensorEventListener {
          * drawing
          */
         GraphController.drawGraph(sensorEvent);
+
     }
 
 
