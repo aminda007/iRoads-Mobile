@@ -162,7 +162,7 @@ public class SensorDataProcessor {
             Vector3D reoriented= reorientation.reorient(getAvgFilteredAx(), getAvgFilteredAy(),
                     getAvgFilteredAz(), MobileSensors.getCurrentMagneticX(),
                     MobileSensors.getCurrentMagneticY(), MobileSensors.getCurrentMagneticZ());
-            
+
             reorientedAxWithNoise=reoriented.getX();
             reorientedAx = signalProcessorXReoriented.averageFilter(reorientedAxWithNoise);
             reorientedAyWithNoise=reoriented.getY();
