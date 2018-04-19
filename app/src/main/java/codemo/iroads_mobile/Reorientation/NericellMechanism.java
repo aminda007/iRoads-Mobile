@@ -14,7 +14,7 @@ public class NericellMechanism implements Reorientation{
 
 
     @Override
-    public Vector3D reorient(float xValueA, float yValueA, float zValueA, float xValueM, float yValueM, float zValueM) {
+    public Vector3D reorient(double xValueA, double yValueA, double zValueA, float xValueM, float yValueM, float zValueM) {
         Vector3D values=new Vector3D();
         values.setX(reOrientX(xValueA,yValueA,zValueA));
         values.setY(reOrientY(xValueA,yValueA,zValueA));
