@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,11 +27,13 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.util.Random;
 
-import codemo.iroads_mobile.HomeController;
 import codemo.iroads_mobile.IRICalculator;
 import codemo.iroads_mobile.MainActivity;
+import codemo.iroads_mobile.MobileSensors;
 import codemo.iroads_mobile.R;
 import codemo.iroads_mobile.Reorientation.NericellMechanism;
+import codemo.iroads_mobile.Reorientation.WolverineMechanism;
+import codemo.iroads_mobile.SensorDataProcessor;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,10 +44,6 @@ public class GraphFragment extends Fragment {
 
     private SensorManager sensorManager;
     private Sensor accelerometer;
-    private static SignalProcessor zValueSignalProcessor;
-    private static SignalProcessor yValueSignalProcessor;
-    private static SignalProcessor xValueSignalProcessor;
-    private static NericellMechanism nericellMechanism;
     private boolean enableFilter;
     private CheckBox xValue, xValueFiltered, yValue, yValueFiltered, zValue, zValueAverageFiltered,
             zValueHighPassFiltered, zValueReoriented, yValueReoriented, xValueReoriented;
@@ -111,11 +108,7 @@ public class GraphFragment extends Fragment {
 
 
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        this.zValueSignalProcessor = new SignalProcessor(); // creates filters for sensor values
-        this.yValueSignalProcessor = new SignalProcessor();
-        this.xValueSignalProcessor = new SignalProcessor();
-        this.nericellMechanism = new NericellMechanism();
-        this.calc = new IRICalculator();
+
 
         if(accelerometer != null){
 //            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
@@ -313,50 +306,90 @@ public class GraphFragment extends Fragment {
 
     public static void drawGraph(SensorEvent sensorEvent) {
             if(plotData){
+
+                /**
+                 * raw x y z values
+                 */
+
                 if(xValueChecked){
-                    addEntry(sensorEvent.values[0], "x", ContextCompat.getColor(activity.getApplicationContext(), R.color.colorX), mChart);
-                }
-                if(xValueFilteredChecked){
-                    addEntry((float) xValueSignalProcessor.averageFilter(sensorEvent.values[0]),
-                            "x avg", ContextCompat.getColor(activity.getApplicationContext(), R.color.colorXAvg), mChart);
+                    addEntry(MobileSensors.getCurrentAccelerationX(),
+//                            sensorEvent.values[0],
+                            "x", ContextCompat.getColor(activity.getApplicationContext(), R.color.colorX), mChart);
                 }
                 if(yValueChecked){
-                    addEntry(sensorEvent.values[1], "y", ContextCompat.getColor(activity.getApplicationContext(), R.color.colorY), mChart);
-                }
-                if(yValueFilteredChecked){
-                    addEntry((float)yValueSignalProcessor.averageFilter(sensorEvent.values[1]),
-                            "y avg", ContextCompat.getColor(activity.getApplicationContext(), R.color.colorYAvg), mChart);
+                    addEntry(MobileSensors.getCurrentAccelerationY(),
+//                            sensorEvent.values[1],
+                            "y", ContextCompat.getColor(activity.getApplicationContext(), R.color.colorY), mChart);
                 }
                 if(zValueChecked){
-                    addEntry(sensorEvent.values[2], "z", ContextCompat.getColor(activity.getApplicationContext(), R.color.colorZ), mChart);
+                    addEntry(MobileSensors.getCurrentAccelerationZ(),
+//                            sensorEvent.values[2],
+                            "z", ContextCompat.getColor(activity.getApplicationContext(), R.color.colorZ), mChart);
                 }
+
+
+                /**
+                 * filter added x y z
+                  */
+
+                //avg filter
+                if(xValueFilteredChecked){
+                    addEntry((float) SensorDataProcessor.getAvgFilteredAx(),
+                            "x avg", ContextCompat.getColor(activity.getApplicationContext(), R.color.colorXAvg), mChart);
+                }
+
+                if(yValueFilteredChecked){
+                    addEntry((float) SensorDataProcessor.getAvgFilteredAy(),
+                            "y avg", ContextCompat.getColor(activity.getApplicationContext(), R.color.colorYAvg), mChart);
+                }
+
                 if(zValueAverageFilteredChecked){
-                    addEntry((float)zValueSignalProcessor.averageFilter(sensorEvent.values[2]),
+                    addEntry((float) SensorDataProcessor.getAvgFilteredAz(),
                             "z avg", ContextCompat.getColor(activity.getApplicationContext(), R.color.colorZAvg), mChart);
                 }
+
+                //high pass filter
                 if(zValueHighPassFilteredChecked){
-                    addEntry((float)zValueSignalProcessor.highPassFilter(sensorEvent.values[2]),
+                    addEntry((float)SensorDataProcessor.getHighPassFilteredAz(),
                             "z high pass", ContextCompat.getColor(activity.getApplicationContext(), R.color.colorZHighPass), mChart);
                 }
+
+
+
+                /**
+                 * reoriented x y z
+                 */
+
                 if(xValueReorientedChecked){
-                    addEntry((float)nericellMechanism.reOrientX(sensorEvent.values[0],
-                            sensorEvent.values[1],sensorEvent.values[2]), "x reori",
+                    addEntry((float) SensorDataProcessor.getReorientedAx(),
+                            "x reori",
                             ContextCompat.getColor(activity.getApplicationContext(), R.color.colorXReori), mChart);
                 }
                 if(yValueReorientedChecked){
-                    addEntry((float)nericellMechanism.reOrientY(sensorEvent.values[0],
-                            sensorEvent.values[1],sensorEvent.values[2]), "y reori",
+                    addEntry((float)SensorDataProcessor.getReorientedAy(),
+                            "y reori",
                             ContextCompat.getColor(activity.getApplicationContext(), R.color.colorYReori), mChart);
                 }
                 if(zValueReorientedChecked){
-                    addEntry((float)nericellMechanism.reorientZ(sensorEvent.values[0],
-                            sensorEvent.values[1],sensorEvent.values[2]), "z reori",
+                    addEntry((float)SensorDataProcessor.getReorientedAz(),
+                            "z reori",
                             ContextCompat.getColor(activity.getApplicationContext(), R.color.colorZReori), mChart);
                 }
-                addEntry((float)Math.sqrt(Math.pow(sensorEvent.values[0],2)+Math.pow(sensorEvent.values[1],2)+
-                        Math.pow(sensorEvent.values[2],2)), "rms", Color.RED, rmsChart);
-                addEntry((float)calc.processIRI(zValueSignalProcessor.averageFilter(sensorEvent.values[2])),
+
+
+                /**
+                 * RMS
+                 */
+                addEntry((float) SensorDataProcessor.getRms(),
+                        "rms", Color.RED, rmsChart);
+
+                /**
+                 * IRI
+                 */
+                addEntry((float)SensorDataProcessor.getIri(),
                         "iri", Color.BLACK, iriChart);
+
+
 //                Log.d(TAG,"--------------- IRI is  --------- /// "+
 //                calc.processIRI(zValueSignalProcessor.averageFilter(sensorEvent.values[2]));
 //                addEntry((float)5.0,"iri", Color.RED, iriChart);

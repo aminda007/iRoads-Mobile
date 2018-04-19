@@ -41,6 +41,7 @@ public class DatabaseHandler {
     public static void saveToDatabase(){
         // The properties that will be saved on the document
         Map<String, Object> properties = new HashMap<String, Object>();
+
 //        Log.d("DATA====",SensorData.getMacceX());
         properties.put("lat", SensorData.getMlat());
         properties.put("lon", SensorData.getMlat());
@@ -50,6 +51,7 @@ public class DatabaseHandler {
         properties.put("acceY", SensorData.getMacceY());
         properties.put("acceZ", SensorData.getMacceZ());
         properties.put("time",System.currentTimeMillis());
+
         // Create a new document
         Document document = database.createDocument();
         // Save the document to the database

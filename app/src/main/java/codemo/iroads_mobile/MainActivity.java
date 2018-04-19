@@ -58,6 +58,7 @@ import codemo.iroads_mobile.Fragments.GMapFragment;
 import codemo.iroads_mobile.Fragments.GraphFragment;
 import codemo.iroads_mobile.Fragments.HomeFragment;
 import codemo.iroads_mobile.Fragments.SettingsFragment;
+import codemo.iroads_mobile.Reorientation.ReorientationType;
 
 public class MainActivity extends AppCompatActivity implements  GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
@@ -265,6 +266,12 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         navigation.setSelectedItemId(R.id.navigation_home);
+
+        /**
+         * setting reorientation mechanism
+         */
+        SensorDataProcessor.setReorientation(ReorientationType.Nericel);
+
         new MobileSensors(this);
 
     }
@@ -279,6 +286,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
 //                Double.toString(location.getLatitude()) + "," +
 //                Double.toString(location.getLongitude());
         HomeController.updateLocation(location);
+        MobileSensors.updateLocation(location);
 //        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         // You can now create a LatLng Object for use with maps
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
