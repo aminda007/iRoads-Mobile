@@ -261,6 +261,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
 //                Double.toString(location.getLatitude()) + "," +
 //                Double.toString(location.getLongitude());
         HomeController.updateLocation(location);
+        MobileSensors.updateLocation(location);
 //        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         // You can now create a LatLng Object for use with maps
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());

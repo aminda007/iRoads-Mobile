@@ -45,6 +45,7 @@ import java.util.Random;
 import codemo.iroads_mobile.GraphController;
 import codemo.iroads_mobile.HomeController;
 import codemo.iroads_mobile.MainActivity;
+import codemo.iroads_mobile.MobileSensors;
 import codemo.iroads_mobile.R;
 import codemo.iroads_mobile.Reorientation.NericellMechanism;
 
@@ -257,6 +258,7 @@ public class HomeFragment extends Fragment{
 //        lng.setText("Longitude: "+ loc.getLongitude());
         if(!obdDataAvailable){
             Double speed = SpeedCalculator.getSpeed(loc.getLatitude(), loc.getLongitude());
+            MobileSensors.setGpsSpeed(speed);// updates vehicle speed using GPS
             updateSpeed(speed.intValue());
         }
     }
