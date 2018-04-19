@@ -2,41 +2,14 @@ package codemo.iroads_mobile;
 
 
 import android.content.Context;
-import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.location.Location;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.TextView;
 
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-
-import codemo.iroads_mobile.Fragments.SignalProcessor;
-import codemo.iroads_mobile.Reorientation.NericellMechanism;
+import codemo.iroads_mobile.Database.SensorData;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -76,8 +49,14 @@ public class MobileSensors implements SensorEventListener {
 
         if(sensorType == Sensor.TYPE_ACCELEROMETER){
             GraphController.drawGraph(sensorEvent);
+//            Log.d("DATA=======",SensorData.getMacceX());
+            SensorData.setMacceX(Float.toString(sensorEvent.values[0]));
+            SensorData.setMacceY(Float.toString(sensorEvent.values[1]));
+            SensorData.setMacceZ(Float.toString(sensorEvent.values[2]));
+
         }else if(sensorType == Sensor.TYPE_MAGNETIC_FIELD){
         }
+
     }
 
 

@@ -7,8 +7,11 @@ import com.couchbase.lite.Database;
 import com.couchbase.lite.Document;
 import com.couchbase.lite.Manager;
 import com.couchbase.lite.android.AndroidContext;
+import com.couchbase.lite.replicator.Replication;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +22,8 @@ import java.util.Map;
 public class DatabaseHandler {
 
     private Manager manager;
-    private Database database;
+    private static Database database;
+    private String mSyncGatewayUrl = "http://167.99.195.237:4984/db/";
 
 
     public DatabaseHandler(Context context){
@@ -34,16 +38,18 @@ public class DatabaseHandler {
 
     }
 
-    public void saveToDatabase(SensorData data){
+    public static void saveToDatabase(){
         // The properties that will be saved on the document
         Map<String, Object> properties = new HashMap<String, Object>();
-        properties.put("lat", data.getLat());
-        properties.put("lon", data.getLon());
-        properties.put("obdSpeed", data.getObdSpeed());
-        properties.put("obdRpm", data.getObdRpm());
-        properties.put("acceX", data.getAcceX());
-        properties.put("acceY", data.getAcceY());
-        properties.put("acceZ", data.getAcceZ());
+//        Log.d("DATA====",SensorData.getMacceX());
+        properties.put("lat", SensorData.getMlat());
+        properties.put("lon", SensorData.getMlat());
+        properties.put("obdSpeed", SensorData.getMobdSpeed());
+        properties.put("obdRpm", SensorData.getMobdRpm());
+        properties.put("acceX", SensorData.getMacceX());
+        properties.put("acceY", SensorData.getMacceY());
+        properties.put("acceZ", SensorData.getMacceZ());
+        properties.put("time",System.currentTimeMillis());
         // Create a new document
         Document document = database.createDocument();
         // Save the document to the database
@@ -52,6 +58,22 @@ public class DatabaseHandler {
         } catch (CouchbaseLiteException e) {
             e.printStackTrace();
         }
+    }
+
+    // Replication
+    public void startReplication() {
+        URL url = null;
+        try {
+            url = new URL(mSyncGatewayUrl);
+            Replication push=database.createPushReplication(url);
+            push.start();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+
+
+
     }
 
 
