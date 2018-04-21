@@ -1,7 +1,6 @@
 package codemo.iroads_mobile;
 
 import android.location.Location;
-
 import codemo.iroads_mobile.Fragments.HomeFragment;
 
 /**
@@ -20,5 +19,13 @@ public class HomeController {
 
     public static void setMainActivity(MainActivity activity){
         HomeFragment.setMainActivity(activity);
+    }
+
+    public static void startSaving(){
+        HomeFragment.startSaving();
+    }
+
+    public static void stopSaving(){
+        HomeFragment.stopSaving();
     }
 }
