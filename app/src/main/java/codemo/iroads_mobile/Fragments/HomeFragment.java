@@ -70,8 +70,8 @@ public class HomeFragment extends Fragment{
     private LineChart mChart;
     private LineChart iriChart;
     private LineChart fuelChart;
-    private ImageButton saveBtn;
-    private ImageButton bConnectBtn;
+    private static ImageButton saveBtn;
+    private static ImageButton bConnectBtn;
     private ImageButton reOriBtn;
     private static TextView  lat, lng;
 
@@ -81,9 +81,9 @@ public class HomeFragment extends Fragment{
     private Thread fakethread;
     private Handler handler;
     private Runnable handlerTask;
-    private ProgressBar spinnerObd;
+    private static ProgressBar spinnerObd;
     private ProgressBar spinnerReori;
-    private ProgressBar spinnerSave;
+    private static ProgressBar spinnerSave;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -135,6 +135,7 @@ public class HomeFragment extends Fragment{
         });
 
         reOriBtn = (ImageButton) view.findViewById(R.id.reOriBtn);
+        reOriBtn.setColorFilter(ContextCompat.getColor(mainActivity.getApplicationContext(), R.color.colorPrimary));
         reOriBtn.setOnClickListener(new ImageButton.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -293,6 +294,8 @@ public class HomeFragment extends Fragment{
 
     public static  void updateOBD2Data(int speed,int rpm){
         obdDataAvailable = true;
+        bConnectBtn.setColorFilter(ContextCompat.getColor(mainActivity.getApplicationContext(), R.color.colorPrimary));
+        spinnerObd.setVisibility(View.GONE);
         updateSpeed(speed);
 //        ObjectAnimator animRpm = ObjectAnimator.ofInt(rpmProgressBar, "progress", rpmProgressBar.getProgress(), rpm*10000);
 //        animRpm.setDuration(900);
@@ -341,4 +344,13 @@ public class HomeFragment extends Fragment{
         }
     }
 
+    public static void startSaving(){
+        spinnerSave.setVisibility(View.VISIBLE);
+        saveBtn.setColorFilter(ContextCompat.getColor(mainActivity.getApplicationContext(), R.color.colorIconBlack));
+    }
+
+    public static void stopSaving(){
+        spinnerSave.setVisibility(View.GONE);
+        saveBtn.setColorFilter(ContextCompat.getColor(mainActivity.getApplicationContext(), R.color.colorPrimary));
+    }
 }

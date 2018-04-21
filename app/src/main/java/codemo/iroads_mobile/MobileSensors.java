@@ -6,6 +6,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Location;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
@@ -32,6 +33,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -111,6 +113,8 @@ public class MobileSensors implements SensorEventListener {
    public static void updateLocation(Location location){
         lon = location.getLongitude();
         lat = location.getLatitude();
+        SensorData.setMlon(NumberFormat.getInstance().format(lon));
+        SensorData.setMlat(NumberFormat.getInstance().format(lat));
    }
 
     public static double gpsSpeed; // keeps GPS speed of the vehicle

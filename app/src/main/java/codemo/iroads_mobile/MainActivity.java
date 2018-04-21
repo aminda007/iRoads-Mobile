@@ -22,6 +22,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -60,9 +61,9 @@ import codemo.iroads_mobile.Fragments.HomeFragment;
 import codemo.iroads_mobile.Fragments.SettingsFragment;
 import codemo.iroads_mobile.Reorientation.ReorientationType;
 
-public class MainActivity extends AppCompatActivity implements  GoogleApiClient.ConnectionCallbacks,
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        com.google.android.gms.location.LocationListener,OBD2EventListener {
+        com.google.android.gms.location.LocationListener, OBD2EventListener {
 
     private FragmentManager manager;
     private FragmentTransaction transaction;
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
     private static final int REQUEST_ENABLE_BT = 2;
     public static final int MESSAGE_STATE_CHANGE = 1;
     public static final int MESSAGE_TOAST = 5;
-    public static final int MESSAGE_OK=200;
+    public static final int MESSAGE_OK = 200;
 
     public static final String DEVICE_NAME = "device_name";
     public static final String TOAST = "toast";
@@ -202,12 +203,12 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
                 .addApi(LocationServices.API)
                 .build();
 
-        mLocationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
+        mLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
         checkLocation();
 
         gconfigs = IroadsConfiguration.getInstance();
-        gconfigs.initApplicationSettings(this,mHandler);
+        gconfigs.initApplicationSettings(this, mHandler);
         context = this;
 
         OBD2CoreConfiguration.init(this);
@@ -236,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
 //        }
 
         ArrayList<String> pids = gconfigs.getPidsSetting();
-        for(int i=0;i<pids.size();i++){
+        for (int i = 0; i < pids.size(); i++) {
             gconfigs.getDashboardPIDsSet().add(pids.get(i));
         }
 
@@ -244,19 +245,37 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
         gconfigs.updateQueryPIDsList();
 
 
+        dbHandler = new DatabaseHandler(getApplicationContext());
 
-        dbHandler=new DatabaseHandler(getApplicationContext());
-//        startTimer();
+        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "Permission: Phone is not available", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String deviceId = telephonyManager.getDeviceId();
+        SensorData.setDeviceId(deviceId);
+        Log.d(TAG,"--------------- DeviceId --------- /// "+ deviceId);
+        Log.v(TAG,"--------------- End of onCreate of MainActivity --------- /// ");
+
     }
-
+    private static int count = 0;
     public void startTimer(){
         Handler handler = new Handler();
         handlerTask = new Runnable()
         {
             @Override
             public void run() {
-                handler.postDelayed(handlerTask, 30000);
-                dbHandler.startReplication();
+                count ++;
+                if(count == 5){
+                    dbHandler.startReplication();
+                    HomeController.startSaving();
+                }
+                if(count == 6){
+                    dbHandler.startReplication();
+                    HomeController.stopSaving();
+                    count = 0;
+                }
+                handler.postDelayed(handlerTask, 10000);
             }
         };
         handlerTask.run();
@@ -273,7 +292,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
         SensorDataProcessor.setReorientation(ReorientationType.Nericel);
 
         new MobileSensors(this);
-
+        startTimer();
     }
 
     public MapFragment  initMap() {
@@ -513,7 +532,7 @@ public class MainActivity extends AppCompatActivity implements  GoogleApiClient.
             Double rpm=rpmObject.getDouble("value");
             SensorData.setMobdRpm(Double.toString(rpm));
             SensorData.setMobdSpeed(Double.toString(speed));
-
+            HomeController.updateOBD2Data(speed.intValue(), rpm.intValue());
         } catch (JSONException e1) {
             Log.d("OBD2DATA",e1.getMessage());
 

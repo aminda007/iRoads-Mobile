@@ -6,14 +6,14 @@ package codemo.iroads_mobile.Database;
 
 public class SensorData {
 
-    private static String mobdSpeed="";
-    private static String mobdRpm="";
-    private static String mlat="";
-    private static String mlon="";
+    private static String mobdSpeed="0.0";
+    private static String mobdRpm="0.0";
+    private static String mlat="0.0";
+    private static String mlon="0.0";
     private static String macceX="";
     private static String macceY="";
     private static String macceZ="";
-
+    private static String deviceId = "";
 
     public static String getMobdSpeed() {
         return mobdSpeed;
@@ -69,5 +69,13 @@ public class SensorData {
 
     public static void setMacceZ(String macceZ) {
         SensorData.macceZ = macceZ;
+    }
+
+    public static String getDeviceId() {
+        return deviceId;
+    }
+
+    public static void setDeviceId(String deviceId) {
+        SensorData.deviceId = deviceId;
     }
 }
