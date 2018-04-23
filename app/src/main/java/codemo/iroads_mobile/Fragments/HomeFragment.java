@@ -2,12 +2,7 @@ package codemo.iroads_mobile.Fragments;
 
 
 import android.animation.ObjectAnimator;
-import android.content.Context;
 import android.graphics.Color;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,20 +13,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -43,11 +34,9 @@ import java.util.Date;
 import java.util.Random;
 
 import codemo.iroads_mobile.GraphController;
-import codemo.iroads_mobile.HomeController;
 import codemo.iroads_mobile.MainActivity;
 import codemo.iroads_mobile.MobileSensors;
 import codemo.iroads_mobile.R;
-import codemo.iroads_mobile.Reorientation.NericellMechanism;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -73,6 +62,7 @@ public class HomeFragment extends Fragment{
     private static ImageButton saveBtn;
     private static ImageButton bConnectBtn;
     private ImageButton reOriBtn;
+    private ImageButton startBtn;
     private static TextView  lat, lng;
 
     private static TextView  obd2speed, obd2rpm;
@@ -141,6 +131,25 @@ public class HomeFragment extends Fragment{
             public void onClick(View view) {
 //                spinnerReori.setVisibility(View.VISIBLE);
                 reOriBtn.setColorFilter(ContextCompat.getColor(mainActivity.getApplicationContext(), R.color.colorPrimary));
+            }
+        });
+
+        startBtn = (ImageButton) view.findViewById(R.id.startBtn);
+//        reOriBtn.setColorFilter(ContextCompat.getColor(mainActivity.getApplicationContext(), R.color.colorPrimary));
+        startBtn.setOnClickListener(new ImageButton.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+//                spinnerReori.setVisibility(View.VISIBLE);
+                if(!GraphFragment.isStarted()){
+                    startBtn.setImageResource(R.drawable.ic_stop_blue);
+                    GraphFragment.setStarted(true);
+                    Toast.makeText( getContext(),"Journey Started", Toast.LENGTH_SHORT).show();
+                }else{
+                    startBtn.setImageResource(R.drawable.ic_start_blue_24dp);
+                    GraphFragment.setStarted(false);
+                    Toast.makeText( getContext(),"Journey Stopped", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 

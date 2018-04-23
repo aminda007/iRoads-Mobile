@@ -27,12 +27,11 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.util.Random;
 
+import codemo.iroads_mobile.Database.DatabaseHandler;
 import codemo.iroads_mobile.IRICalculator;
 import codemo.iroads_mobile.MainActivity;
 import codemo.iroads_mobile.MobileSensors;
 import codemo.iroads_mobile.R;
-import codemo.iroads_mobile.Reorientation.NericellMechanism;
-import codemo.iroads_mobile.Reorientation.WolverineMechanism;
 import codemo.iroads_mobile.SensorDataProcessor;
 
 /**
@@ -60,6 +59,7 @@ public class GraphFragment extends Fragment {
     private static MainActivity activity;
     private static IRICalculator calc;
     private static Runnable handlerTask;
+    private static boolean started = false;
 
     public GraphFragment() {
         // Required empty public constructor
@@ -94,6 +94,14 @@ public class GraphFragment extends Fragment {
     }
     public static void setActivity(MainActivity Activity) {
         activity = Activity;
+    }
+
+    public static boolean isStarted() {
+        return started;
+    }
+
+    public static void setStarted(boolean started) {
+        GraphFragment.started = started;
     }
 
     @Override
@@ -306,6 +314,10 @@ public class GraphFragment extends Fragment {
 
     public static void drawGraph(SensorEvent sensorEvent) {
             if(plotData){
+                if(isStarted()){
+                    DatabaseHandler.saveToDatabase();
+//                    Log.d(TAG, "saving....");
+                }
 
                 /**
                  * raw x y z values
