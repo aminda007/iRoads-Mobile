@@ -1,6 +1,7 @@
 package codemo.iroads_mobile.Database;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.couchbase.lite.CouchbaseLiteException;
 import com.couchbase.lite.Database;
@@ -30,6 +31,7 @@ public class DatabaseHandler {
         try {
             manager = new Manager(new AndroidContext(context), Manager.DEFAULT_OPTIONS);
             database = getManager().getDatabase("iroads");
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (CouchbaseLiteException e) {
@@ -37,13 +39,14 @@ public class DatabaseHandler {
         }
 
     }
-
+//    private static int count = 0;
     public static void saveToDatabase(){
         // The properties that will be saved on the document
         Map<String, Object> properties = new HashMap<String, Object>();
 
 //        Log.d("DATA====",SensorData.getMacceX());
-        properties.put("id", SensorData.getDeviceId());
+        properties.put("count", database.getDocumentCount());
+        properties.put("iemi", SensorData.getDeviceId());
         properties.put("lat", SensorData.getMlat());
         properties.put("lon", SensorData.getMlon());
         properties.put("obdSpeed", SensorData.getMobdSpeed());
@@ -69,6 +72,7 @@ public class DatabaseHandler {
         try {
             url = new URL(mSyncGatewayUrl);
             Replication push=database.createPushReplication(url);
+//            push.setContinuous(true);
             push.start();
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -76,6 +80,11 @@ public class DatabaseHandler {
 
 
 
+
+    }
+
+    public static void printDocCount(){
+        Log.d("DOC___COUNT",database.getDocumentCount()+"");
 
     }
 
