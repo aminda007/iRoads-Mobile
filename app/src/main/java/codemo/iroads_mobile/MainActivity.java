@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     private DatabaseHandler dbHandler;
     private Runnable handlerTask;
+    private static boolean replicationStopped = false;
 
 //    BottomNavigationView.BaseSavedState(R.id.navigation_home);
 
@@ -258,23 +259,20 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         Log.v(TAG,"--------------- End of onCreate of MainActivity --------- /// ");
 
     }
-    private static int count = 0;
+
     public void startTimer(){
         Handler handler = new Handler();
         handlerTask = new Runnable()
         {
             @Override
             public void run() {
-                count ++;
-                if(count == 5){
-                    dbHandler.startReplication();
-                    HomeController.startSaving();
-                }
-                if(count == 6){
-                    dbHandler.startReplication();
+                if(isReplicationStopped()){
                     HomeController.stopSaving();
-                    count = 0;
+//                    Log.d(TAG,"--------------- Saving stopped --------- /// ");
                 }
+//                else{
+//                    HomeController.startSaving();
+//                }
                 handler.postDelayed(handlerTask, 10000);
             }
         };
@@ -292,7 +290,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         SensorDataProcessor.setReorientation(ReorientationType.Nericel);
 
         new MobileSensors(this);
-//        startTimer();
+        startTimer();
     }
 
     public MapFragment  initMap() {
@@ -585,8 +583,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     }
 
+    public static boolean isReplicationStopped() {
+        return replicationStopped;
+    }
 
-
+    public static void setReplicationStopped(boolean replicationStarteds) {
+        replicationStopped = replicationStarteds;
+    }
 
 
     class BTConnectAttemptTask extends TimerTask {

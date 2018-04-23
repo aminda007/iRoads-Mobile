@@ -16,6 +16,8 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import codemo.iroads_mobile.MainActivity;
+
 /**
  * Created by uwin5 on 04/01/18.
  */
@@ -25,7 +27,7 @@ public class DatabaseHandler {
     private Manager manager;
     private static Database database;
     private String mSyncGatewayUrl = "http://167.99.195.237:4984/db/";
-
+    private static final String TAG = "DatabaseHandler";
 
     public DatabaseHandler(Context context){
         try {
@@ -72,6 +74,15 @@ public class DatabaseHandler {
         try {
             url = new URL(mSyncGatewayUrl);
             Replication push=database.createPushReplication(url);
+            push.addChangeListener(new Replication.ChangeListener()  {
+                @Override
+                public void changed(Replication.ChangeEvent event) {
+                    if (event.getStatus() == Replication.ReplicationStatus.REPLICATION_STOPPED){
+                        Log.i(TAG, "Replication stopped");
+                        MainActivity.setReplicationStopped(true);
+                    }
+                }
+            });
 //            push.setContinuous(true);
             push.start();
         } catch (MalformedURLException e) {
