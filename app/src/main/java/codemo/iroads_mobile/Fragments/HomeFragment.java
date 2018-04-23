@@ -105,7 +105,10 @@ public class HomeFragment extends Fragment{
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                 writeLog("\n \n" + sdf.format(new Date()) + dataReport.toString() + "\n \n");
                 dataReport = new StringBuilder();
-                DatabaseHandler.printDocCount();
+                dbHandler.startReplication();
+                MainActivity.setReplicationStopped(false);
+                startSaving();
+                Toast.makeText( getContext(),"Sync up Started", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -137,8 +140,7 @@ public class HomeFragment extends Fragment{
             public void onClick(View view) {
 //                spinnerReori.setVisibility(View.VISIBLE);
                 reOriBtn.setColorFilter(ContextCompat.getColor(mainActivity.getApplicationContext(), R.color.colorPrimary));
-
-                dbHandler.startReplication();
+                DatabaseHandler.printDocCount();
             }
         });
 
