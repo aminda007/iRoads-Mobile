@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 
+import codemo.iroads_mobile.Database.DatabaseHandler;
+import codemo.iroads_mobile.Database.SensorData;
 import codemo.iroads_mobile.GraphController;
 import codemo.iroads_mobile.MainActivity;
 import codemo.iroads_mobile.MobileSensors;
@@ -42,6 +44,8 @@ import codemo.iroads_mobile.R;
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment{
+
+    private DatabaseHandler dbHandler;
 
     private static final String TAG = "HomeFragment";
 
@@ -101,6 +105,7 @@ public class HomeFragment extends Fragment{
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                 writeLog("\n \n" + sdf.format(new Date()) + dataReport.toString() + "\n \n");
                 dataReport = new StringBuilder();
+                DatabaseHandler.printDocCount();
             }
         });
 
@@ -126,11 +131,14 @@ public class HomeFragment extends Fragment{
 
         reOriBtn = (ImageButton) view.findViewById(R.id.reOriBtn);
         reOriBtn.setColorFilter(ContextCompat.getColor(mainActivity.getApplicationContext(), R.color.colorPrimary));
+        dbHandler = new DatabaseHandler(mainActivity.getApplicationContext());
         reOriBtn.setOnClickListener(new ImageButton.OnClickListener(){
             @Override
             public void onClick(View view) {
 //                spinnerReori.setVisibility(View.VISIBLE);
                 reOriBtn.setColorFilter(ContextCompat.getColor(mainActivity.getApplicationContext(), R.color.colorPrimary));
+
+                dbHandler.startReplication();
             }
         });
 
@@ -271,6 +279,8 @@ public class HomeFragment extends Fragment{
             MobileSensors.setGpsSpeed(speed);// updates vehicle speed using GPS
             updateSpeed(speed.intValue());
         }
+        SensorData.setMlat(Double.toString(loc.getLatitude()));
+        SensorData.setMlon(Double.toString(loc.getLongitude()));
     }
 
     public static void updateSpeed(int speed){

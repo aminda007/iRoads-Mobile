@@ -292,7 +292,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         SensorDataProcessor.setReorientation(ReorientationType.Nericel);
 
         new MobileSensors(this);
-        startTimer();
+//        startTimer();
     }
 
     public MapFragment  initMap() {
