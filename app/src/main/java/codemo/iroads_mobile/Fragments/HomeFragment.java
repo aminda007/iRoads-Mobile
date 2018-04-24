@@ -154,6 +154,7 @@ public class HomeFragment extends Fragment{
                     startBtn.setImageResource(R.drawable.ic_stop_blue);
                     GraphFragment.setStarted(true);
                     Toast.makeText( getContext(),"Journey Started", Toast.LENGTH_SHORT).show();
+                    SensorData.setJourneyId(SensorData.getDeviceId()+ System.currentTimeMillis());
                 }else{
                     startBtn.setImageResource(R.drawable.ic_start_blue_24dp);
                     GraphFragment.setStarted(false);

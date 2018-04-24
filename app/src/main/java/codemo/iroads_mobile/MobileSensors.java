@@ -26,8 +26,6 @@ public class MobileSensors implements SensorEventListener {
     private Sensor accelerometer;
     private Sensor magnetometer;
 
-
-
     private static float currentMagneticX;
     private static float currentMagneticY;
     private static float currentMagneticZ;

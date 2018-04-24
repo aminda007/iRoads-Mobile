@@ -47,7 +47,7 @@ public class DatabaseHandler {
         Map<String, Object> properties = new HashMap<String, Object>();
 
 //        Log.d("DATA====",SensorData.getMacceX());
-        properties.put("count", database.getDocumentCount());
+        properties.put("journeyID", SensorData.getJourneyId());
         properties.put("iemi", SensorData.getDeviceId());
         properties.put("lat", SensorData.getMlat());
         properties.put("lon", SensorData.getMlon());
