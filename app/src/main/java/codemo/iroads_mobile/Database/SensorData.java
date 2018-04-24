@@ -6,14 +6,23 @@ package codemo.iroads_mobile.Database;
 
 public class SensorData {
 
-    private static String mobdSpeed="0.0";
-    private static String mobdRpm="0.0";
-    private static String mlat="0.0";
-    private static String mlon="0.0";
-    private static String macceX="";
-    private static String macceY="";
-    private static String macceZ="";
+    private static String mobdSpeed = "0.0";
+    private static String mobdRpm = "0.0";
+    private static String mlat = "0.0";
+    private static String mlon = "0.0";
+    private static String macceX = "";
+    private static String macceY = "";
+    private static String macceZ = "";
     private static String deviceId = "";
+    private static String journeyId = "";
+
+    public static String getJourneyId() {
+        return journeyId;
+    }
+
+    public static void setJourneyId(String journeyId) {
+        SensorData.journeyId = journeyId;
+    }
 
     public static String getMobdSpeed() {
         return mobdSpeed;
