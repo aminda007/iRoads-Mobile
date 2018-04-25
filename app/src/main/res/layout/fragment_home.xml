@@ -368,9 +368,20 @@
                             android:layout_height="200dp"
                             android:layout_gravity="center_horizontal"
                             android:indeterminate="false"
-                            android:max="1500000"
+                            android:max="2000000"
                             android:progress="0"
                             android:progressDrawable="@drawable/circular_progressbar" />
+
+                        <ProgressBar
+                            android:id="@+id/speed_progress_bar_back"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="200dp"
+                            android:layout_height="200dp"
+                            android:layout_gravity="center_horizontal"
+                            android:indeterminate="false"
+                            android:max="2000000"
+                            android:progress="1500000"
+                            android:progressDrawable="@drawable/circular_progressbar_back" />
 
                         <TextView
                             android:id="@+id/obd2speed"

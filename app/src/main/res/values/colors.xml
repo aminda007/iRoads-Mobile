@@ -19,4 +19,5 @@
     <color name="colorProgress2">#ff6600</color>
     <color name="colorProgress3">#ff0000</color>
     <color name="colorIconBlack">#000001</color>
+    <color name="colorGuageBack">#d7fffe</color>
     </resources>
