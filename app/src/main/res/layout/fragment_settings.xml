@@ -90,6 +90,7 @@
                     android:layout_weight="5"
                     android:text="Sensitivity"
                     android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small" />
+
                 <SeekBar
                     android:id="@+id/filterSeekbar"
                     android:layout_width="match_parent"
@@ -97,10 +98,12 @@
                     android:layout_marginBottom="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_weight="5"
-                    android:progress="10"
-                    android:thumbTint="@color/colorPrimary"
+                    android:progress="00"
+                    android:max="10"
                     android:progressTint="@color/colorPrimary"
-                    android:visibility="visible" />
+                    android:thumbTint="@color/colorPrimary"
+                    android:visibility="visible"
+                    android:theme="@style/Widget.AppCompat.SeekBar.Discrete"/>
 
 
             </LinearLayout>
@@ -147,6 +150,7 @@
                 android:orientation="horizontal"
                 android:layout_marginHorizontal="10dp"
                 android:weightSum="2">
+
                 <RadioButton
                     android:id="@+id/nericel"
                     android:layout_width="match_parent"
@@ -154,7 +158,7 @@
                     android:layout_weight="1"
                     android:buttonTint="@color/colorPrimary"
                     android:checked="true"
-                    android:text="Nericel"
+                    android:text="Gravity Based"
                     android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
                     android:textColorLink="@color/colorPrimary" />
 
@@ -165,7 +169,7 @@
                     android:layout_weight="1"
                     android:buttonTint="@color/colorPrimary"
                     android:checked="false"
-                    android:text="Wolverine"
+                    android:text="GPS Based"
                     android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small" />
             </RadioGroup>
 
