@@ -140,6 +140,7 @@ public class SensorDataProcessor {
             reorientation=new NericellMechanism();
             Log.d(TAG,"Reorientation set to Nericel");
         }else if (type==ReorientationType.Wolverine){
+            nericellReorientation = false;
             reorientation=new WolverineMechanism();
             Log.d(TAG,"Reorientation set to Wolverine");
         }

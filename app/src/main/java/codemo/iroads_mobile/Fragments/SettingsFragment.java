@@ -81,6 +81,7 @@ public class SettingsFragment extends Fragment {
         });
 
 
+
 //        saving.setColorFilter(ContextCompat.getColor(mainActivity.getApplicationContext(), R.color.colorPrimary));
         return view;
     }

@@ -71,7 +71,7 @@
                     android:layout_marginRight="15dp"
                     android:layout_marginTop="20dp"
                     android:layout_weight="2"
-                    android:checked="true"
+                    android:checked="false"
                     android:text=""
                     android:thumbTint="@color/colorPrimary"
                     android:trackTint="@color/colorPrimary" />
@@ -101,6 +101,7 @@
                     android:thumbTint="@color/colorPrimary"
                     android:progressTint="@color/colorPrimary"
                     android:visibility="visible" />
+
 
             </LinearLayout>
 
