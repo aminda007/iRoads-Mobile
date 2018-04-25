@@ -156,7 +156,7 @@ public class HomeFragment extends Fragment{
             public void onClick(View view) {
 //                spinnerReori.setVisibility(View.VISIBLE);
                 if(!GraphFragment.isStarted()){
-                    startBtn.setImageResource(R.drawable.ic_stop_blue);
+                    startBtn.setImageResource(R.drawable.ic_pause_blue_outline);
                     GraphFragment.setStarted(true);
                     Toast.makeText( getContext(),"Journey Started", Toast.LENGTH_SHORT).show();
                     SensorData.setJourneyId(SensorData.getDeviceId()+ System.currentTimeMillis());
@@ -166,7 +166,7 @@ public class HomeFragment extends Fragment{
                         MainActivity.setReplicationStopped(false);
                     }
                 }else{
-                    startBtn.setImageResource(R.drawable.ic_start_blue_24dp);
+                    startBtn.setImageResource(R.drawable.ic_play_blue_outline);
                     GraphFragment.setStarted(false);
                     Toast.makeText( getContext(),"Journey Stopped", Toast.LENGTH_SHORT).show();
                 }
@@ -379,11 +379,13 @@ public class HomeFragment extends Fragment{
     public static void startSaving(){
         spinnerSave.setVisibility(View.VISIBLE);
         saveBtn.setColorFilter(ContextCompat.getColor(mainActivity.getApplicationContext(), R.color.colorIconBlack));
+        saveBtn.setEnabled(false);
     }
 
     public static void stopSaving(){
         spinnerSave.setVisibility(View.GONE);
         saveBtn.setColorFilter(ContextCompat.getColor(mainActivity.getApplicationContext(), R.color.colorPrimary));
+        saveBtn.setEnabled(true);
     }
 
 

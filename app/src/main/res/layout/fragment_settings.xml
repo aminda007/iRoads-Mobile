@@ -41,7 +41,8 @@
                     android:layout_marginRight="15dp"
                     android:layout_marginTop="20dp"
                     android:layout_weight="2"
-                    android:text="" />
+                    android:text=""
+                    android:trackTint="@color/colorPrimary"/>
 
             </LinearLayout>
             <View
@@ -73,7 +74,6 @@
                     android:layout_weight="2"
                     android:checked="false"
                     android:text=""
-                    android:thumbTint="@color/colorPrimary"
                     android:trackTint="@color/colorPrimary" />
 
             </LinearLayout>
@@ -84,6 +84,7 @@
                 android:weightSum="10">
 
                 <TextView
+                    android:id="@+id/filterText"
                     android:layout_width="214dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
@@ -98,12 +99,13 @@
                     android:layout_marginBottom="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_weight="5"
-                    android:progress="00"
                     android:max="10"
+                    android:progress="5"
+                    android:progressDrawable="@android:color/transparent"
                     android:progressTint="@color/colorPrimary"
+                    android:theme="@style/Widget.AppCompat.SeekBar.Discrete"
                     android:thumbTint="@color/colorPrimary"
-                    android:visibility="visible"
-                    android:theme="@style/Widget.AppCompat.SeekBar.Discrete"/>
+                    android:visibility="visible" />
 
 
             </LinearLayout>
@@ -127,18 +129,6 @@
                     android:layout_weight="8"
                     android:text="Re-orientation"
                     android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
-
-                <Switch
-                    android:id="@+id/orientSwitch"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="2"
-                    android:checked="true"
-                    android:text=""
-                    android:thumbTint="@color/colorPrimary"
-                    android:trackTint="@color/colorPrimary" />
 
             </LinearLayout>
 

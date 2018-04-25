@@ -243,6 +243,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
 
         HomeController.setMainActivity(this);
+        SettingsController.setMainActivity(this);
         gconfigs.updateQueryPIDsList();
 
 
