@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
@@ -62,6 +63,20 @@ public class SettingsFragment extends Fragment {
                     SensorDataProcessor.setReorientation(ReorientationType.Wolverine);
                 }
 
+            }
+        });
+
+        saving.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//                Log.d(TAG, "settings auto save changed");
+                if(b){
+                    Log.d(TAG, "settings auto save enabled");
+                    HomeFragment.setAutoSaveON(true);
+                }else{
+                    Log.d(TAG, "settings auto save disabled");
+                    HomeFragment.setAutoSaveON(false);
+                }
             }
         });
 

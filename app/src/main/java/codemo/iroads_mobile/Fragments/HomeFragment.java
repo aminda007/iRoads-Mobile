@@ -78,6 +78,7 @@ public class HomeFragment extends Fragment{
     private static ProgressBar spinnerObd;
     private ProgressBar spinnerReori;
     private static ProgressBar spinnerSave;
+    private static boolean autoSaveON = false;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -102,13 +103,17 @@ public class HomeFragment extends Fragment{
         saveBtn.setOnClickListener(new ImageButton.OnClickListener(){
             @Override
             public void onClick(View view) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-                writeLog("\n \n" + sdf.format(new Date()) + dataReport.toString() + "\n \n");
-                dataReport = new StringBuilder();
-                dbHandler.startReplication();
-                MainActivity.setReplicationStopped(false);
-                startSaving();
-                Toast.makeText( getContext(),"Sync up Started", Toast.LENGTH_SHORT).show();
+                if(isAutoSaveON()){
+                    Toast.makeText( getContext(),"Auto Save is currently enabled", Toast.LENGTH_SHORT).show();
+                }else{
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+                    writeLog("\n \n" + sdf.format(new Date()) + dataReport.toString() + "\n \n");
+                    dataReport = new StringBuilder();
+                    dbHandler.startReplication();
+                    MainActivity.setReplicationStopped(false);
+                    startSaving();
+                    Toast.makeText( getContext(),"Sync up Started", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -155,6 +160,11 @@ public class HomeFragment extends Fragment{
                     GraphFragment.setStarted(true);
                     Toast.makeText( getContext(),"Journey Started", Toast.LENGTH_SHORT).show();
                     SensorData.setJourneyId(SensorData.getDeviceId()+ System.currentTimeMillis());
+                    if(isAutoSaveON()){
+                        dbHandler.startReplication();
+                        startSaving();
+                        MainActivity.setReplicationStopped(false);
+                    }
                 }else{
                     startBtn.setImageResource(R.drawable.ic_start_blue_24dp);
                     GraphFragment.setStarted(false);
@@ -374,5 +384,14 @@ public class HomeFragment extends Fragment{
     public static void stopSaving(){
         spinnerSave.setVisibility(View.GONE);
         saveBtn.setColorFilter(ContextCompat.getColor(mainActivity.getApplicationContext(), R.color.colorPrimary));
+    }
+
+
+    public static boolean isAutoSaveON() {
+        return autoSaveON;
+    }
+
+    public static void setAutoSaveON(boolean autoSaveON) {
+        HomeFragment.autoSaveON = autoSaveON;
     }
 }

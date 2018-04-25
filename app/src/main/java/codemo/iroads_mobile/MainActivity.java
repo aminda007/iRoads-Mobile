@@ -447,6 +447,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+            Log.d("iemi exception", "--->>>> imei no ermission graned ------------------------");
             return;
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,
