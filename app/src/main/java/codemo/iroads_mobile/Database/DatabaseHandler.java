@@ -48,7 +48,7 @@ public class DatabaseHandler {
 
 //        Log.d("DATA====",SensorData.getMacceX());
         properties.put("journeyID", SensorData.getJourneyId());
-        properties.put("iemi", SensorData.getDeviceId());
+        properties.put("imei", SensorData.getDeviceId());
         properties.put("lat", SensorData.getMlat());
         properties.put("lon", SensorData.getMlon());
         properties.put("obdSpeed", SensorData.getMobdSpeed());
