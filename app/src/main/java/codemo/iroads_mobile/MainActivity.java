@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     private DatabaseHandler dbHandler;
     private Runnable handlerTask;
-    private static boolean replicationStopped = false;
+    private static boolean replicationStopped = true;
 
 //    BottomNavigationView.BaseSavedState(R.id.navigation_home);
 
@@ -248,16 +248,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
 
         dbHandler = new DatabaseHandler(getApplicationContext());
-
-        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "Permission: Phone is not available", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        String deviceId = telephonyManager.getDeviceId();
-        SensorData.setDeviceId(deviceId);
-        Log.d(TAG,"--------------- DeviceId --------- /// "+ deviceId);
-        Log.v(TAG,"--------------- End of onCreate of MainActivity --------- /// ");
 
     }
 

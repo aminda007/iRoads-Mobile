@@ -2,12 +2,21 @@ package codemo.iroads_mobile.Fragments;
 
 
 import android.animation.ObjectAnimator;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -156,16 +165,33 @@ public class HomeFragment extends Fragment{
             public void onClick(View view) {
 //                spinnerReori.setVisibility(View.VISIBLE);
                 if(!GraphFragment.isStarted()){
+                    // check whether the permission granted to retrieve IMEI number
+                    TelephonyManager telephonyManager = (TelephonyManager) mainActivity.getSystemService(Context.TELEPHONY_SERVICE);
+                    if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                        showAlertPhPermission();
+                        return;
+                    }
+                    String deviceId = telephonyManager.getDeviceId();
+                    SensorData.setDeviceId(deviceId);
+                    Log.d(TAG,"--------------- DeviceId --------- /// "+ deviceId);
+
+                    // change the btn icon to started state
                     startBtn.setImageResource(R.drawable.ic_pause_blue_outline);
                     GraphFragment.setStarted(true);
                     Toast.makeText( getContext(),"Journey Started", Toast.LENGTH_SHORT).show();
                     SensorData.setJourneyId(SensorData.getDeviceId()+ System.currentTimeMillis());
                     if(isAutoSaveON()){
-                        dbHandler.startReplication();
-                        startSaving();
-                        MainActivity.setReplicationStopped(false);
+                        if(MainActivity.isReplicationStopped()){
+                            dbHandler.startReplication();
+                            startSaving();
+                            MainActivity.setReplicationStopped(false);
+                        }else{
+                            // do nothing since current saving is not over
+                        }
+
                     }
                 }else{
+                    // change the btn icon back to idle state
                     startBtn.setImageResource(R.drawable.ic_play_blue_outline);
                     GraphFragment.setStarted(false);
                     Toast.makeText( getContext(),"Journey Stopped", Toast.LENGTH_SHORT).show();
@@ -386,6 +412,32 @@ public class HomeFragment extends Fragment{
         spinnerSave.setVisibility(View.GONE);
         saveBtn.setColorFilter(ContextCompat.getColor(mainActivity.getApplicationContext(), R.color.colorPrimary));
         saveBtn.setEnabled(true);
+    }
+
+    private void showAlertPhPermission() {
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+        dialog.setTitle("Enable Phone")
+                .setMessage("Please Enable Phone to " +
+                        "use this app")
+                .setPositiveButton("Application Settings", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+//                        Intent myIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+//                        startActivity(myIntent);
+                        Intent intent = new Intent();
+                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        Uri uri = Uri.fromParts("package", mainActivity.getPackageName(), null);
+                        intent.setData(uri);
+                        startActivity(intent);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+
+                    }
+                });
+        dialog.show();
     }
 
 
