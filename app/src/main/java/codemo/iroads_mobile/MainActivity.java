@@ -257,13 +257,23 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         {
             @Override
             public void run() {
+                // handle automatic saving when journey started
+                if(GraphFragment.isStarted()) {
+                    if (HomeFragment.isAutoSaveON()) {
+                        if (isReplicationStopped()) {
+                            dbHandler.startReplication();
+                            HomeFragment.startSaving();
+                            setReplicationStopped(false);
+                        } else {
+                            // do nothing since current sync up is not over
+                        }
+                    }
+                }
+                // handle ui when sync up is over
                 if(isReplicationStopped()){
                     HomeController.stopSaving();
 //                    Log.d(TAG,"--------------- Saving stopped --------- /// ");
                 }
-//                else{
-//                    HomeController.startSaving();
-//                }
                 handler.postDelayed(handlerTask, 10000);
             }
         };

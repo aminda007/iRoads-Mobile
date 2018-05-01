@@ -180,16 +180,6 @@ public class HomeFragment extends Fragment{
                     GraphFragment.setStarted(true);
                     Toast.makeText( getContext(),"Journey Started", Toast.LENGTH_SHORT).show();
                     SensorData.setJourneyId(SensorData.getDeviceId()+ System.currentTimeMillis());
-                    if(isAutoSaveON()){
-                        if(MainActivity.isReplicationStopped()){
-                            dbHandler.startReplication();
-                            startSaving();
-                            MainActivity.setReplicationStopped(false);
-                        }else{
-                            // do nothing since current saving is not over
-                        }
-
-                    }
                 }else{
                     // change the btn icon back to idle state
                     startBtn.setImageResource(R.drawable.ic_play_blue_outline);
