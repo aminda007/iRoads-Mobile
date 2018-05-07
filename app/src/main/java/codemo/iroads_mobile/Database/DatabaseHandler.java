@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import codemo.iroads_mobile.MainActivity;
+import codemo.iroads_mobile.SensorDataProcessor;
 
 /**
  * Created by uwin5 on 04/01/18.
@@ -56,6 +57,9 @@ public class DatabaseHandler {
         properties.put("acceX", SensorData.getMacceX());
         properties.put("acceY", SensorData.getMacceY());
         properties.put("acceZ", SensorData.getMacceZ());
+        properties.put("reOacceX", SensorDataProcessor.getReorientedAx());
+        properties.put("reOacceY", SensorDataProcessor.getReorientedAy());
+        properties.put("reOacceZ", SensorDataProcessor.getReorientedAz());
         properties.put("time",System.currentTimeMillis());
 
         // Create a new document
