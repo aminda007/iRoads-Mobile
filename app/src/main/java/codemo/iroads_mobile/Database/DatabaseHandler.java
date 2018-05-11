@@ -54,12 +54,9 @@ public class DatabaseHandler {
         properties.put("lon", SensorData.getMlon());
         properties.put("obdSpeed", SensorData.getMobdSpeed());
         properties.put("obdRpm", SensorData.getMobdRpm());
-        properties.put("acceX", SensorData.getMacceX());
-        properties.put("acceY", SensorData.getMacceY());
-        properties.put("acceZ", SensorData.getMacceZ());
-        properties.put("reOacceX", SensorDataProcessor.getReorientedAx());
-        properties.put("reOacceY", SensorDataProcessor.getReorientedAy());
-        properties.put("reOacceZ", SensorDataProcessor.getReorientedAz());
+        properties.put("acceX", SensorDataProcessor.getReorientedAx());
+        properties.put("acceY", SensorDataProcessor.getReorientedAy());
+        properties.put("acceZ", SensorDataProcessor.getReorientedAz());
         properties.put("time",System.currentTimeMillis());
 
         // Create a new document
