@@ -17,11 +17,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.telephony.TelephonyManager;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -174,12 +176,7 @@ public class HomeFragment extends Fragment{
                     String deviceId = telephonyManager.getDeviceId();
                     SensorData.setDeviceId(deviceId);
                     Log.d(TAG,"--------------- DeviceId --------- /// "+ deviceId);
-
-                    // change the btn icon to started state
-                    startBtn.setImageResource(R.drawable.ic_pause_blue_outline);
-                    GraphFragment.setStarted(true);
-                    Toast.makeText( getContext(),"Journey Started", Toast.LENGTH_SHORT).show();
-                    SensorData.setJourneyId(SensorData.getDeviceId()+ System.currentTimeMillis());
+                    askJourneyName();
                 }else{
                     // change the btn icon back to idle state
                     startBtn.setImageResource(R.drawable.ic_play_blue_outline);
@@ -437,5 +434,42 @@ public class HomeFragment extends Fragment{
 
     public static void setAutoSaveON(boolean autoSaveON) {
         HomeFragment.autoSaveON = autoSaveON;
+    }
+
+    private void askJourneyName(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Journey Name");
+
+        // Set up the input
+        final EditText input = new EditText(getContext());
+        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton("Start", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String text = input.getText().toString();
+                if(text != null && text.trim().length() == 0){
+                    Toast.makeText( getContext(),"Journey Name can not be Empty", Toast.LENGTH_SHORT).show();
+                }else{
+                    DatabaseHandler.saveJourneyName(text);
+                    // change the btn icon to started state
+                    startBtn.setImageResource(R.drawable.ic_pause_blue_outline);
+                    GraphFragment.setStarted(true);
+                    Toast.makeText( getContext(),"Journey Started", Toast.LENGTH_SHORT).show();
+                    SensorData.setJourneyId(SensorData.getDeviceId()+ System.currentTimeMillis());
+                }
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 }
