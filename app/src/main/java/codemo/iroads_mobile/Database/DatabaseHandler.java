@@ -109,4 +109,22 @@ public class DatabaseHandler {
     public Database getDatabase() {
         return database;
     }
+
+    public static void saveJourneyName(String name){
+        // The properties that will be saved on the document
+        Map<String, Object> properties = new HashMap<String, Object>();
+
+        properties.put("journeyID", SensorData.getJourneyId());
+        properties.put("journeyName", name);
+        properties.put("type", "trip_names");
+
+        // Create a new document
+        Document document = database.createDocument();
+        // Save the document to the database
+        try {
+            document.putProperties(properties);
+        } catch (CouchbaseLiteException e) {
+            e.printStackTrace();
+        }
+    }
 }
