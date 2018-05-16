@@ -58,6 +58,7 @@ public class DatabaseHandler {
         properties.put("acceY", SensorDataProcessor.getReorientedAy());
         properties.put("acceZ", SensorDataProcessor.getReorientedAz());
         properties.put("time",System.currentTimeMillis());
+        properties.put("type", "data_item");
 
         // Create a new document
         Document document = database.createDocument();
