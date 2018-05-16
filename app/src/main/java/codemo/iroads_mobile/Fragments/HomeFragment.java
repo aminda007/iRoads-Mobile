@@ -454,12 +454,12 @@ public class HomeFragment extends Fragment{
                 if(text != null && text.trim().length() == 0){
                     Toast.makeText( getContext(),"Journey Name can not be Empty", Toast.LENGTH_SHORT).show();
                 }else{
+                    SensorData.setJourneyId(SensorData.getDeviceId()+ System.currentTimeMillis());
                     DatabaseHandler.saveJourneyName(text);
                     // change the btn icon to started state
                     startBtn.setImageResource(R.drawable.ic_pause_blue_outline);
                     GraphFragment.setStarted(true);
                     Toast.makeText( getContext(),"Journey Started", Toast.LENGTH_SHORT).show();
-                    SensorData.setJourneyId(SensorData.getDeviceId()+ System.currentTimeMillis());
                 }
             }
         });
