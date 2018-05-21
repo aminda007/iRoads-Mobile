@@ -71,6 +71,9 @@ public class MobileSensors implements SensorEventListener {
 
     private static double lon; // keeps longitude of the vehicle
     private static double lat; // keeps latitude of the vehicle
+    private static double alt; // keeps altitude of the vehicle
+    private static double bearing; // keeps bearing of the vehicle
+    private static Location previousLocation; // Previous location of the vehicle
 
     public static double getLon() {
         return lon;
@@ -80,9 +83,26 @@ public class MobileSensors implements SensorEventListener {
         return lat;
     }
 
+    public static double getAlt() {
+        return alt;
+    }
+
+    public static double getBearing() {
+        return bearing;
+    }
+
    public static void updateLocation(Location location){
+        if(previousLocation == null){
+            previousLocation = location;
+        }
         lon = location.getLongitude();
         lat = location.getLatitude();
+        alt = location.getAltitude();
+        bearing = previousLocation.bearingTo(location);
+        if(previousLocation.getLongitude() != lon || previousLocation.getLatitude() != lat ||
+                previousLocation.getAltitude() != alt){
+            previousLocation = location;
+        }
         SensorData.setMlon(NumberFormat.getInstance().format(lon));
         SensorData.setMlat(NumberFormat.getInstance().format(lat));
    }
@@ -105,7 +125,7 @@ public class MobileSensors implements SensorEventListener {
             sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
 
         }else{
-            Log.d(TAG, "Accelorometer not available");
+            Log.d(TAG, "Accelerometer not available");
         }
         magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         if(magnetometer != null){

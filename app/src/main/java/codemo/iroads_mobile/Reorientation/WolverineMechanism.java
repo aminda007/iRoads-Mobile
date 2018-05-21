@@ -2,14 +2,19 @@ package codemo.iroads_mobile.Reorientation;
 
 import java.util.ArrayList;
 
+import android.hardware.GeomagneticField;
+import android.hardware.SensorManager;
+import android.util.Log;
+
 import codemo.iroads_mobile.Entity.Vector3D;
+import codemo.iroads_mobile.MobileSensors;
 
 /**
  * Created by dushan on 3/18/18.
  */
 
 public class WolverineMechanism implements Reorientation{
-
+    private static final String TAG = "Wolverine";
     private Vector3D gravityVector;
 
     public Vector3D getGravityVector() {
@@ -26,42 +31,55 @@ public class WolverineMechanism implements Reorientation{
 
     @Override
     public Vector3D reorient( double xValueA, double yValueA, double zValueA, float xValueM, float yValueM, float zValueM) {
+        Log.d(TAG,"********************** Wolverine run by pivi *************" );
+        float[] rotation = new float[9];
+        float[] inclination = new float[9];
+        float[] gravity = {(float) xValueA, (float) yValueA, (float) zValueA};
+        float[] geomagnetic = {xValueM, yValueM, zValueM};
+        boolean  rotationMatrixOk= SensorManager.getRotationMatrix(rotation, inclination, gravity,
+                geomagnetic);
+        Log.d(TAG,"********************** rotation matrix sucessful:" + rotationMatrixOk);
+        /*if(rotationMatrixOk) {
+            for (int i=0 ; i< rotation.length ; i++) {
+                Log.d(TAG,"********************** rotation matirx generated:" + rotation[i]);
+            }
+        }*/
+
+        float geometryAx = rotation[0]*gravity[0] + rotation[1]*gravity[1] + rotation[2]*gravity[2];
+        float geometryAy = rotation[3]*gravity[0] + rotation[4]*gravity[1] + rotation[5]*gravity[2];
+        float geometryAz = rotation[6]*gravity[0] + rotation[7]*gravity[1] + rotation[8]*gravity[2];
+
+        float latitude = (float)MobileSensors.getLat();
+        float longitude = (float)MobileSensors.getLon();
+        float altitude = (float)MobileSensors.getAlt();
+        long timeMilis = System.currentTimeMillis();
+        /*Log.d(TAG,"********************** lat:" + latitude);
+        Log.d(TAG,"********************** lon:" + longitude);
+        Log.d(TAG,"********************** alt:" + altitude);
+        Log.d(TAG,"********************** time:" + timeMilis);*/
 
 
-        //accelerometer xyx
+        GeomagneticField geomagneticField = new GeomagneticField(latitude, longitude, altitude,timeMilis);
+        float magneticDeclination = geomagneticField.getDeclination();
+        //Log.d(TAG,"********************** magneticDeclination:" + magneticDeclination);
+        float bearing  = (float)MobileSensors.getBearing();
+        //Log.d(TAG,"********************** bearing:" + bearing);
+
+        float teta = bearing - magneticDeclination;
+        double ay = geometryAy * Math.cos(teta) - geometryAx * Math.sin(teta);
+        double ax = geometryAy * Math.sin(teta) + geometryAx * Math.cos(teta);
+        double az = geometryAz;
+        Log.d(TAG,"********************** ay:" + ay);
+        Log.d(TAG,"********************** ax:" + ax);
+        Log.d(TAG,"********************** az:" + az);
+
         Vector3D accelerationVector = new Vector3D();
-        accelerationVector.setX(xValueA);
-        accelerationVector.setY(yValueA);
-        accelerationVector.setZ(zValueA);
+        accelerationVector.setX(ax);// doing proper assignment of values to axises
+        accelerationVector.setY(az);
+        accelerationVector.setZ(-ay);
 
-        //setting gravity vector from the first acceleration vector
-        this.setGravityVector(accelerationVector);
+        return accelerationVector;
 
-        //magnetometer xyx
-        Vector3D magneticVector = new Vector3D();
-        magneticVector.setX(xValueM);
-        magneticVector.setY(yValueM);
-        magneticVector.setZ(zValueM);
-
-
-        ArrayList<Vector3D> matrixForRotatingToGeometricAxes=new ArrayList<>();
-        //getting east vector
-        //this is done by getting the cross product of magnetic north vector and gravity vector and .
-        Vector3D westEastVector=this.getCrossProduct(magneticVector,getGravityVector());
-        matrixForRotatingToGeometricAxes.add(westEastVector);
-        //getting north vector
-        //this is done by getting the cross product of gravity vector and westEast vector.
-        Vector3D northSouthVector=this.getCrossProduct(getGravityVector(),westEastVector);
-        matrixForRotatingToGeometricAxes.add(northSouthVector);
-        //gravityVector
-        //getGravityVector()
-        matrixForRotatingToGeometricAxes.add(getGravityVector());
-
-
-        Vector3D gravityClearedAccelerationVectors=clearGravityFromAcclerations(matrixForRotatingToGeometricAxes,accelerationVector);
-        Vector3D geometricallyRotatedAcceerations = getMatrixVectorMultiplication(matrixForRotatingToGeometricAxes, gravityClearedAccelerationVectors);
-
-        return geometricallyRotatedAcceerations;
     }
 
 
