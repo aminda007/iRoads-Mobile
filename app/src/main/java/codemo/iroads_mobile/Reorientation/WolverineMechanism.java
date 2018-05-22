@@ -15,7 +15,7 @@ import codemo.iroads_mobile.MobileSensors;
 
 public class WolverineMechanism implements Reorientation{
     private static final String TAG = "Wolverine";
-    private Vector3D gravityVector;
+    /*private Vector3D gravityVector;
 
     public Vector3D getGravityVector() {
         return gravityVector;
@@ -26,7 +26,7 @@ public class WolverineMechanism implements Reorientation{
             this.gravityVector = gravityVector;
         }
 
-    }
+    }*/
 
 
     @Override
@@ -95,7 +95,7 @@ public class WolverineMechanism implements Reorientation{
      * @param zAngle
      * @return rotated vector
      */
-    public Vector3D rotateVector(double X, double Y, double Z, double xAngle, double yAngle, double zAngle){
+    /*public Vector3D rotateVector(double X, double Y, double Z, double xAngle, double yAngle, double zAngle){
 
         double rotatedX=
                 X * ( Math.cos(zAngle) * Math.cos(yAngle) + Math.sin(zAngle) * Math.sin(xAngle) * Math.sin(yAngle) ) +
@@ -119,7 +119,7 @@ public class WolverineMechanism implements Reorientation{
 
         return rotatedValues;
 
-    }
+    }*/
 
     /**
      *
@@ -127,7 +127,7 @@ public class WolverineMechanism implements Reorientation{
      * @param vector2
      * @return cross product
      */
-    public Vector3D getCrossProduct(Vector3D vector1, Vector3D vector2){
+    /*public Vector3D getCrossProduct(Vector3D vector1, Vector3D vector2){
 
         double u1, u2, u3, v1, v2, v3;
         u1 = vector1.getX();
@@ -149,7 +149,7 @@ public class WolverineMechanism implements Reorientation{
         crossProduct.setZ(uvk);
 
         return crossProduct;
-    }
+    }*/
 
     /**
      *
@@ -157,7 +157,7 @@ public class WolverineMechanism implements Reorientation{
      * @param vectors
      * @return
      */
-    public Vector3D getMatrixVectorMultiplication(ArrayList<Vector3D> matrix, Vector3D vectors){
+    /*public Vector3D getMatrixVectorMultiplication(ArrayList<Vector3D> matrix, Vector3D vectors){
         double x=matrix.get(0).getX()*vectors.getX() +  matrix.get(0).getY()*vectors.getY() + matrix.get(0).getZ()*vectors.getZ();
         double y=matrix.get(1).getX()*vectors.getX() +  matrix.get(1).getY()*vectors.getY() + matrix.get(1).getZ()*vectors.getZ();
         double z=matrix.get(2).getX()*vectors.getX() +  matrix.get(2).getY()*vectors.getY() + matrix.get(2).getZ()*vectors.getZ();
@@ -169,7 +169,7 @@ public class WolverineMechanism implements Reorientation{
 
         return value;
 
-    }
+    }*/
 
     /**
      *
@@ -177,7 +177,7 @@ public class WolverineMechanism implements Reorientation{
      * @param accelerationVector
      * @return
      */
-    private Vector3D clearGravityFromAcclerations(ArrayList<Vector3D> matrixForRotatingToGeometricAxes, Vector3D accelerationVector) {
+    /*private Vector3D clearGravityFromAcclerations(ArrayList<Vector3D> matrixForRotatingToGeometricAxes, Vector3D accelerationVector) {
 
         double xAngle;
         double yAngle;
@@ -188,6 +188,6 @@ public class WolverineMechanism implements Reorientation{
 
         return accelerationVector;
 
-    }
+    }*/
 
 }
