@@ -54,7 +54,7 @@ public class SensorDataProcessor {
 
     private static double rms;
 
-    private static double iri;
+    private static double iri = 0;
 
     private static boolean nericellReorientation = false; // indicates the reorientation mechanism.
 
@@ -217,11 +217,8 @@ public class SensorDataProcessor {
          */
         //double k = getReorientedAy();
         if (getReorientedAy() > 9.5){
-        iri=iriCalculator.processIRI(getReorientedAy());
-        }else {
-            iri = 0;
+            iri=iriCalculator.processIRI(getReorientedAy());
         }
-
     }
 
     /**
