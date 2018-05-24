@@ -41,7 +41,7 @@ public class IRICalculator {
                     candidate = true;
                     candidateValue = z;
                 }else{
-                    if (candidateValue < z){
+                    if (candidateValue - z < -0.2){// finds a peak
                         pulseCount++;
                         notSelected = false;
                     }
@@ -49,7 +49,7 @@ public class IRICalculator {
                 }
 
             }else {
-                if (candidateValue > z){
+                if (candidateValue > z){ // looks for the next peak
                     notSelected = true;
                     candidateValue = 0;
                 }
