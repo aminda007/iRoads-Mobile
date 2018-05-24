@@ -215,7 +215,12 @@ public class SensorDataProcessor {
         /**
          * only if avg filtering is updating,
          */
-        iri=iriCalculator.processIRI(getAvgFilteredAz());
+        //double k = getReorientedAy();
+        if (getReorientedAy() > 9.5){
+        iri=iriCalculator.processIRI(getReorientedAy());
+        }else {
+            iri = 0;
+        }
 
     }
 

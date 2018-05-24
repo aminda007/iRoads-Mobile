@@ -13,7 +13,7 @@ public class IRICalculator {
 
     private static final String TAG = "IRICalculator";
 
-    private static ArrayList<Double> dataArray;
+    /*private static ArrayList<Double> dataArray;
     private static ArrayList<Double> timeArray;
     private static ArrayList<Location> locationArray;
     private static boolean previousDirection;
@@ -25,11 +25,42 @@ public class IRICalculator {
         timeArray = new ArrayList<Double>(); // create array for storing time
         locationArray = new ArrayList<Location>(); // create array for storing locations
         previousDirection = true; // if positive
-    }
+    }*/
+    private static int pulseCount = 0;
+    private static double upperBoundary = 11;
+    private static double lowerBoundary = 9.5;
+    private static double candidateValue = 0;
+    private static boolean candidate = false;
+    private static boolean notSelected = true;
 
     public static double processIRI(double z){
+
+        if(lowerBoundary < z && z < upperBoundary) {
+            if(notSelected) {
+                if(!candidate){
+                    candidate = true;
+                    candidateValue = z;
+                }else{
+                    if (candidateValue < z){
+                        pulseCount++;
+                        notSelected = false;
+                    }
+                    candidate = false;
+                }
+
+            }else {
+                if (candidateValue > z){
+                    notSelected = true;
+                    candidateValue = 0;
+                }
+            }
+        }
+
+
+
+
 //        boolean directionChanged = false;
-        double area = 0.0;
+        /*double area = 0.0;
         boolean currentDirection = true;  // if positive
         double earthGravity = 9.82;
         double thresholdPos = 0.4;
@@ -72,10 +103,13 @@ public class IRICalculator {
             return area;
         }else{
             return 0.0;
-        }
+        }*/
+
+        Log.d(TAG,"********************** PulseCount:" + pulseCount);
+        return pulseCount;
     }
 
-    public static double calculateArea(){
+    /*public static double calculateArea(){
         double sum= 0.0;
         double totTime=0.0;
         double displacement=0.0;
@@ -108,5 +142,5 @@ public class IRICalculator {
 //        totTime = dataArray.get(dataArray.size()-1) - dataArray.get(0)
 
 
-    }
+    }*/
 }
