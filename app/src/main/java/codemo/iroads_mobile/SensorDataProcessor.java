@@ -2,12 +2,9 @@ package codemo.iroads_mobile;
 
 import android.util.Log;
 
-import com.vatichub.obd2.bean.OBD2Event;
-
 import codemo.iroads_mobile.Database.SensorData;
 import codemo.iroads_mobile.Entity.Vector3D;
 import codemo.iroads_mobile.Fragments.SignalProcessor;
-import codemo.iroads_mobile.Fragments.SpeedCalculator;
 import codemo.iroads_mobile.Reorientation.NericellMechanism;
 import codemo.iroads_mobile.Reorientation.Reorientation;
 import codemo.iroads_mobile.Reorientation.ReorientationType;
@@ -217,7 +214,8 @@ public class SensorDataProcessor {
          */
         //double k = getReorientedAy();
         if (getReorientedAy() > 9.5){
-            iri=iriCalculator.processIRI(getReorientedAy());
+            //iriCalculator.processIRI_usingSlope(getReorientedAy());
+            iri = iriCalculator.processIRI_using_aWindow(getReorientedAy());
         }
     }
 

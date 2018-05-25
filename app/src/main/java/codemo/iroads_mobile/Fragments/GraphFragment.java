@@ -403,7 +403,7 @@ public class GraphFragment extends Fragment {
 
 
 //                Log.d(TAG,"--------------- IRI is  --------- /// "+
-//                calc.processIRI(zValueSignalProcessor.averageFilter(sensorEvent.values[2]));
+//                calc.processIRI_usingSlope(zValueSignalProcessor.averageFilter(sensorEvent.values[2]));
 //                addEntry((float)5.0,"iri", Color.RED, iriChart);
                 plotData = false;
 //            }
