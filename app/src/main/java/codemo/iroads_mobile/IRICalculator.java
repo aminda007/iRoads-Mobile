@@ -26,14 +26,45 @@ public class IRICalculator {
         locationArray = new ArrayList<Location>(); // create array for storing locations
         previousDirection = true; // if positive
     }*/
-    private static int pulseCount = 0;
+    private static int pulseCountUsingSlope = 0;
+    private static double slopeMethodSensivity = -0.2;
     private static double upperBoundary = 11;
-    private static double lowerBoundary = 9.5;
+    private static double lowerBoundary = 9.8;
     private static double candidateValue = 0;
     private static boolean candidate = false;
     private static boolean notSelected = true;
 
-    public static double processIRI(double z){
+    private static ArrayList<Double> dataQueue = new ArrayList<Double>();
+    private static int pulseCountUsing_aWindow = 0;
+    private static double windowMethodSensivity = -0.1;
+
+    public static void setSlopeMethodSensivity(double slopeMethodSensivity) {
+        IRICalculator.slopeMethodSensivity = slopeMethodSensivity;
+    }
+
+    public static void setWindowMethodSensivity(double windowMethodSensivity) {
+        IRICalculator.windowMethodSensivity = windowMethodSensivity;
+    }
+
+    public static double processIRI_using_aWindow(double z){
+        if(dataQueue.size() < 3){
+            dataQueue.add(z);
+        }
+
+        if(dataQueue.size() == 3){
+            if(dataQueue.get(0) < dataQueue.get(1) + windowMethodSensivity && dataQueue.get(1) +
+                    windowMethodSensivity > dataQueue.get(2)){
+                pulseCountUsing_aWindow++;
+                dataQueue.clear();
+            } else {
+                dataQueue.remove(0);
+            }
+        }
+        Log.d(TAG,"********************** pulseCountUsing_aWindow:" + pulseCountUsing_aWindow);
+        return pulseCountUsing_aWindow;
+    }
+
+    public static double processIRI_usingSlope(double z){
 
         if(lowerBoundary < z && z < upperBoundary) {
             if(notSelected) {
@@ -41,8 +72,8 @@ public class IRICalculator {
                     candidate = true;
                     candidateValue = z;
                 }else{
-                    if (candidateValue - z < -0.2){// finds a peak
-                        pulseCount++;
+                    if (candidateValue - z < slopeMethodSensivity){// finds a peak
+                        pulseCountUsingSlope++;
                         notSelected = false;
                     }
                     candidate = false;
@@ -105,8 +136,8 @@ public class IRICalculator {
             return 0.0;
         }*/
 
-        Log.d(TAG,"********************** PulseCount:" + pulseCount);
-        return pulseCount;
+        Log.d(TAG,"********************** pulseCountUsingSlope:" + pulseCountUsingSlope);
+        return pulseCountUsingSlope;
     }
 
     /*public static double calculateArea(){
