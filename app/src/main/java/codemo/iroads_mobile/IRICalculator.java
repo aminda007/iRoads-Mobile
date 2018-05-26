@@ -36,7 +36,7 @@ public class IRICalculator {
 
     private static ArrayList<Double> dataQueue = new ArrayList<Double>();
     private static int pulseCountUsing_aWindow = 0;
-    private static double windowMethodSensivity = -0.1;
+    private static double windowMethodSensivity = -0.01;
 
     public static void setSlopeMethodSensivity(double slopeMethodSensivity) {
         IRICalculator.slopeMethodSensivity = slopeMethodSensivity;
@@ -48,7 +48,14 @@ public class IRICalculator {
 
     public static double processIRI_using_aWindow(double z){
         if(dataQueue.size() < 3){
-            dataQueue.add(z);
+            if(dataQueue.isEmpty()){
+                dataQueue.add(z);
+            } else{
+                if(dataQueue.get(dataQueue.size() -1) != z){
+                    dataQueue.add(z);
+                }
+            }
+
         }
 
         if(dataQueue.size() == 3){
