@@ -23,12 +23,14 @@ public class NericellMechanism implements Reorientation{
     }
 
     public double teta(double y){
-        double teta = Math.acos(y/9.800); // gravity is taken as 9.8 m/s2
+        if(Math.abs(y) <= 9.8) {
+            double teta = Math.acos(y / 9.800); // gravity is taken as 9.8 m/s2
+        }
         return teta;
     }
 
     public double pie(double x, double z){
-        double pie = Math.atan(z/x);
+            double pie = Math.atan(z/x);
         return pie;
     }
 
