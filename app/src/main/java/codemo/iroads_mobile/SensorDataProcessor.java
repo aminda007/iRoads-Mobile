@@ -88,7 +88,7 @@ public class SensorDataProcessor {
     }
 
     public static double getReorientedAy() {
-        //Log.d(TAG,"reorientedAy" + reorientedAy);
+        Log.d(TAG,"reorientedAy" + reorientedAy);
         return reorientedAy;
     }
 
