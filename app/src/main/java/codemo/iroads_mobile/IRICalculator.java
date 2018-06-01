@@ -38,12 +38,67 @@ public class IRICalculator {
     private static int pulseCountUsing_aWindow = 0;
     private static double windowMethodSensivity = -0.01;
 
+    private static ArrayList<Double> dataQueue_for_mean_and_standard_deviation =
+            new ArrayList<Double>();
+    private static int pulseCountUsing_mean_and_standard_deviation = 0;
+    private static double mean_and_standard_deviationMethodSensivity = 101;
+
+    public static void setMean_and_standard_deviationMethodSensivity
+            (double mean_and_standard_deviationMethodSensivity) {
+        IRICalculator.mean_and_standard_deviationMethodSensivity =
+                mean_and_standard_deviationMethodSensivity;
+    }
+
     public static void setSlopeMethodSensivity(double slopeMethodSensivity) {
         IRICalculator.slopeMethodSensivity = slopeMethodSensivity;
     }
 
     public static void setWindowMethodSensivity(double windowMethodSensivity) {
         IRICalculator.windowMethodSensivity = windowMethodSensivity;
+    }
+
+    public static double mean(ArrayList<Double> data){
+        double temp = 0.0;
+        for(int i = 0; i < data.size(); i++ ){
+            temp += data.get(i);
+        }
+        double mean = (double) temp / (double) data.size();
+        return mean;
+    }
+
+    public static double standardDeviation(double mean, ArrayList<Double> data){
+        double temp = 0.0;
+        for (int i = 0; i < data.size(); i++) {
+            temp += Math.pow(mean - data.get(i), 2);
+        }
+        double sd = (double) temp / (double) data.size();
+        return sd;
+    }
+
+    public static double processIRI_using_mean_and_standard_deviation(double z){
+
+        dataQueue_for_mean_and_standard_deviation.add(z);
+
+        if(dataQueue_for_mean_and_standard_deviation.size() ==
+                mean_and_standard_deviationMethodSensivity){
+
+            Log.d(TAG,"********************** Window is full:");
+
+            double mean = mean(dataQueue_for_mean_and_standard_deviation);
+            double sd = standardDeviation(mean, dataQueue_for_mean_and_standard_deviation);
+            dataQueue_for_mean_and_standard_deviation.remove(0);
+            if (z > mean && (z - (mean + 0.2)) >= 3 * sd) {
+                pulseCountUsing_mean_and_standard_deviation++;
+                Log.d(TAG,"********************** pulseCountUsing_mean_and_standard_deviation:" +
+                        pulseCountUsing_mean_and_standard_deviation);
+            }
+
+            return (pulseCountUsing_mean_and_standard_deviation + pulseCountUsing_aWindow);
+
+        } else {
+            return processIRI_using_aWindow(z);
+        }
+
     }
 
     public static double processIRI_using_aWindow(double z){
