@@ -219,6 +219,8 @@ public class SensorDataProcessor {
         if (getReorientedAy() > 9.5){
             //iriCalculator.processIRI_usingSlope(getReorientedAy());
             iri = iriCalculator.processIRI_using_aWindow(getReorientedAy());
+            //iri = iriCalculator.processIRI_using_mean_and_standard_deviation(getReorientedAy());
+
         }
     }
 
