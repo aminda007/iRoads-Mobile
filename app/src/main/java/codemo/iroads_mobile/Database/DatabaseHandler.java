@@ -27,7 +27,7 @@ public class DatabaseHandler {
 
     private Manager manager;
     private static Database database;
-    private String mSyncGatewayUrl = "http://167.99.195.237:4984/db/";
+    private String mSyncGatewayUrl = "http://iroads.projects.mrt.ac.lk:4984/iroads/";
     private static final String TAG = "DatabaseHandler";
 
     public DatabaseHandler(Context context){
@@ -57,6 +57,9 @@ public class DatabaseHandler {
         properties.put("acceX", SensorDataProcessor.getReorientedAx());
         properties.put("acceY", SensorDataProcessor.getReorientedAy());
         properties.put("acceZ", SensorDataProcessor.getReorientedAz());
+        properties.put("acceX_raw", SensorData.getMacceX());
+        properties.put("acceY_raw", SensorData.getMacceY());
+        properties.put("acceZ_raw", SensorData.getMacceZ());
         properties.put("time",System.currentTimeMillis());
         properties.put("type", "data_item");
 
