@@ -9,8 +9,6 @@
         android:layout_height="wrap_content"
         android:text="@string/paired_devices"
         android:visibility="gone"
-        android:background="#666"
-        android:textColor="#fff"
         android:paddingLeft="5dp"
     />
     <ListView android:id="@+id/paired_devices"
@@ -24,8 +22,6 @@
         android:layout_height="wrap_content"
         android:text="@string/other_devices"
         android:visibility="gone"
-        android:background="#666"
-        android:textColor="#fff"
         android:paddingLeft="5dp"
     />
     <ListView android:id="@+id/new_devices"
