@@ -1,6 +1,5 @@
 package codemo.iroads_mobile;
 
-import android.location.Location;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -82,15 +81,15 @@ public class IRICalculator {
         if(dataQueue_for_mean_and_standard_deviation.size() ==
                 mean_and_standard_deviationMethodSensivity){
 
-            Log.d(TAG,"********************** Window is full:");
+//            Log.d(TAG,"********************** Window is full:");
 
             double mean = mean(dataQueue_for_mean_and_standard_deviation);
             double sd = standardDeviation(mean, dataQueue_for_mean_and_standard_deviation);
             dataQueue_for_mean_and_standard_deviation.remove(0);
             if (z > mean && (z - (mean + 0.2)) >= 3 * sd) {
                 pulseCountUsing_mean_and_standard_deviation++;
-                Log.d(TAG,"********************** pulseCountUsing_mean_and_standard_deviation:" +
-                        pulseCountUsing_mean_and_standard_deviation);
+//                Log.d(TAG,"********************** pulseCountUsing_mean_and_standard_deviation:" +
+//                        pulseCountUsing_mean_and_standard_deviation);
             }
 
             return (pulseCountUsing_mean_and_standard_deviation + pulseCountUsing_aWindow);
@@ -198,7 +197,7 @@ public class IRICalculator {
             return 0.0;
         }*/
 
-        Log.d(TAG,"********************** pulseCountUsingSlope:" + pulseCountUsingSlope);
+//        Log.d(TAG,"********************** pulseCountUsingSlope:" + pulseCountUsingSlope);
         return pulseCountUsingSlope;
     }
 

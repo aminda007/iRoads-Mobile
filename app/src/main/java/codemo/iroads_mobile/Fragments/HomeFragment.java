@@ -121,6 +121,7 @@ public class HomeFragment extends Fragment{
                     writeLog("\n \n" + sdf.format(new Date()) + dataReport.toString() + "\n \n");
                     dataReport = new StringBuilder();
                     dbHandler.startReplication();
+//                    dbHandler.writeToFile(dbHandler.createString());
                     MainActivity.setReplicationStopped(false);
                     startSaving();
                     Toast.makeText( getContext(),"Sync up Started", Toast.LENGTH_SHORT).show();
