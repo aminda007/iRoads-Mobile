@@ -35,7 +35,7 @@ public class DatabaseHandler {
 
     private Manager manager;
     private static Database database;
-    private String mSyncGatewayUrl = "http://iroads.projects.mrt.ac.lk:4984/iroads/";
+    private String mSyncGatewayUrl = "http://iroads.projects.mrt.ac.lk:4984/db/";
     private static final String TAG = "DatabaseHandler";
     private static String jid;
 
