@@ -13,10 +13,17 @@ import com.couchbase.lite.QueryRow;
 import com.couchbase.lite.android.AndroidContext;
 import com.couchbase.lite.replicator.Replication;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
@@ -71,7 +78,7 @@ public class DatabaseHandler {
         properties.put("acceY_raw", SensorData.getMacceY());
         properties.put("acceZ_raw", SensorData.getMacceZ());
         properties.put("time",System.currentTimeMillis());
-        properties.put("type", "data_item");
+        properties.put("dataType", "data_item");
 
         // Create a new document
         Document document = database.createDocument();
@@ -138,7 +145,7 @@ public class DatabaseHandler {
 
         properties.put("journeyID", SensorData.getJourneyId());
         properties.put("journeyName", name);
-        properties.put("type", "trip_names");
+        properties.put("dataType", "trip_names");
         setJid(name);
         // Create a new document
         Document document = database.createDocument();
@@ -220,6 +227,118 @@ public class DatabaseHandler {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+
+
+    public static void readFromFile(String text)
+    {
+
+//        File logFile = new File("sdcard/iroads.json");
+//        if (!logFile.exists())
+//        {
+//            try
+//            {
+//                logFile.createNewFile();
+//            }
+//            catch (IOException e)
+//            {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+//        }
+        try
+        {
+            //BufferedWriter for performance, true to set append to file flag
+            BufferedReader buf = new BufferedReader(new FileReader("sdcard/iroads.json"));
+            JSONArray jsonArray = new JSONArray();
+            buf.close();
+        }
+        catch (IOException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public String loadJSONFromAsset(Context context) {
+        String json = null;
+        try {
+            InputStream is = context.getAssets().open("iroads.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+    }
+
+    public void saveToDataBaseNew(Context context){
+        Log.d("Start","==============================================================");
+        Log.d("Databse","==========================="+database.getDocumentCount()+"===================================");
+        String jid = null;
+        try {
+            JSONArray jsonArray = new JSONArray(loadJSONFromAsset(context));
+            JSONObject item1 = (JSONObject) jsonArray.get(0);
+            jid = item1.getString("journeyID");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                Log.d("Writing","==============================="+i+"========================");
+                JSONObject item = (JSONObject) jsonArray.get(i);
+                // The properties that will be saved on the document
+                Map<String, Object> properties = new HashMap<String, Object>();
+
+                properties.put("journeyID", item.getString("journeyID"));
+                properties.put("imei", item.getString("imei"));
+                properties.put("lat", item.getString("lat"));
+                properties.put("lon", item.getString("lon"));
+                properties.put("obdSpeed", item.getString("obdSpeed"));
+                properties.put("gpsSpeed", item.getString("gpsSpeed"));
+                properties.put("obdRpm", item.getString("obdRpm"));
+                properties.put("acceX", item.getString("acceX"));
+                properties.put("acceY", item.getString("acceY"));
+                properties.put("acceZ", item.getString("acceZ"));
+                properties.put("acceX_raw", item.getString("acceX_raw"));
+                properties.put("acceY_raw", item.getString("acceY_raw"));
+                properties.put("acceZ_raw", item.getString("acceZ_raw"));
+                properties.put("time",item.getString("time"));
+                properties.put("dataType", "data_item");
+
+                // Create a new document
+                Document document = database.createDocument();
+                // Save the document to the database
+                try {
+                    document.putProperties(properties);
+                } catch (CouchbaseLiteException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.d("Databse","==========================="+database.getDocumentCount()+"===================================");
+
+        // The properties that will be saved on the document
+        Map<String, Object> properties1 = new HashMap<String, Object>();
+
+        properties1.put("journeyID", jid);
+        properties1.put("journeyName", "HTC-Tida-Walpola-Matara");
+        properties1.put("dataType", "trip_names");
+        // Create a new document
+        Document document = database.createDocument();
+        // Save the document to the database
+        try {
+            document.putProperties(properties1);
+        } catch (CouchbaseLiteException e) {
+            e.printStackTrace();
+        }
+
+        Log.d("Databse","==========================="+database.getDocumentCount()+"===================================");
+
+        Log.d("End","==============================================================");
     }
 
 

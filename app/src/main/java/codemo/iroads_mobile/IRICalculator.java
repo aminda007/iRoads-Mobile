@@ -1,7 +1,5 @@
 package codemo.iroads_mobile;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 
 /**
@@ -121,7 +119,7 @@ public class IRICalculator {
                 dataQueue.remove(0);
             }
         }
-        Log.d(TAG,"********************** pulseCountUsing_aWindow:" + pulseCountUsing_aWindow);
+//        Log.d(TAG,"********************** pulseCountUsing_aWindow:" + pulseCountUsing_aWindow);
         return pulseCountUsing_aWindow;
     }
 
