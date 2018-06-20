@@ -83,17 +83,17 @@ public class SensorDataProcessor {
     getters
      */
     public static double getReorientedAx() {
-        Log.d(TAG,"reorientedAx" + reorientedAx);
+//        Log.d(TAG,"reorientedAx" + reorientedAx);
         return reorientedAx;
     }
 
     public static double getReorientedAy() {
-        Log.d(TAG,"reorientedAy" + reorientedAy);
+//        Log.d(TAG,"reorientedAy" + reorientedAy);
         return reorientedAy;
     }
 
     public static double getReorientedAz() {
-        Log.d(TAG,"reorientedAz" + reorientedAz);
+//        Log.d(TAG,"reorientedAz" + reorientedAz);
         return reorientedAz;
     }
 
