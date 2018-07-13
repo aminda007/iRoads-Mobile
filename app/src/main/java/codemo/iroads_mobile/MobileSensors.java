@@ -10,8 +10,6 @@ import android.location.Location;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
-import java.text.NumberFormat;
-
 import codemo.iroads_mobile.Database.SensorData;
 
 
@@ -103,8 +101,9 @@ public class MobileSensors implements SensorEventListener {
                 previousLocation.getAltitude() != alt){
             previousLocation = location;
         }
-        SensorData.setMlon(NumberFormat.getInstance().format(lon));
-        SensorData.setMlat(NumberFormat.getInstance().format(lat));
+//        Log.d("UpdateLoc",lon+","+lat+","+NumberFormat.getInstance().format(lon)+","+NumberFormat.getInstance().format(lat));
+//        SensorData.setMlon(NumberFormat.getInstance().format(lon));
+//        SensorData.setMlat(NumberFormat.getInstance().format(lat));
    }
 
     public static double gpsSpeed; // keeps GPS speed of the vehicle
