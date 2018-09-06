@@ -227,7 +227,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
 
         dbHandler = new DatabaseHandler(getApplicationContext());
-        dbHandler.saveToDataBaseNew(getApplicationContext());
+//        dbHandler.saveToDataBaseNew(getApplicationContext());
         checkAndRequestPermissions();
 
     }
