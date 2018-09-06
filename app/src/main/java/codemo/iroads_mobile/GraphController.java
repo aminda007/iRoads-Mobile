@@ -30,4 +30,9 @@ public class GraphController {
     public static void drawGraph(SensorEvent sensorEvent) {
         GraphFragment.drawGraph(sensorEvent);
     }
+
+    public static void setSleepTime(int time) {
+        GraphFragment.setSleepTime(time);
+    }
+
 }

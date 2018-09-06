@@ -55,6 +55,7 @@ public class GraphFragment extends Fragment {
     private Thread thread;
     private Thread fakethread;
     private static boolean plotData = false;
+    private static int sleepTime = 100;
     private static int maxEntries = 200;
     private static MainActivity activity;
     private static IRICalculator calc;
@@ -102,6 +103,14 @@ public class GraphFragment extends Fragment {
 
     public static void setStarted(boolean started) {
         GraphFragment.started = started;
+    }
+
+    public static int getSleepTime() {
+        return sleepTime;
+    }
+
+    public static void setSleepTime(int sleepTime) {
+        GraphFragment.sleepTime = sleepTime;
     }
 
     @Override
@@ -300,7 +309,7 @@ public class GraphFragment extends Fragment {
                     plotData=true;
 //                    Log.d(TAG,"--------------- inside while loop--------- /// ");
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(getSleepTime());
 
                     }catch (InterruptedException e){
                         e.printStackTrace();

@@ -9,13 +9,13 @@
     tools:context="codemo.iroads_mobile.MainActivity">
 
 
-
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="bottom"
         android:background="@color/colorNavigation"
+        android:paddingBottom="5dp"
         android:paddingLeft="50dp"
         android:paddingRight="50dp"
         android:paddingTop="10dp"
@@ -34,18 +34,5 @@
         tools:layout_editor_absoluteY="0dp">
 
     </FrameLayout>
-
-    <ImageButton
-        android:id="@+id/homeBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="10dp"
-        android:background="@color/colorTransparent"
-        android:elevation="10dp"
-        android:gravity="center_horizontal"
-        android:scaleX="1.1"
-        android:scaleY="1.1"
-        app:srcCompat="@mipmap/ic_iroads" />
 
 </FrameLayout>
