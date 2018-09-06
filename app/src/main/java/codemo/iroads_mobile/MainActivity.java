@@ -20,6 +20,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -48,6 +49,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -58,6 +61,7 @@ import codemo.iroads_mobile.Fragments.GMapFragment;
 import codemo.iroads_mobile.Fragments.GraphFragment;
 import codemo.iroads_mobile.Fragments.HomeFragment;
 import codemo.iroads_mobile.Fragments.SettingsFragment;
+import codemo.iroads_mobile.Fragments.TaggerFragment;
 import codemo.iroads_mobile.Reorientation.ReorientationType;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
@@ -103,7 +107,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private Menu mainMenu;
     private Context context;
     private BottomNavigationView navigation;
-    private ImageButton homeBtn;
     private boolean inHome = true;
     private Icon homeIcon;
     private Thread fakethread;
@@ -127,28 +130,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 case R.id.navigation_home:
 //                    transaction.replace(R.id.contentLayout, homeFragment).commit();
                     NavigationHandler.navigateTo("homeFragment");
-                    homeBtn.setImageResource(R.mipmap.ic_iroads);
-                    homeBtn.setScaleX(1.1f);
-                    homeBtn.setScaleY(1.1f);
                     return true;
-//                    -------- remove comments for public app *****
-//                case R.id.navigation_dashboard:
-//                    NavigationHandler.navigateTo("mapFragment");
-//                    homeBtn.setImageResource(R.mipmap.ic_iroads_black);
-//                    homeBtn.setScaleX(1);
-//                    homeBtn.setScaleY(1);
-//                    return true;
+                case R.id.navigation_map:
+                    NavigationHandler.navigateTo("mapFragment");
+                    return true;
                 case R.id.navigation_graph:
                     NavigationHandler.navigateTo("graphFragment");
-                    homeBtn.setImageResource(R.mipmap.ic_iroads_black);
-                    homeBtn.setScaleX(1);
-                    homeBtn.setScaleY(1);
                     return true;
                 case R.id.navigation_settings:
                     NavigationHandler.navigateTo("settingsFragment");
-                    homeBtn.setImageResource(R.mipmap.ic_iroads_black);
-                    homeBtn.setScaleX(1);
-                    homeBtn.setScaleY(1);
+                    return true;
+                case R.id.navigation_tagger:
+                    NavigationHandler.navigateTo("taggerFragment");
                     return true;
             }
             return false;
@@ -163,19 +156,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-
-        homeBtn = (ImageButton) findViewById(R.id.homeBtn);
-        homeBtn.setOnClickListener(new ImageButton.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavigationHandler.navigateTo("homeFragment");
-                homeBtn.setImageResource(R.mipmap.ic_iroads);
-                homeBtn.setScaleX(1.1f);
-                homeBtn.setScaleY(1.1f);
-//                homeBtn.setPadding(0,0,0,3);
-                navigation.setSelectedItemId(R.id.navigation_home);
-            }
-        });
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 //        navigation.setSelectedItemId(R.id.navigation_home);
@@ -183,20 +163,20 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         manager = getSupportFragmentManager();
         transaction = manager.beginTransaction();
 
-//        mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapFragment);
+        mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapFragment);
 //        initiate fragment objects
 
 //        open home fragment
-//        transaction.add(R.id.contentLayout, new GMapFragment(), "mapFragment");
+        transaction.add(R.id.contentLayout, new GMapFragment(), "mapFragment");
         transaction.add(R.id.contentLayout, new GraphFragment(), "graphFragment");
         transaction.add(R.id.contentLayout, new HomeFragment(), "homeFragment");
         transaction.add(R.id.contentLayout, new SettingsFragment(), "settingsFragment");
+        transaction.add(R.id.contentLayout, new TaggerFragment(), "taggerFragment");
         transaction.commit();
 //
         GMapFragment.setActivity(this);
         GraphFragment.setActivity(this);
         NavigationHandler.setManager(manager);
-
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -247,7 +227,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
 
         dbHandler = new DatabaseHandler(getApplicationContext());
-        dbHandler.saveToDataBaseNew(getApplicationContext());
+//        dbHandler.saveToDataBaseNew(getApplicationContext());
+        checkAndRequestPermissions();
 
     }
 
@@ -765,6 +746,119 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     BluetoothCommandService.STATE_NONE, -1).sendToTarget();
         }
 
+    }
+
+    private boolean checkAndRequestPermissions() {
+        int phonestate = ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_PHONE_STATE);
+        int location = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION);
+        int permissionLocation = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+
+        List<String> listPermissionsNeeded = new ArrayList<>();
+
+
+        if (phonestate != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(android.Manifest.permission.READ_PHONE_STATE);
+        }
+        if (location != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(android.Manifest.permission.ACCESS_FINE_LOCATION);
+        }
+        if (permissionLocation != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), 1);
+            return false;
+        }
+        return true;
+    }
+
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+
+        switch (requestCode) {
+            case 1: {
+
+                Map<String, Integer> perms = new HashMap<>();
+
+                perms.put(android.Manifest.permission.READ_PHONE_STATE, PackageManager.PERMISSION_GRANTED);
+                perms.put(android.Manifest.permission.ACCESS_FINE_LOCATION, PackageManager.PERMISSION_GRANTED);
+                perms.put(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
+
+                // Fill with actual results from user
+                if (grantResults.length > 0) {
+                    for (int i = 0; i < permissions.length; i++)
+                        perms.put(permissions[i], grantResults[i]);
+                    // Check for both permissions
+                    if (perms.get(android.Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED
+                            && perms.get(android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                            && perms.get(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                            ) {
+                        Log.d(TAG, "phone, storage & location services permission granted");
+
+                        // here you can do your logic all Permission Success Call
+//                        moveToNxtScreen();
+
+                    } else {
+                        Log.d(TAG, "Some permissions are not granted ask again ");
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_PHONE_STATE) ||
+                                ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.ACCESS_FINE_LOCATION) ||
+                                ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                            showDialogOK("Some Permissions are required to use this application",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            switch (which) {
+                                                case DialogInterface.BUTTON_POSITIVE:
+                                                    checkAndRequestPermissions();
+                                                    break;
+                                                case DialogInterface.BUTTON_NEGATIVE:
+                                                    // proceed with logic by disabling the related features or quit the app.
+                                                    dialog.dismiss();
+                                                    break;
+                                            }
+                                        }
+                                    });
+                        } else {
+                            explain("You need to give some mandatory permissions to continue. Do you want to go to app settings?");
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+    private void showDialogOK(String message, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(this)
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", okListener)
+                .create()
+                .show();
+    }
+
+    private void explain(String msg) {
+        final android.support.v7.app.AlertDialog.Builder dialog = new android.support.v7.app.AlertDialog.Builder(this);
+        dialog.setMessage(msg)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                        Intent myIntent = new Intent(Settings.ACTION_APPLICATION_SETTINGS);
+                        startActivity(myIntent);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                        dialog.create().dismiss();
+                        finish();
+                    }
+                });
+        dialog.show();
     }
 
 

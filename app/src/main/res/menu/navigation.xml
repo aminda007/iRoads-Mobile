@@ -9,7 +9,16 @@
         android:icon="@drawable/ic_chart"
         tools:ignore="MenuTitle" />
     <item
+        android:id="@+id/navigation_map"
+        android:icon="@drawable/nav_map"
+        tools:ignore="MenuTitle" />
+    <item
         android:id="@+id/navigation_home"
+        android:icon="@drawable/nav_home"
+        tools:ignore="MenuTitle" />
+    <item
+        android:id="@+id/navigation_tagger"
+        android:icon="@drawable/nav_tagger"
         tools:ignore="MenuTitle" />
     <item
         android:id="@+id/navigation_settings"

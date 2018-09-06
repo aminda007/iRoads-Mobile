@@ -64,19 +64,8 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
                     android:layout_weight="8"
-                    android:text="Signal Filtering"
+                    android:text="Sampling frequency"
                     android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
-
-                <Switch
-                    android:id="@+id/filteringSwitch"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="2"
-                    android:checked="false"
-                    android:text=""
-                    android:trackTint="@color/colorPrimary" />
 
             </LinearLayout>
             <LinearLayout
@@ -86,23 +75,23 @@
                 android:weightSum="10">
 
                 <TextView
-                    android:id="@+id/filterText"
+                    android:id="@+id/sampleRate"
                     android:layout_width="214dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
                     android:layout_weight="5"
-                    android:text="Sensitivity"
+                    android:text="10 Hz"
                     android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small" />
 
                 <SeekBar
-                    android:id="@+id/filterSeekbar"
+                    android:id="@+id/frequencyBar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_weight="5"
                     android:max="10"
-                    android:progress="5"
+                    android:progress="0"
                     android:progressDrawable="@android:color/transparent"
                     android:progressTint="@color/colorPrimary"
                     android:theme="@style/Widget.AppCompat.SeekBar.Discrete"
@@ -165,40 +154,6 @@
                     android:text="GPS Based"
                     android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small" />
             </RadioGroup>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="5dp"
-                android:background="@color/colorXReori" />
-
-            <Button
-                android:id="@+id/addButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="50dp"
-                android:paddingTop="50dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="5dp"
-                android:text=" Add Anomaly"/>
-
-            <Button
-                android:id="@+id/saveButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="5dp"
-                android:text="Save" />
-
-            <Button
-                android:id="@+id/idButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="NAME" />
 
 
             </LinearLayout>

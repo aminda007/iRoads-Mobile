@@ -22,4 +22,5 @@
     <color name="colorGuageBack">#d7fffe</color>
     <color name="colorDisabledThumb">#eaeaea</color>
     <color name="colorDisabledTrack">#ededed</color>
+    <color name="colorPothole">#ca833c</color>
     </resources>

@@ -1,6 +1,7 @@
 buildscript {
     repositories {
-        mavenCentral()
+        jcenter()
+        google()
     }
 
     dependencies {
@@ -50,7 +51,6 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:23.3.0'
-
     compile files('libs/log4j-1.2.14.jar')
     compile files('libs/siddhi-api-2.1.0-wso2v1.jar')
     compile files('libs/siddhi-core-2.1.0-wso2v1.jar')
