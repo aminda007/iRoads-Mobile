@@ -6,13 +6,24 @@ package codemo.iroads_mobile.Database;
 
 public class SensorData {
 
-    private static String mobdSpeed = "0.0";
-    private static String mobdRpm = "0.0";
-    private static String mlat = "0.0";
-    private static String mlon = "0.0";
-    private static String macceX = "";
-    private static String macceY = "";
-    private static String macceZ = "";
+    private static String obdSpeed = "0.0";
+    private static String obdRpm = "0.0";
+
+    private static String lat = "0.0";
+    private static String lon = "0.0";
+
+    private static String acceX = "";
+    private static String acceY = "";
+    private static String acceZ = "";
+
+    private static String magnetX = "";
+    private static String magnetY = "";
+    private static String magnetZ = "";
+
+    private static String gyroX = "";
+    private static String gyroY = "";
+    private static String gyroZ = "";
+
     private static String deviceId = "";
     private static String journeyId = "";
 
@@ -24,60 +35,108 @@ public class SensorData {
         SensorData.journeyId = journeyId;
     }
 
-    public static String getMobdSpeed() {
-        return mobdSpeed;
+    public static String getObdSpeed() {
+        return obdSpeed;
     }
 
-    public static void setMobdSpeed(String mobdSpeed) {
-        SensorData.mobdSpeed = mobdSpeed;
+    public static void setObdSpeed(String obdSpeed) {
+        SensorData.obdSpeed = obdSpeed;
     }
 
-    public static String getMobdRpm() {
-        return mobdRpm;
+    public static String getObdRpm() {
+        return obdRpm;
     }
 
-    public static void setMobdRpm(String mobdRpm) {
-        SensorData.mobdRpm = mobdRpm;
+    public static void setObdRpm(String obdRpm) {
+        SensorData.obdRpm = obdRpm;
     }
 
-    public static String getMlat() {
-        return mlat;
+    public static String getLat() {
+        return lat;
     }
 
-    public static void setMlat(String mlat) {
-        SensorData.mlat = mlat;
+    public static void setLat(String lat) {
+        SensorData.lat = lat;
     }
 
-    public static String getMlon() {
-        return mlon;
+    public static String getLon() {
+        return lon;
     }
 
-    public static void setMlon(String mlon) {
-        SensorData.mlon = mlon;
+    public static void setLon(String lon) {
+        SensorData.lon = lon;
     }
 
-    public static String getMacceX() {
-        return macceX;
+    public static String getAcceX() {
+        return acceX;
     }
 
-    public static void setMacceX(String macceX) {
-        SensorData.macceX = macceX;
+    public static void setAcceX(String acceX) {
+        SensorData.acceX = acceX;
     }
 
-    public static String getMacceY() {
-        return macceY;
+    public static String getAcceY() {
+        return acceY;
     }
 
-    public static void setMacceY(String macceY) {
-        SensorData.macceY = macceY;
+    public static void setAcceY(String acceY) {
+        SensorData.acceY = acceY;
     }
 
-    public static String getMacceZ() {
-        return macceZ;
+    public static String getAcceZ() {
+        return acceZ;
     }
 
-    public static void setMacceZ(String macceZ) {
-        SensorData.macceZ = macceZ;
+    public static void setAcceZ(String acceZ) {
+        SensorData.acceZ = acceZ;
+    }
+
+    public static String getMagnetX() {
+        return magnetX;
+    }
+
+    public static void setMagnetX(String magnetX) {
+        SensorData.magnetX = magnetX;
+    }
+
+    public static String getMagnetY() {
+        return magnetY;
+    }
+
+    public static void setMagnetY(String magnetY) {
+        SensorData.magnetY = magnetY;
+    }
+
+    public static String getMagnetZ() {
+        return magnetZ;
+    }
+
+    public static void setMagnetZ(String magnetZ) {
+        SensorData.magnetZ = magnetZ;
+    }
+
+    public static String getGyroX() {
+        return gyroX;
+    }
+
+    public static void setGyroX(String gyroX) {
+        SensorData.gyroX = gyroX;
+    }
+
+    public static String getGyroY() {
+        return gyroY;
+    }
+
+    public static void setGyroY(String gyroY) {
+        SensorData.gyroY = gyroY;
+    }
+
+    public static String getGyroZ() {
+        return gyroZ;
+    }
+
+    public static void setGyroZ(String gyroZ) {
+        SensorData.gyroZ = gyroZ;
     }
 
     public static String getDeviceId() {

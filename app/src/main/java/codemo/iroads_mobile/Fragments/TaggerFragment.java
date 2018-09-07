@@ -3,9 +3,7 @@ package codemo.iroads_mobile.Fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
 import android.util.Log;
@@ -60,7 +58,7 @@ public class TaggerFragment extends Fragment {
                 if(getJourneyId() == ""){
                     askJourneyName();
                 }else{
-                    getTimeArray().add("P , " + String.valueOf(System.currentTimeMillis())+" , "+ SensorData.getMlat()+" , "+ SensorData.getMlon());
+                    getTimeArray().add("P , " + String.valueOf(System.currentTimeMillis())+" , "+ SensorData.getLat()+" , "+ SensorData.getLon());
                     Toast.makeText( getContext(),"Pothole Added", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -73,7 +71,7 @@ public class TaggerFragment extends Fragment {
                 if(getJourneyId() == ""){
                     askJourneyName();
                 }else{
-                    getTimeArray().add("B , " + String.valueOf(System.currentTimeMillis())+" , "+ SensorData.getMlat()+" , "+ SensorData.getMlon());
+                    getTimeArray().add("B , " + String.valueOf(System.currentTimeMillis())+" , "+ SensorData.getLat()+" , "+ SensorData.getLon());
                     Toast.makeText( getContext(),"Bump Added", Toast.LENGTH_SHORT).show();
                 }
             }

@@ -26,8 +26,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -511,8 +509,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             JSONObject rpmObject=realTimedata.getJSONObject("obd2_engine_rpm");
             Double speed=speedObject.getDouble("value");
             Double rpm=rpmObject.getDouble("value");
-            SensorData.setMobdRpm(Double.toString(rpm));
-            SensorData.setMobdSpeed(Double.toString(speed));
+            SensorData.setObdRpm(Double.toString(rpm));
+            SensorData.setObdSpeed(Double.toString(speed));
             HomeController.updateOBD2Data(speed.intValue(), rpm.intValue());
         } catch (JSONException e1) {
             Log.d("OBD2DATA",e1.getMessage());

@@ -229,12 +229,12 @@ public class SensorDataProcessor {
      * @return
      */
     public static double vehicleSpeed(){
-        String check = SensorData.getMobdSpeed(); // checks wether obd exists
+        String check = SensorData.getObdSpeed(); // checks wether obd exists
         if(check == null) {
             double speed =  MobileSensors.getGpsSpeed();// gets GPS speed
             return speed;
         } else {
-            double speed = Double.parseDouble(SensorData.getMobdSpeed());// gets OBD speed
+            double speed = Double.parseDouble(SensorData.getObdSpeed());// gets OBD speed
             return speed;
         }
     }
