@@ -23,10 +23,82 @@ public class MobileSensors implements SensorEventListener {
     private SensorManager sensorManager;
     private Sensor accelerometer;
     private Sensor magnetometer;
+    private Sensor gyroscope;
+
+    private static float currentAccelerationX;
+    private static float currentAccelerationY;
+    private static float currentAccelerationZ;
 
     private static float currentMagneticX;
     private static float currentMagneticY;
     private static float currentMagneticZ;
+
+    private static float currentGyroX;
+    private static float currentGyroY;
+    private static float currentGyroZ;
+
+    private static double lon; // keeps longitude of the vehicle
+    private static double lat; // keeps latitude of the vehicle
+    private static double alt; // keeps altitude of the vehicle
+    private static double bearing; // keeps bearing of the vehicle
+    private static Location previousLocation; // Previous location of the vehicle
+
+    public static double gpsSpeed; // keeps GPS speed of the vehicle
+
+
+
+    public MobileSensors(MainActivity mainActivity) {
+        // Required empty public constructor
+        sensorManager = (SensorManager)  mainActivity.getSystemService(Context.SENSOR_SERVICE);
+
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        gyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+
+        /**
+         * accelerometer adding to listener
+         */
+        if(accelerometer != null){
+            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
+        }else{
+            Log.d(TAG, "Accelerometer not available");
+        }
+
+        /**
+         * magnetometer adding to listener
+         */
+        if(magnetometer != null){
+            sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_GAME);
+        }else{
+            Log.d(TAG, "Magnetometer not available");
+        }
+
+        /**
+         * gyroscope adding to listener
+         */
+        if (gyroscope !=null){
+            sensorManager.registerListener(this,gyroscope,SensorManager.SENSOR_DELAY_GAME);
+        }else {
+            Log.d(TAG,"Gyroscope not available");
+        }
+    }
+
+
+
+    public static float getCurrentAccelerationX() {
+        return currentAccelerationX;
+    }
+    public static float getCurrentAccelerationY() {
+        return currentAccelerationY;
+    }
+    public static float getCurrentAccelerationZ() {
+        return currentAccelerationZ;
+    }
+    private void setCurrentAccelerationValues(float currentAccelerationX,float currentAccelerationY,float currentAccelerationZ) {
+        this.currentAccelerationX = currentAccelerationX;
+        this.currentAccelerationY = currentAccelerationY;
+        this.currentAccelerationZ = currentAccelerationZ;
+    }
 
     public static float getCurrentMagneticX() {
         return currentMagneticX;
@@ -37,41 +109,30 @@ public class MobileSensors implements SensorEventListener {
     public static float getCurrentMagneticZ() {
         return currentMagneticZ;
     }
-
     private void setCurrentMagneticValues(float currentMagneticX,float currentMagneticY,float currentMagneticZ) {
         this.currentMagneticX = currentMagneticX;
         this.currentMagneticY = currentMagneticY;
         this.currentMagneticZ = currentMagneticZ;
+
+        Log.d(TAG+"+magnet","\nMag X:"+currentMagneticX+"\nMag Y:"+currentMagneticY+"\nMag Z:"+currentMagneticZ);
     }
 
-
-    private static float currentAccelerationX;
-    private static float currentAccelerationY;
-    private static float currentAccelerationZ;
-
-    public static float getCurrentAccelerationX() {
-        return currentAccelerationX;
+    public static float getCurrentGyroX() {
+        return currentGyroX;
     }
-
-    public static float getCurrentAccelerationY() {
-        return currentAccelerationY;
+    public static float getCurrentGyroY() {
+        return currentGyroY;
     }
-
-    public static float getCurrentAccelerationZ() {
-        return currentAccelerationZ;
+    public static float getCurrentGyroZ() {
+        return currentGyroZ;
     }
+    private void setCurrentGyroValues(float currentGyroX,float currentGyroY,float currentGyroZ) {
+        this.currentGyroX = currentGyroX;
+        this.currentGyroY = currentGyroY;
+        this.currentGyroZ = currentGyroZ;
 
-    private void setCurrentAccelerationValues(float currentAccelerationX,float currentAccelerationY,float currentAccelerationZ) {
-        this.currentAccelerationX = currentAccelerationX;
-        this.currentAccelerationY = currentAccelerationY;
-        this.currentAccelerationZ = currentAccelerationZ;
+        Log.d(TAG+"+gyro","\nGyro X:"+currentGyroX+"\nGyro Y:"+currentGyroY+"\nGyro Z:"+currentGyroZ);
     }
-
-    private static double lon; // keeps longitude of the vehicle
-    private static double lat; // keeps latitude of the vehicle
-    private static double alt; // keeps altitude of the vehicle
-    private static double bearing; // keeps bearing of the vehicle
-    private static Location previousLocation; // Previous location of the vehicle
 
     public static double getLon() {
         return lon;
@@ -89,7 +150,7 @@ public class MobileSensors implements SensorEventListener {
         return bearing;
     }
 
-   public static void updateLocation(Location location){
+    public static void updateLocation(Location location){
         if(previousLocation == null){
             previousLocation = location;
         }
@@ -102,11 +163,9 @@ public class MobileSensors implements SensorEventListener {
             previousLocation = location;
         }
 //        Log.d("UpdateLoc",lon+","+lat+","+NumberFormat.getInstance().format(lon)+","+NumberFormat.getInstance().format(lat));
-//        SensorData.setMlon(NumberFormat.getInstance().format(lon));
-//        SensorData.setMlat(NumberFormat.getInstance().format(lat));
-   }
-
-    public static double gpsSpeed; // keeps GPS speed of the vehicle
+//        SensorData.setLon(NumberFormat.getInstance().format(lon));
+//        SensorData.setLat(NumberFormat.getInstance().format(lat));
+    }
 
     public static void setGpsSpeed(double gpsSpeed) {
         MobileSensors.gpsSpeed = gpsSpeed;
@@ -116,43 +175,42 @@ public class MobileSensors implements SensorEventListener {
         return gpsSpeed;
     }
 
-    public MobileSensors(MainActivity mainActivity) {
-        // Required empty public constructor
-        sensorManager = (SensorManager)  mainActivity.getSystemService(Context.SENSOR_SERVICE);
-        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        if(accelerometer != null){
-            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
 
-        }else{
-            Log.d(TAG, "Accelerometer not available");
-        }
-        magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-        if(magnetometer != null){
-            sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_GAME);
-
-        }else{
-            Log.d(TAG, "Magnetometer not available");
-        }
-    }
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
+
         Sensor sensor = sensorEvent.sensor;
         int sensorType = sensor.getType();
 
         if(sensorType == Sensor.TYPE_ACCELEROMETER){
 
-            GraphController.drawGraph(sensorEvent);
-//            Log.d("DATA=======",SensorData.getMacceX());
-            SensorData.setMacceX(Float.toString(sensorEvent.values[0]));
-            SensorData.setMacceY(Float.toString(sensorEvent.values[1]));
-            SensorData.setMacceZ(Float.toString(sensorEvent.values[2]));
+//            GraphController.drawGraph(sensorEvent);
+
+            SensorData.setAcceX(Float.toString(sensorEvent.values[0]));
+            SensorData.setAcceY(Float.toString(sensorEvent.values[1]));
+            SensorData.setAcceZ(Float.toString(sensorEvent.values[2]));
 
             setCurrentAccelerationValues(sensorEvent.values[0],sensorEvent.values[1],sensorEvent.values[2]);
+        }
+
+        else if(sensorType == Sensor.TYPE_MAGNETIC_FIELD){
 
 
-        }else if(sensorType == Sensor.TYPE_MAGNETIC_FIELD){
+            SensorData.setMagnetX((Float.toString(sensorEvent.values[0])));
+            SensorData.setMagnetY((Float.toString(sensorEvent.values[1])));
+            SensorData.setMagnetZ((Float.toString(sensorEvent.values[2])));
+
             setCurrentMagneticValues(sensorEvent.values[0],sensorEvent.values[1],sensorEvent.values[2]);
+        }
+
+        else if (sensorType == Sensor.TYPE_GYROSCOPE){
+
+            SensorData.setGyroX(Float.toString(sensorEvent.values[0]));
+            SensorData.setGyroY(Float.toString(sensorEvent.values[1]));
+            SensorData.setGyroZ(Float.toString(sensorEvent.values[2]));
+
+            setCurrentGyroValues(sensorEvent.values[0],sensorEvent.values[1],sensorEvent.values[2]);
         }
 
 

@@ -63,20 +63,33 @@ public class DatabaseHandler {
         // The properties that will be saved on the document
         Map<String, Object> properties = new HashMap<String, Object>();
 
-//        Log.d("DATA====",SensorData.getMacceX());
+//        Log.d("DATA====",SensorData.getAcceX());
         properties.put("journeyID", SensorData.getJourneyId());
         properties.put("imei", SensorData.getDeviceId());
-        properties.put("lat", SensorData.getMlat());
-        properties.put("lon", SensorData.getMlon());
+
+        properties.put("lat", SensorData.getLat());
+        properties.put("lon", SensorData.getLon());
+
         properties.put("obdSpeed", SensorDataProcessor.vehicleSpeed());
         properties.put("gpsSpeed", MobileSensors.getGpsSpeed());
-        properties.put("obdRpm", SensorData.getMobdRpm());
+        properties.put("obdRpm", SensorData.getObdRpm());
+
         properties.put("acceX", SensorDataProcessor.getReorientedAx());
         properties.put("acceY", SensorDataProcessor.getReorientedAy());
         properties.put("acceZ", SensorDataProcessor.getReorientedAz());
-        properties.put("acceX_raw", SensorData.getMacceX());
-        properties.put("acceY_raw", SensorData.getMacceY());
-        properties.put("acceZ_raw", SensorData.getMacceZ());
+
+        properties.put("acceX_raw", SensorData.getAcceX());
+        properties.put("acceY_raw", SensorData.getAcceY());
+        properties.put("acceZ_raw", SensorData.getAcceZ());
+
+        properties.put("magnetX", SensorData.getMagnetX());
+        properties.put("magnetY", SensorData.getMagnetY());
+        properties.put("magnetZ", SensorData.getMagnetZ());
+
+        properties.put("gyroX", SensorData.getGyroX());
+        properties.put("gyroY", SensorData.getGyroY());
+        properties.put("gyroZ", SensorData.getGyroZ());
+
         properties.put("time",System.currentTimeMillis());
         properties.put("dataType", "data_item");
 

@@ -306,8 +306,8 @@ public class HomeFragment extends Fragment{
             MobileSensors.setGpsSpeed(speed);// updates vehicle speed using GPS
             updateSpeed(speed.intValue());
         }
-        SensorData.setMlat(Double.toString(loc.getLatitude()));
-        SensorData.setMlon(Double.toString(loc.getLongitude()));
+        SensorData.setLat(Double.toString(loc.getLatitude()));
+        SensorData.setLon(Double.toString(loc.getLongitude()));
     }
 
     public static void updateSpeed(int speed){
