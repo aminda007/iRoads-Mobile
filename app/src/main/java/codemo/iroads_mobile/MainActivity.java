@@ -1,5 +1,6 @@
 package codemo.iroads_mobile;
 
+import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -9,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Icon;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,6 +28,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -63,8 +66,7 @@ import codemo.iroads_mobile.Fragments.TaggerFragment;
 import codemo.iroads_mobile.Reorientation.ReorientationType;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener,
-        com.google.android.gms.location.LocationListener, OBD2EventListener {
+        GoogleApiClient.OnConnectionFailedListener, OBD2EventListener, LocationListener, com.google.android.gms.location.LocationListener {
 
     private FragmentManager manager;
     private FragmentTransaction transaction;
@@ -102,6 +104,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     private BluetoothCommandService mCommandService;
     private static final int REQUEST_ENABLE_BT_PLUS_CONNECT_DEVICE = 5;
+
+    private static final int GPS_ENABLE_REQUEST = 0x1001;
+
     private Menu mainMenu;
     private Context context;
     private BottomNavigationView navigation;
@@ -112,6 +117,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private DatabaseHandler dbHandler;
     private Runnable handlerTask;
     private static boolean replicationStopped = true;
+
+    private static final String TAG = "MainActivity";
+    private AlertDialog mGPSDialog;
 
 //    BottomNavigationView.BaseSavedState(R.id.navigation_home);
 
@@ -146,13 +154,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
     };
 
-    private static final String TAG = "MainActivity";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -181,9 +190,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 .addApi(LocationServices.API)
                 .build();
 
-        mLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-
-        checkLocation();
+//        checkLocation();
 
         gconfigs = IroadsConfiguration.getInstance();
         gconfigs.initApplicationSettings(this, mHandler);
@@ -226,6 +233,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         dbHandler = new DatabaseHandler(getApplicationContext());
 //        dbHandler.saveToDataBaseNew(getApplicationContext());
+
+
+
+        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         checkAndRequestPermissions();
 
     }
@@ -253,11 +264,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     HomeController.stopSaving();
 //                    Log.d(TAG,"--------------- Saving stopped --------- /// ");
                 }
-                handler.postDelayed(handlerTask, 10000);
+                handler.postDelayed(handlerTask, 30000);
             }
         };
         handlerTask.run();
     }
+
+
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
@@ -289,6 +302,44 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
     }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        if (provider.equals(LocationManager.GPS_PROVIDER))
+        {
+            showGPSDiabledDialog();
+        }
+    }
+
+    public void showGPSDiabledDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("GPS Disabled");
+        builder.setMessage("Gps is disabled, in order to use the application properly you need to enable GPS of your device");
+        builder.setPositiveButton("Enable GPS", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS), GPS_ENABLE_REQUEST);
+            }
+        }).setNegativeButton("No, Just Exit", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        mGPSDialog = builder.create();
+        mGPSDialog.show();
+    }
+
 
     private boolean checkLocation() {
         if(!isLocationEnabled())
@@ -492,9 +543,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 }
                 break;
 
+            case GPS_ENABLE_REQUEST:
+                if (mLocationManager == null) {
+                    mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+                }
+
+                if (!mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    showGPSDiabledDialog();
+                }
+                break;
+
         }
     }
-
 
 
 
@@ -768,6 +828,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), 1);
             return false;
         }
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        }
+
         return true;
     }
 
@@ -860,8 +925,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
 
+    @Override
+    protected void onDestroy() {
+        mLocationManager.removeUpdates(this);
+        super.onDestroy();
 
-
-
-
+    }
 }

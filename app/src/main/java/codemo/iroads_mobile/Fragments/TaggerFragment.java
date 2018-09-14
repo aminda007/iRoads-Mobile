@@ -23,14 +23,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import codemo.iroads_mobile.Database.SensorData;
+import codemo.iroads_mobile.Entity.Journey;
 import codemo.iroads_mobile.R;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class TaggerFragment extends Fragment {
-    private String journeyId = "";
-    private ArrayList<String> timeArray = new ArrayList<>();
+    private static String journeyId = "";
+    private static ArrayList<String> timeArray = new ArrayList<>();
 
     public TaggerFragment() {
         // Required empty public constructor
@@ -42,94 +43,129 @@ public class TaggerFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_tagger, container, false);
-        Button idButton = (Button) view.findViewById(R.id.idButton);
-        idButton.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                askJourneyName();
-            }
-        });
+
+//        Button idButton = (Button) view.findViewById(R.id.idButton);
+//        idButton.setOnClickListener(new Button.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                askJourneyName();
+//            }
+//        });
+
+//        if (getJourneyId()==null) {
+//            if (Journey.getName() != null) {
+//                setJourneyId(Journey.getName());
+//            } else {
+//                Toast.makeText(getContext(), "Start journey first from home tab", Toast.LENGTH_SHORT).show();
+//            }
+//        }
+
         final Animation animAlpha = AnimationUtils.loadAnimation(getContext(), R.anim.ripple);
+
         Button addPotholeButton = (Button) view.findViewById(R.id.addPotholeButton);
         addPotholeButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
                 v.startAnimation(animAlpha);
                 if(getJourneyId() == ""){
-                    askJourneyName();
+                    if (Journey.getName() != null) {
+                        setJourneyId(Journey.getName());
+                        getTimeArray().add("P , " + String.valueOf(System.currentTimeMillis())+" , "+ SensorData.getLat()+" , "+ SensorData.getLon());
+                        Toast.makeText( getContext(),"Pothole Added", Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        Toast.makeText(getContext(), "Start journey first from home tab", Toast.LENGTH_SHORT).show();
+                    }
                 }else{
                     getTimeArray().add("P , " + String.valueOf(System.currentTimeMillis())+" , "+ SensorData.getLat()+" , "+ SensorData.getLon());
                     Toast.makeText( getContext(),"Pothole Added", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
         Button addBumpButton = (Button) view.findViewById(R.id.addBumpButton);
         addBumpButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
                 v.startAnimation(animAlpha);
                 if(getJourneyId() == ""){
-                    askJourneyName();
+                    if (Journey.getName() != null) {
+                        setJourneyId(Journey.getName());
+                        getTimeArray().add("B , " + String.valueOf(System.currentTimeMillis())+" , "+ SensorData.getLat()+" , "+ SensorData.getLon());
+                        Toast.makeText( getContext(),"Bump Added", Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        Toast.makeText(getContext(), "Start journey first from home tab", Toast.LENGTH_SHORT).show();
+                    }
                 }else{
                     getTimeArray().add("B , " + String.valueOf(System.currentTimeMillis())+" , "+ SensorData.getLat()+" , "+ SensorData.getLon());
                     Toast.makeText( getContext(),"Bump Added", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-        Button saveButton = (Button) view.findViewById(R.id.saveButton);
-        saveButton.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(getTimeArray().isEmpty()){
-                    Toast.makeText( getContext(),"Nothing to write", Toast.LENGTH_SHORT).show();
-                }else{
-                    StringBuilder string = new StringBuilder();
-                    for (String str : getTimeArray() ) {
-                        string.append(str.toString()+"\n");
-                    }
-                    writeToFile(String.valueOf(string));
-                }
-            }
-        });
+//        Button saveButton = (Button) view.findViewById(R.id.saveButton);
+//        saveButton.setOnClickListener(new Button.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(getTimeArray().isEmpty()){
+//                    Toast.makeText( getContext(),"Nothing to write", Toast.LENGTH_SHORT).show();
+//                }else{
+//
+//                }
+//            }
+//        });
         return view;
     }
 
-    public void writeToFile(String text){
-        Log.d("DJourneyID=====", getJourneyId());
-        String folder_main = "iRoads";
+    public static void writeToFile(){
 
-        File f = new File("sdcard/", folder_main);
-        if (!f.exists()) {
-            f.mkdirs();
-        }
-        File logFile = new File("sdcard/iRoads/log_"+getJourneyId()+".txt");
-        if (!logFile.exists())
-        {
+        if(getTimeArray().isEmpty()){
+//            Toast.makeText(,"Nothing to write", Toast.LENGTH_SHORT).show();
+            setJourneyId("");
+            return;
+
+        }else{
+
+            StringBuilder string = new StringBuilder();
+            for (String str : getTimeArray() ) {
+                string.append(str.toString()+"\n");
+            }
+            Log.d("DJourneyID=====", getJourneyId());
+            String folder_main = "iRoads";
+
+            File f = new File("sdcard/", folder_main);
+            if (!f.exists()) {
+                f.mkdirs();
+            }
+            File logFile = new File("sdcard/iRoads/log_"+getJourneyId()+".txt");
+            if (!logFile.exists())
+            {
+                try
+                {
+                    logFile.createNewFile();
+                }
+                catch (IOException e)
+                {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
             try
             {
-                logFile.createNewFile();
+                //BufferedWriter for performance, true to set append to file flag
+                BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true));
+                buf.append(string);
+                buf.newLine();
+                buf.close();
+                setJourneyId("");
+                getTimeArray().clear();
+//            Toast.makeText( getContext(),"Write successful!", Toast.LENGTH_SHORT).show();
             }
             catch (IOException e)
             {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-        }
-        try
-        {
-            //BufferedWriter for performance, true to set append to file flag
-            BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true));
-            buf.append(text);
-            buf.newLine();
-            buf.close();
-            setJourneyId("");
-            getTimeArray().clear();
-            Toast.makeText( getContext(),"Write successful!", Toast.LENGTH_SHORT).show();
-        }
-        catch (IOException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
     }
 
@@ -165,16 +201,16 @@ public class TaggerFragment extends Fragment {
         builder.show();
     }
 
-    public String getJourneyId() {
-        return journeyId;
+    public static String getJourneyId() {
+        return TaggerFragment.journeyId;
     }
 
-    public void setJourneyId(String journeyId) {
-        this.journeyId = journeyId;
+    public static void setJourneyId(String jId) {
+        TaggerFragment.journeyId = jId;
     }
 
-    public ArrayList<String> getTimeArray() {
-        return timeArray;
+    public static ArrayList<String> getTimeArray() {
+        return TaggerFragment.timeArray;
     }
 
 }

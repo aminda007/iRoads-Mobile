@@ -41,23 +41,23 @@
         android:weightSum="10">
 
 
-        <Button
-            android:id="@+id/idButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_weight="5"
-            android:text="NAME" />
+        <!--<Button-->
+            <!--android:id="@+id/idButton"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="5dp"-->
+            <!--android:layout_marginRight="5dp"-->
+            <!--android:layout_weight="5"-->
+            <!--android:text="NAME" />-->
 
-        <Button
-            android:id="@+id/saveButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:text="Save" />
+        <!--<Button-->
+            <!--android:id="@+id/saveButton"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="5"-->
+            <!--android:layout_marginLeft="5dp"-->
+            <!--android:layout_marginRight="5dp"-->
+            <!--android:text="Save" />-->
 
     </LinearLayout>
 
