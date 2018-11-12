@@ -4,7 +4,7 @@
     <!--&lt;!&ndash;android:id="@+id/frameLayout"&ndash;&gt;-->
     <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
     <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
-    <!--&lt;!&ndash;tools:contecodemo.iroads_mobile.Fragments.GMapFragmenttment">&ndash;&gt;-->
+    <!--&lt;!&ndash;tools:contecodiroads_mobile_researchbile.Fragments.GMapFragmenttment">&ndash;&gt;-->
 
     <!--&lt;!&ndash;&lt;!&ndash; TODO: Update blank fragment layout &ndash;&gt;&ndash;&gt;-->
 
@@ -14,7 +14,7 @@
 <!--xmlns:tools="http://schemas.android.com/tools"-->
 <!--android:layout_width="match_parent"-->
 <!--android:layout_height="match_parent"-->
-<!--tools:context="codemo.iroads_mobile.Fragments.GMapFragment">-->
+<!--tools:conteiroads_mobile_research_researchbile.Fragments.GMapFragment">-->
 
 <!--&lt;!&ndash; TODO: Update blank fragment layout &ndash;&gt;-->
 
@@ -69,4 +69,4 @@
     android:name="com.google.android.gms.maps.MapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="codemo.iroads_mobile.Fragments.GMapFragment" />
+    tools:context="codemo.iroads_mobile_research.Fragments.GMapFragment" />

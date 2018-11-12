@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="codemo.iroads_mobile.Fragments.BlankFragment">
+    tools:context="codemo.iroads_mobile_research.Fragments.BlankFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

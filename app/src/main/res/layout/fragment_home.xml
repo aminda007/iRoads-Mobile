@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="codemo.iroads_mobile.Fragments.HomeFragment">
+    tools:context="codemo.iroads_mobile_research.Fragments.HomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
 

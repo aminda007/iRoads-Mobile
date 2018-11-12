@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="25"
-    tools:context="codemo.iroads_mobile.Fragments.TaggerFragment">
+    tools:context="codemo.iroads_mobile_research.Fragments.TaggerFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -15,6 +15,7 @@
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
         android:layout_weight="12"
         android:backgroundTint="@color/colorPrimary"
         android:text=" Bump"
@@ -25,12 +26,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:text=" Pothole"
-        android:backgroundTint="@color/colorPothole"
         android:layout_weight="12"
+        android:backgroundTint="@color/colorPothole"
+        android:text=" Pothole"
         android:textSize="18sp" />
 
     <LinearLayout
@@ -46,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="2dp"
             android:layout_weight="5"
             android:text="NAME" />
 
@@ -54,9 +54,9 @@
             android:id="@+id/saveButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="3dp"
             android:layout_marginRight="5dp"
+            android:layout_weight="5"
             android:text="Save" />
 
     </LinearLayout>
