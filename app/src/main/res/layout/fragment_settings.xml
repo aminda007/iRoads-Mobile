@@ -43,8 +43,10 @@
                     android:layout_marginRight="15dp"
                     android:layout_marginTop="20dp"
                     android:layout_weight="2"
+                    android:checked="true"
                     android:text=""
-                    android:trackTint="@color/colorPrimary"/>
+                    android:trackTint="@color/colorPrimary"
+                    tools:checked="true" />
 
             </LinearLayout>
             <View
@@ -154,6 +156,15 @@
                     android:text="GPS Based"
                     android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small" />
             </RadioGroup>
+
+                <Button
+                    android:id="@+id/syncDbBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="70dp"
+                    android:background="@color/cast_intro_overlay_button_background_color"
+                    android:text="Sync Database" />
 
 
             </LinearLayout>

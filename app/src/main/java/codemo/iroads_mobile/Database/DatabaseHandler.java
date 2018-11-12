@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import codemo.iroads_mobile.Entity.Journey;
 import codemo.iroads_mobile.MainActivity;
 import codemo.iroads_mobile.MobileSensors;
 import codemo.iroads_mobile.SensorDataProcessor;
@@ -152,14 +153,41 @@ public class DatabaseHandler {
         return database;
     }
 
-    public static void saveJourneyName(String name){
+    public static void saveJourneyName(){
         // The properties that will be saved on the document
         Map<String, Object> properties = new HashMap<String, Object>();
 
-        properties.put("journeyID", SensorData.getJourneyId());
-        properties.put("journeyName", name);
+        properties.put("journeyID", Journey.getId());
+        properties.put("journeyName", Journey.getName());
         properties.put("dataType", "trip_names");
-        setJid(name);
+        properties.put("startLat",SensorData.getLat());
+        properties.put("startLon",SensorData.getLon());
+
+
+        setJid(Journey.getName());
+
+        // Create a new document
+        Document document = database.createDocument();
+        // Save the document to the database
+        try {
+            document.putProperties(properties);
+        } catch (CouchbaseLiteException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static void saveTag(String tagType, String time, String lat,String lon){
+        // The properties that will be saved on the document
+        Map<String, Object> properties = new HashMap<String, Object>();
+
+        properties.put("journeyID",SensorData.getJourneyId());
+        properties.put("dataType", "tag");
+        properties.put("tagType", tagType);
+        properties.put("time", time);
+        properties.put("lat", lat);
+        properties.put("lon", lon);
+
         // Create a new document
         Document document = database.createDocument();
         // Save the document to the database

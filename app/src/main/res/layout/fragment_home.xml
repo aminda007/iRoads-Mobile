@@ -17,20 +17,26 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="horizontal"
             android:weightSum="8"
-            android:orientation="horizontal">
+            android:gravity="right"
+            >
 
             <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                >
+
 
                 <ImageButton
                     android:id="@+id/obdBtn"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
-                    app:srcCompat="@drawable/ic_directions_car_black" />
+                    app:srcCompat="@drawable/ic_directions_car_black"
+
+                    />
 
                 <ProgressBar
                     android:id="@+id/progressBarLoadingObd"
@@ -41,70 +47,39 @@
 
             </FrameLayout>
 
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
 
-                <ImageButton
-                    android:id="@+id/reOriBtn"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/transparent"
-                    app:srcCompat="@drawable/ic_orientation_black" />
+            <!--<ImageButton-->
+            <!--android:id="@+id/startBtn"-->
+            <!--android:layout_width="177dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="3"-->
+            <!--android:background="@android:color/transparent"-->
+            <!--android:scaleX="1.5"-->
+            <!--android:scaleY="1.5"-->
+            <!--app:srcCompat="@drawable/ic_play_blue_outline" />-->
 
-                <ProgressBar
-                    android:id="@+id/progressBarLoadingReori"
-                    style="?android:attr/progressBarStyleLarge"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:progressDrawable="@drawable/circular_loading" />
 
-            </FrameLayout>
+            <!--<FrameLayout-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1">-->
 
-            <ImageButton
-                android:id="@+id/imageEmpty1"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@android:color/transparent" />
-            <ImageButton
-                android:id="@+id/startBtn"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="3"
-                android:scaleX="1.5"
-                android:scaleY="1.5"
-                android:background="@android:color/transparent"
-                app:srcCompat="@drawable/ic_play_blue_outline"/>
-            <ImageButton
-                android:id="@+id/imageEmpty2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@android:color/transparent" />
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
+            <!--<ImageButton-->
+            <!--android:id="@+id/saveBtn"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@android:color/transparent"-->
+            <!--app:srcCompat="@drawable/ic_save_black" />-->
 
-                <ImageButton
-                    android:id="@+id/saveBtn"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    app:srcCompat="@drawable/ic_save_black" />
+            <!--<ProgressBar-->
+            <!--android:id="@+id/progressBarLoadingSave"-->
+            <!--style="?android:attr/progressBarStyleLarge"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:progressDrawable="@drawable/circular_loading" />-->
 
-                <ProgressBar
-                    android:id="@+id/progressBarLoadingSave"
-                    style="?android:attr/progressBarStyleLarge"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:progressDrawable="@drawable/circular_loading" />
-
-            </FrameLayout>
-
+            <!--</FrameLayout>-->
 
 
         </LinearLayout>
@@ -118,7 +93,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+
+
+                <!--app:srcCompat="@drawable/ic_play_blue_outline"-->
+                <!--/>-->
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
@@ -128,6 +109,7 @@
                 app:cardBackgroundColor="@color/cardview_light_background">
 
                 <LinearLayout
+                    android:id="@+id/iriBasedChart"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
@@ -255,6 +237,7 @@
 
 
                 <LinearLayout
+                    android:id="@+id/obdBasedCharts"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
@@ -451,8 +434,21 @@
                         android:layout_marginBottom="10dp">
 
                     </com.github.mikephil.charting.charts.LineChart>
+
+
+
                 </LinearLayout>
             </android.support.v7.widget.CardView>
+
+            <Button
+                android:id="@+id/startBtn"
+                android:layout_width="300dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:text="Start Journey"
+                android:background="@color/wallet_holo_blue_light"
+                />
 
         </LinearLayout>
     </ScrollView>

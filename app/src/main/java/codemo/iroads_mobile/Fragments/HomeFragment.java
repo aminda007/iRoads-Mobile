@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -23,8 +24,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,10 +49,13 @@ import java.util.Random;
 
 import codemo.iroads_mobile.Database.DatabaseHandler;
 import codemo.iroads_mobile.Database.SensorData;
+import codemo.iroads_mobile.Entity.Journey;
 import codemo.iroads_mobile.GraphController;
 import codemo.iroads_mobile.MainActivity;
 import codemo.iroads_mobile.MobileSensors;
 import codemo.iroads_mobile.R;
+
+import static android.graphics.Color.parseColor;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -76,8 +82,9 @@ public class HomeFragment extends Fragment{
     private LineChart fuelChart;
     private static ImageButton saveBtn;
     private static ImageButton bConnectBtn;
-    private ImageButton reOriBtn;
-    private ImageButton startBtn;
+
+    private Button startBtn;
+    private Button syncDbBtn;
     private static TextView  lat, lng;
 
     private static TextView  obd2speed, obd2rpm;
@@ -91,9 +98,13 @@ public class HomeFragment extends Fragment{
     private static ProgressBar spinnerSave;
     private static boolean autoSaveON = false;
 
+    private View obdBasedCharts;
+    private View iriBasedCharts;
+
     public HomeFragment() {
         // Required empty public constructor
     }
+
 
 
     @Override
@@ -110,34 +121,34 @@ public class HomeFragment extends Fragment{
 //        obd2rpm = (TextView) view.findViewById(R.id.obd2rpm);
         obd2speed = (TextView) view.findViewById(R.id.obd2speed);
 
-        saveBtn = (ImageButton) view.findViewById(R.id.saveBtn);
-        saveBtn.setOnClickListener(new ImageButton.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                if(isAutoSaveON()){
-                    Toast.makeText( getContext(),"Auto Save is currently enabled", Toast.LENGTH_SHORT).show();
-                }else{
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-                    writeLog("\n \n" + sdf.format(new Date()) + dataReport.toString() + "\n \n");
-                    dataReport = new StringBuilder();
-                    dbHandler.startReplication();
-//                    dbHandler.writeToFile(dbHandler.createString());
-                    MainActivity.setReplicationStopped(false);
-                    startSaving();
-                    Toast.makeText( getContext(),"Sync up Started", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+//        saveBtn = (ImageButton) view.findViewById(R.id.saveBtn);
+//        saveBtn.setOnClickListener(new ImageButton.OnClickListener(){
+//            @Override
+//            public void onClick(View view) {
+//                if(isAutoSaveON()){
+//                    Toast.makeText( getContext(),"Auto Save is currently enabled", Toast.LENGTH_SHORT).show();
+//                }else{
+//                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+//                    writeLog("\n \n" + sdf.format(new Date()) + dataReport.toString() + "\n \n");
+//                    dataReport = new StringBuilder();
+//                    dbHandler.startReplication();
+////                    dbHandler.writeToFile(dbHandler.createString());
+//                    MainActivity.setReplicationStopped(false);
+//                    startSaving();
+//                    Toast.makeText( getContext(),"Sync up Started", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
 
         spinnerObd=(ProgressBar)view.findViewById(R.id.progressBarLoadingObd);
         spinnerObd.getIndeterminateDrawable().setColorFilter(	ContextCompat.getColor(mainActivity.getApplicationContext(), R.color.colorPrimary), android.graphics.PorterDuff.Mode.MULTIPLY);
         spinnerObd.setVisibility(View.GONE);
-        spinnerReori=(ProgressBar)view.findViewById(R.id.progressBarLoadingReori);
-        spinnerReori.getIndeterminateDrawable().setColorFilter(	ContextCompat.getColor(mainActivity.getApplicationContext(), R.color.colorPrimary), android.graphics.PorterDuff.Mode.MULTIPLY);
-        spinnerReori.setVisibility(View.GONE);
-        spinnerSave=(ProgressBar)view.findViewById(R.id.progressBarLoadingSave);
-        spinnerSave.getIndeterminateDrawable().setColorFilter(	ContextCompat.getColor(mainActivity.getApplicationContext(), R.color.colorPrimary), android.graphics.PorterDuff.Mode.MULTIPLY);
-        spinnerSave.setVisibility(View.GONE);
+//        spinnerReori=(ProgressBar)view.findViewById(R.id.progressBarLoadingReori);
+//        spinnerReori.getIndeterminateDrawable().setColorFilter(	ContextCompat.getColor(mainActivity.getApplicationContext(), R.color.colorPrimary), android.graphics.PorterDuff.Mode.MULTIPLY);
+//        spinnerReori.setVisibility(View.GONE);
+//        spinnerSave=(ProgressBar)view.findViewById(R.id.progressBarLoadingSave);
+//        spinnerSave.getIndeterminateDrawable().setColorFilter(	ContextCompat.getColor(mainActivity.getApplicationContext(), R.color.colorPrimary), android.graphics.PorterDuff.Mode.MULTIPLY);
+//        spinnerSave.setVisibility(View.GONE);
 
         bConnectBtn = (ImageButton) view.findViewById(R.id.obdBtn);
         bConnectBtn.setOnClickListener(new ImageButton.OnClickListener(){
@@ -149,44 +160,70 @@ public class HomeFragment extends Fragment{
             }
         });
 
-        reOriBtn = (ImageButton) view.findViewById(R.id.reOriBtn);
-        reOriBtn.setColorFilter(ContextCompat.getColor(mainActivity.getApplicationContext(), R.color.colorPrimary));
-        dbHandler = new DatabaseHandler(mainActivity.getApplicationContext());
-        reOriBtn.setOnClickListener(new ImageButton.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-//                spinnerReori.setVisibility(View.VISIBLE);
-                reOriBtn.setColorFilter(ContextCompat.getColor(mainActivity.getApplicationContext(), R.color.colorPrimary));
-                DatabaseHandler.printDocCount();
-            }
-        });
+//        reOriBtn = (ImageButton) view.findViewById(R.id.reOriBtn);
+//        reOriBtn.setColorFilter(ContextCompat.getColor(mainActivity.getApplicationContext(), R.color.colorPrimary));
+//        dbHandler = new DatabaseHandler(mainActivity.getApplicationContext());
+//        reOriBtn.setOnClickListener(new ImageButton.OnClickListener(){
+//            @Override
+//            public void onClick(View view) {
+////                spinnerReori.setVisibility(View.VISIBLE);
+//                reOriBtn.setColorFilter(ContextCompat.getColor(mainActivity.getApplicationContext(), R.color.colorPrimary));
+//                DatabaseHandler.printDocCount();
+//            }
+//        });
 
-        startBtn = (ImageButton) view.findViewById(R.id.startBtn);
+        startBtn = (Button) view.findViewById(R.id.startBtn);
 //        reOriBtn.setColorFilter(ContextCompat.getColor(mainActivity.getApplicationContext(), R.color.colorPrimary));
         startBtn.setOnClickListener(new ImageButton.OnClickListener(){
             @Override
             public void onClick(View view) {
+
+
+
 //                spinnerReori.setVisibility(View.VISIBLE);
                 if(!GraphFragment.isStarted()){
+
+                    //journey starting
+
+
                     // check whether the permission granted to retrieve IMEI number
                     TelephonyManager telephonyManager = (TelephonyManager) mainActivity.getSystemService(Context.TELEPHONY_SERVICE);
                     if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
                         showAlertPhPermission();
                         return;
                     }
+
                     String deviceId = telephonyManager.getDeviceId();
                     SensorData.setDeviceId(deviceId);
                     Log.d(TAG,"--------------- DeviceId --------- /// "+ deviceId);
-                    askJourneyName();
+
+                    saveJourneyName();
+//                    askJourneyName();
+
+
+
+
                 }else{
+                    //journey ends
+
                     // change the btn icon back to idle state
-                    startBtn.setImageResource(R.drawable.ic_play_blue_outline);
+//                    startBtn.setImageResource(R.drawable.ic_play_blue_outline);
                     GraphFragment.setStarted(false);
+
+                    TaggerFragment.writeToFile();
+                    Journey.clear();
+
                     Toast.makeText( getContext(),"Journey Stopped", Toast.LENGTH_SHORT).show();
+
+                    startBtn.setBackgroundColor(getResources().getColor(R.color.wallet_holo_blue_light));
+                    startBtn.setText("START JOURNEY");
                 }
 
             }
         });
+
+
+
 
         mChart = (LineChart) view.findViewById(R.id.chartAccelerationZ);
         mChart.getDescription().setEnabled(false);
@@ -250,6 +287,12 @@ public class HomeFragment extends Fragment{
 
         GraphController.setIRIChart(iriChart);
 
+        //hide iriChart
+        iriBasedCharts = (LinearLayout)view.findViewById(R.id.iriBasedChart);
+        iriBasedCharts.setVisibility(View.GONE);
+
+        iriChart.setVisibility(View.GONE);
+
         fuelChart = (LineChart) view.findViewById(R.id.chartFuel);
         fuelChart.getDescription().setEnabled(false);
 
@@ -282,12 +325,24 @@ public class HomeFragment extends Fragment{
 
         GraphController.setFuelChart(fuelChart);
 
+
+
+
         speedProgressBar = (ProgressBar) view.findViewById(R.id.speed_progress_bar);
 //        rpmProgressBar = (ProgressBar) view.findViewById(R.id.rpm_progress_bar);
 
 
+
+        //hide obd speed and fuel consumption charts
+        obdBasedCharts = (LinearLayout)view.findViewById(R.id.obdBasedCharts);
+        obdBasedCharts.setVisibility(View.GONE);
+
+
 //        startFakeProgress();
         startTimer();
+
+        setAutoSaveON(true);
+
         return view;
 
     }
@@ -391,15 +446,15 @@ public class HomeFragment extends Fragment{
     }
 
     public static void startSaving(){
-        spinnerSave.setVisibility(View.VISIBLE);
-        saveBtn.setColorFilter(ContextCompat.getColor(mainActivity.getApplicationContext(), R.color.colorIconBlack));
-        saveBtn.setEnabled(false);
+//        spinnerSave.setVisibility(View.VISIBLE);
+//        saveBtn.setColorFilter(ContextCompat.getColor(mainActivity.getApplicationContext(), R.color.colorIconBlack));
+//        saveBtn.setEnabled(false);
     }
 
     public static void stopSaving(){
-        spinnerSave.setVisibility(View.GONE);
-        saveBtn.setColorFilter(ContextCompat.getColor(mainActivity.getApplicationContext(), R.color.colorPrimary));
-        saveBtn.setEnabled(true);
+//        spinnerSave.setVisibility(View.GONE);
+//        saveBtn.setColorFilter(ContextCompat.getColor(mainActivity.getApplicationContext(), R.color.colorPrimary));
+//        saveBtn.setEnabled(true);
     }
 
     private void showAlertPhPermission() {
@@ -437,6 +492,32 @@ public class HomeFragment extends Fragment{
         HomeFragment.autoSaveON = autoSaveON;
     }
 
+
+    private void saveJourneyName(){
+        String jName="latest";
+        String jId=SensorData.getDeviceId()+ System.currentTimeMillis();
+
+        SensorData.setJourneyId(jId);
+
+
+
+        //adding id and name to static fields of Journey class
+        Journey.setId(jId);
+        Journey.setName(jName);
+
+        DatabaseHandler.saveJourneyName();
+
+
+        // change the btn icon to started state
+//                    startBtn.setImageResource(R.drawable.ic_pause_blue_outline);
+
+        startBtn.setBackgroundColor(parseColor("#e9967a"));
+        startBtn.setText("STOP JOURNEY");
+
+        GraphFragment.setStarted(true);
+        Toast.makeText( getContext(),"Journey Started", Toast.LENGTH_SHORT).show();
+    }
+
     private void askJourneyName(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Journey Name");
@@ -451,19 +532,34 @@ public class HomeFragment extends Fragment{
         builder.setPositiveButton("Start", new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String text = input.getText().toString();
-                if(text != null && text.trim().length() == 0){
+                String jName = input.getText().toString();
+                if(jName != null && jName.trim().length() == 0){
                     Toast.makeText( getContext(),"Journey Name can not be Empty", Toast.LENGTH_SHORT).show();
                 }else{
-                    SensorData.setJourneyId(SensorData.getDeviceId()+ System.currentTimeMillis());
-                    DatabaseHandler.saveJourneyName(text);
+                    String jId=SensorData.getDeviceId()+ System.currentTimeMillis();
+                    SensorData.setJourneyId(jId);
+
+
+
+                    //adding id and name to static fields of Journey class
+                    Journey.setId(jId);
+                    Journey.setName(jName);
+
+                    DatabaseHandler.saveJourneyName();
+
+
                     // change the btn icon to started state
-                    startBtn.setImageResource(R.drawable.ic_pause_blue_outline);
+//                    startBtn.setImageResource(R.drawable.ic_pause_blue_outline);
+
+                    startBtn.setBackgroundColor(parseColor("#e9967a"));
+                    startBtn.setText("STOP JOURNEY");
+
                     GraphFragment.setStarted(true);
                     Toast.makeText( getContext(),"Journey Started", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int which) {
