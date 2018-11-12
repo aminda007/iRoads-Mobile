@@ -210,7 +210,7 @@ public class HomeFragment extends Fragment{
 //                    startBtn.setImageResource(R.drawable.ic_play_blue_outline);
                     GraphFragment.setStarted(false);
 
-                    TaggerFragment.writeToFile();
+//                    TaggerFragment.writeToFile();
                     Journey.clear();
 
                     Toast.makeText( getContext(),"Journey Stopped", Toast.LENGTH_SHORT).show();
