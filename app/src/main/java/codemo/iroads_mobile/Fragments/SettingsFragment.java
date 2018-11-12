@@ -124,6 +124,14 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        Button syncDButton= (Button) view.findViewById(R.id.syncDbBtn);
+        syncDButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(),"Sync DB",Toast.LENGTH_SHORT).show();
+                mainActivity.syncDatabase();
+            }
+        });
 
 
 //        saving.setColorFilter(ContextCompat.getColor(mainActivity.getApplicationContext(), R.color.colorPrimary));

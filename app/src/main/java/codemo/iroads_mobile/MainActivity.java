@@ -250,13 +250,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 // handle automatic saving when journey started
                 if(GraphFragment.isStarted()) {
                     if (HomeFragment.isAutoSaveON()) {
-                        if (isReplicationStopped()) {
-                            dbHandler.startReplication();
-                            HomeFragment.startSaving();
-                            setReplicationStopped(false);
-                        } else {
-                            // do nothing since current sync up is not over
-                        }
+                        syncDatabase();
                     }
                 }
                 // handle ui when sync up is over
@@ -271,6 +265,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
 
+    public void syncDatabase(){
+        if (isReplicationStopped()) {
+            dbHandler.startReplication();
+            HomeFragment.startSaving();
+            setReplicationStopped(false);
+        } else {
+            // do nothing since current sync up is not over
+        }
+    }
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {

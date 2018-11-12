@@ -84,6 +84,7 @@ public class HomeFragment extends Fragment{
     private static ImageButton bConnectBtn;
 
     private Button startBtn;
+    private Button syncDbBtn;
     private static TextView  lat, lng;
 
     private static TextView  obd2speed, obd2rpm;
@@ -196,7 +197,8 @@ public class HomeFragment extends Fragment{
                     SensorData.setDeviceId(deviceId);
                     Log.d(TAG,"--------------- DeviceId --------- /// "+ deviceId);
 
-                    askJourneyName();
+                    saveJourneyName();
+//                    askJourneyName();
 
 
 
@@ -219,6 +221,9 @@ public class HomeFragment extends Fragment{
 
             }
         });
+
+
+
 
         mChart = (LineChart) view.findViewById(R.id.chartAccelerationZ);
         mChart.getDescription().setEnabled(false);
@@ -487,6 +492,32 @@ public class HomeFragment extends Fragment{
         HomeFragment.autoSaveON = autoSaveON;
     }
 
+
+    private void saveJourneyName(){
+        String jName="latest";
+        String jId=SensorData.getDeviceId()+ System.currentTimeMillis();
+
+        SensorData.setJourneyId(jId);
+
+
+
+        //adding id and name to static fields of Journey class
+        Journey.setId(jId);
+        Journey.setName(jName);
+
+        DatabaseHandler.saveJourneyName();
+
+
+        // change the btn icon to started state
+//                    startBtn.setImageResource(R.drawable.ic_pause_blue_outline);
+
+        startBtn.setBackgroundColor(parseColor("#e9967a"));
+        startBtn.setText("STOP JOURNEY");
+
+        GraphFragment.setStarted(true);
+        Toast.makeText( getContext(),"Journey Started", Toast.LENGTH_SHORT).show();
+    }
+
     private void askJourneyName(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Journey Name");
@@ -528,6 +559,7 @@ public class HomeFragment extends Fragment{
                 }
             }
         });
+
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int which) {

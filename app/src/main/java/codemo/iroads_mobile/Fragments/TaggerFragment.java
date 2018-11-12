@@ -22,6 +22,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import codemo.iroads_mobile.Database.DatabaseHandler;
 import codemo.iroads_mobile.Database.SensorData;
 import codemo.iroads_mobile.Entity.Journey;
 import codemo.iroads_mobile.R;
@@ -71,6 +72,7 @@ public class TaggerFragment extends Fragment {
                     if (Journey.getName() != null) {
                         setJourneyId(Journey.getName());
                         getTimeArray().add("P , " + String.valueOf(System.currentTimeMillis())+" , "+ SensorData.getLat()+" , "+ SensorData.getLon());
+                        DatabaseHandler.saveTag("p",String.valueOf(System.currentTimeMillis()),SensorData.getLat(),SensorData.getLon());
                         Toast.makeText( getContext(),"Pothole Added", Toast.LENGTH_SHORT).show();
 
                     } else {
@@ -78,6 +80,7 @@ public class TaggerFragment extends Fragment {
                     }
                 }else{
                     getTimeArray().add("P , " + String.valueOf(System.currentTimeMillis())+" , "+ SensorData.getLat()+" , "+ SensorData.getLon());
+                    DatabaseHandler.saveTag("p",String.valueOf(System.currentTimeMillis()),SensorData.getLat(),SensorData.getLon());
                     Toast.makeText( getContext(),"Pothole Added", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -92,6 +95,7 @@ public class TaggerFragment extends Fragment {
                     if (Journey.getName() != null) {
                         setJourneyId(Journey.getName());
                         getTimeArray().add("B , " + String.valueOf(System.currentTimeMillis())+" , "+ SensorData.getLat()+" , "+ SensorData.getLon());
+                        DatabaseHandler.saveTag("B",String.valueOf(System.currentTimeMillis()),SensorData.getLat(),SensorData.getLon());
                         Toast.makeText( getContext(),"Bump Added", Toast.LENGTH_SHORT).show();
 
                     } else {
@@ -99,6 +103,7 @@ public class TaggerFragment extends Fragment {
                     }
                 }else{
                     getTimeArray().add("B , " + String.valueOf(System.currentTimeMillis())+" , "+ SensorData.getLat()+" , "+ SensorData.getLon());
+                    DatabaseHandler.saveTag("B",String.valueOf(System.currentTimeMillis()),SensorData.getLat(),SensorData.getLon());
                     Toast.makeText( getContext(),"Bump Added", Toast.LENGTH_SHORT).show();
                 }
             }

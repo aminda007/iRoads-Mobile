@@ -157,6 +157,15 @@
                     android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small" />
             </RadioGroup>
 
+                <Button
+                    android:id="@+id/syncDbBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="70dp"
+                    android:background="@color/cast_intro_overlay_button_background_color"
+                    android:text="Sync Database" />
+
 
             </LinearLayout>
 
